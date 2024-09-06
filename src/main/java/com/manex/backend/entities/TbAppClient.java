@@ -2,13 +2,9 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_app_client")
-public class TbAppClient implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbAppClient {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -24,21 +20,101 @@ public class TbAppClient implements Serializable {
     @Column(name = "CLIENT_ICON")
     private Integer clientIcon;
 
-    @Column(name = "client_color")
+    @Column(name = "CLIENT_COLOR")
     private String clientColor;
 
     @Column(name = "STATUS")
     private Boolean status;
 
-    @Column(name = "cust_num_format")
+    @Column(name = "CUST_NUM_FORMAT")
     private String custNumFormat;
 
-    @Column(name = "supp_num_format")
+    @Column(name = "SUPP_NUM_FORMAT")
     private String suppNumFormat;
 
-    @Column(name = "cust_or_num_format")
+    @Column(name = "CUST_OR_NUM_FORMAT")
     private String custOrNumFormat;
 
-    @Column(name = "supp_or_num_format")
+    @Column(name = "SUPP_OR_NUM_FORMAT")
     private String suppOrNumFormat;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
+    public Integer getOperatingCurrency() {
+        return operatingCurrency;
+    }
+
+    public void setOperatingCurrency(Integer operatingCurrency) {
+        this.operatingCurrency = operatingCurrency;
+    }
+
+    public Integer getClientIcon() {
+        return clientIcon;
+    }
+
+    public void setClientIcon(Integer clientIcon) {
+        this.clientIcon = clientIcon;
+    }
+
+    public String getClientColor() {
+        return clientColor;
+    }
+
+    public void setClientColor(String clientColor) {
+        this.clientColor = clientColor;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Boolean isStatus() {
+        return status;
+    }
+
+    public String getCustNumFormat() {
+        return custNumFormat;
+    }
+
+    public void setCustNumFormat(String custNumFormat) {
+        this.custNumFormat = custNumFormat;
+    }
+
+    public String getSuppNumFormat() {
+        return suppNumFormat;
+    }
+
+    public void setSuppNumFormat(String suppNumFormat) {
+        this.suppNumFormat = suppNumFormat;
+    }
+
+    public String getCustOrNumFormat() {
+        return custOrNumFormat;
+    }
+
+    public void setCustOrNumFormat(String custOrNumFormat) {
+        this.custOrNumFormat = custOrNumFormat;
+    }
+
+    public String getSuppOrNumFormat() {
+        return suppOrNumFormat;
+    }
+
+    public void setSuppOrNumFormat(String suppOrNumFormat) {
+        this.suppOrNumFormat = suppOrNumFormat;
+    }
 }

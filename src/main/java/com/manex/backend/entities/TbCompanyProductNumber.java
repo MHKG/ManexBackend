@@ -2,13 +2,9 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_company_product_number")
-public class TbCompanyProductNumber implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbCompanyProductNumber {
 
     @EmbeddedId private TbCompanyProductNumberId id;
 

@@ -2,13 +2,9 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_company_addr")
-public class TbCompanyAddr implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbCompanyAddr {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -24,6 +20,46 @@ public class TbCompanyAddr implements Serializable {
     @Column(name = "STATUS")
     private Integer status;
 
-    @Column(name = "default_addr")
-    private String defaultAddr;
+    @Column(name = "DEFAULT_ADDR")
+    private Character defaultAddr;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
+    public Integer getAddrId() {
+        return addrId;
+    }
+
+    public void setAddrId(Integer addrId) {
+        this.addrId = addrId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Character getDefaultAddr() {
+        return defaultAddr;
+    }
+
+    public void setDefaultAddr(Character defaultAddr) {
+        this.defaultAddr = defaultAddr;
+    }
 }

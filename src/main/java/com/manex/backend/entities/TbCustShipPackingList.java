@@ -2,13 +2,9 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_cust_ship_packing_list")
-public class TbCustShipPackingList implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbCustShipPackingList {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -29,4 +25,52 @@ public class TbCustShipPackingList implements Serializable {
 
     @Column(name = "CTN_QR_NUMBER")
     private Integer ctnQrNumber;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getShipmentId() {
+        return shipmentId;
+    }
+
+    public void setShipmentId(Integer shipmentId) {
+        this.shipmentId = shipmentId;
+    }
+
+    public Integer getCustInvId() {
+        return custInvId;
+    }
+
+    public void setCustInvId(Integer custInvId) {
+        this.custInvId = custInvId;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Integer getCtnId() {
+        return ctnId;
+    }
+
+    public void setCtnId(Integer ctnId) {
+        this.ctnId = ctnId;
+    }
+
+    public Integer getCtnQrNumber() {
+        return ctnQrNumber;
+    }
+
+    public void setCtnQrNumber(Integer ctnQrNumber) {
+        this.ctnQrNumber = ctnQrNumber;
+    }
 }
