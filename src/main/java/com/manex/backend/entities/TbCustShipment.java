@@ -2,14 +2,11 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "tb_cust_shipment")
-public class TbCustShipment implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbCustShipment {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -36,4 +33,68 @@ public class TbCustShipment implements Serializable {
 
     @Column(name = "DELIVERY_STATUS")
     private Integer deliveryStatus;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(Integer containerId) {
+        this.containerId = containerId;
+    }
+
+    public Integer getContainerQrNum() {
+        return containerQrNum;
+    }
+
+    public void setContainerQrNum(Integer containerQrNum) {
+        this.containerQrNum = containerQrNum;
+    }
+
+    public Integer getSealNumber() {
+        return sealNumber;
+    }
+
+    public void setSealNumber(Integer sealNumber) {
+        this.sealNumber = sealNumber;
+    }
+
+    public Integer getShippingFromAddr() {
+        return shippingFromAddr;
+    }
+
+    public void setShippingFromAddr(Integer shippingFromAddr) {
+        this.shippingFromAddr = shippingFromAddr;
+    }
+
+    public Integer getShippingToAddr() {
+        return shippingToAddr;
+    }
+
+    public void setShippingToAddr(Integer shippingToAddr) {
+        this.shippingToAddr = shippingToAddr;
+    }
+
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
+    }
+
+    public Integer getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(Integer deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
 }

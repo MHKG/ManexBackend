@@ -2,13 +2,9 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_supplier_po_items")
-public class TbSupplierPoItems implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbSupplierPoItems {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -27,6 +23,54 @@ public class TbSupplierPoItems implements Serializable {
     @Column(name = "QTY")
     private Integer qty;
 
-    @Column(name = "description")
+    @Column(name = "DESCRIPTION")
     private String description;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getSupplierPoId() {
+        return supplierPoId;
+    }
+
+    public void setSupplierPoId(Integer supplierPoId) {
+        this.supplierPoId = supplierPoId;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Float getPricePerItem() {
+        return pricePerItem;
+    }
+
+    public void setPricePerItem(Float pricePerItem) {
+        this.pricePerItem = pricePerItem;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
