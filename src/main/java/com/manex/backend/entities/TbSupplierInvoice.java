@@ -2,14 +2,11 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "tb_supplier_invoice")
-public class TbSupplierInvoice implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbSupplierInvoice {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -19,7 +16,7 @@ public class TbSupplierInvoice implements Serializable {
     @Column(name = "SUPP_PI_ID", nullable = false)
     private Integer suppPiId;
 
-    @Column(name = "supp_inv_num")
+    @Column(name = "SUPP_INV_NUM")
     private String suppInvNum;
 
     @Column(name = "INV_MM")
@@ -49,6 +46,110 @@ public class TbSupplierInvoice implements Serializable {
     @Column(name = "STATUS")
     private Integer status;
 
-    @Column(name = "remark")
+    @Column(name = "REMARK")
     private String remark;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getSuppPiId() {
+        return suppPiId;
+    }
+
+    public void setSuppPiId(Integer suppPiId) {
+        this.suppPiId = suppPiId;
+    }
+
+    public String getSuppInvNum() {
+        return suppInvNum;
+    }
+
+    public void setSuppInvNum(String suppInvNum) {
+        this.suppInvNum = suppInvNum;
+    }
+
+    public Integer getInvMm() {
+        return invMm;
+    }
+
+    public void setInvMm(Integer invMm) {
+        this.invMm = invMm;
+    }
+
+    public Integer getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Integer updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Float getTotalGoodsAmount() {
+        return totalGoodsAmount;
+    }
+
+    public void setTotalGoodsAmount(Float totalGoodsAmount) {
+        this.totalGoodsAmount = totalGoodsAmount;
+    }
+
+    public Integer getInvoiceCurrency() {
+        return invoiceCurrency;
+    }
+
+    public void setInvoiceCurrency(Integer invoiceCurrency) {
+        this.invoiceCurrency = invoiceCurrency;
+    }
+
+    public Float getInvoiceCurrencyRate() {
+        return invoiceCurrencyRate;
+    }
+
+    public void setInvoiceCurrencyRate(Float invoiceCurrencyRate) {
+        this.invoiceCurrencyRate = invoiceCurrencyRate;
+    }
+
+    public Float getShippingCost() {
+        return shippingCost;
+    }
+
+    public void setShippingCost(Float shippingCost) {
+        this.shippingCost = shippingCost;
+    }
+
+    public Integer getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(Integer paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }

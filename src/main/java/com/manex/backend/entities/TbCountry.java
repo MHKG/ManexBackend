@@ -2,13 +2,9 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_country")
-public class TbCountry implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbCountry {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -18,13 +14,13 @@ public class TbCountry implements Serializable {
     @Column(name = "COUNTRY", nullable = false)
     private String country;
 
-    @Column(name = "iso3")
-    private String iso3;
+    @Column(name = "ISO3", length = 3, columnDefinition = "CHAR(3)")
+    private String ISO3;
 
-    @Column(name = "iso2")
-    private String iso2;
+    @Column(name = "ISO2", length = 2, columnDefinition = "CHAR(2)")
+    private String ISO2;
 
-    @Column(name = "country_code")
+    @Column(name = "COUNTRY_CODE")
     private String countryCode;
 
     @Column(name = "CAPITAL")
@@ -32,4 +28,60 @@ public class TbCountry implements Serializable {
 
     @Column(name = "NATIVE")
     private String nativeField;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getISO3() {
+        return ISO3;
+    }
+
+    public void setISO3(String ISO3) {
+        this.ISO3 = ISO3;
+    }
+
+    public String getISO2() {
+        return ISO2;
+    }
+
+    public void setISO2(String ISO2) {
+        this.ISO2 = ISO2;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    public String getCapital() {
+        return capital;
+    }
+
+    public void setCapital(String capital) {
+        this.capital = capital;
+    }
+
+    public String getNativeField() {
+        return nativeField;
+    }
+
+    public void setNativeField(String nativeField) {
+        this.nativeField = nativeField;
+    }
 }
