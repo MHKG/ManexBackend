@@ -2,13 +2,9 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_client_inventory")
-public class TbClientInventory implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TbClientInventory {
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -26,4 +22,44 @@ public class TbClientInventory implements Serializable {
 
     @Column(name = "QTY")
     private Integer qty;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getAppClientId() {
+        return appClientId;
+    }
+
+    public void setAppClientId(Integer appClientId) {
+        this.appClientId = appClientId;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public Float getLastPrice() {
+        return lastPrice;
+    }
+
+    public void setLastPrice(Float lastPrice) {
+        this.lastPrice = lastPrice;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
 }
