@@ -7,70 +7,69 @@ import jakarta.persistence.*;
 public class TbCustShipPackingList {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "SHIPMENT_ID", nullable = false)
-    private Integer shipmentId;
+    @Column(nullable = false)
+    private Integer SHIPMENT_ID;
 
-    @Column(name = "CUST_INV_ID", nullable = false)
-    private Integer custInvId;
+    @Column(nullable = false)
+    private Integer CUST_INV_ID;
 
-    @Column(name = "PRODUCT_ID", nullable = false)
-    private Integer productId;
+    @Column(nullable = false)
+    private Integer PRODUCT_ID;
 
-    @Column(name = "CTN_ID", nullable = false)
-    private Integer ctnId;
+    @Column(nullable = false)
+    private Integer CTN_ID;
 
-    @Column(name = "CTN_QR_NUMBER")
-    private Integer ctnQrNumber;
+    @Column private Integer CTN_QR_NUMBER;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getShipmentId() {
-        return shipmentId;
+    public Integer getSHIPMENT_ID() {
+        return SHIPMENT_ID;
     }
 
-    public void setShipmentId(Integer shipmentId) {
-        this.shipmentId = shipmentId;
+    public void setSHIPMENT_ID(Integer SHIPMENT_ID) {
+        this.SHIPMENT_ID = SHIPMENT_ID;
     }
 
-    public Integer getCustInvId() {
-        return custInvId;
+    public Integer getCUST_INV_ID() {
+        return CUST_INV_ID;
     }
 
-    public void setCustInvId(Integer custInvId) {
-        this.custInvId = custInvId;
+    public void setCUST_INV_ID(Integer CUST_INV_ID) {
+        this.CUST_INV_ID = CUST_INV_ID;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getPRODUCT_ID() {
+        return PRODUCT_ID;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setPRODUCT_ID(Integer PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
     }
 
-    public Integer getCtnId() {
-        return ctnId;
+    public Integer getCTN_ID() {
+        return CTN_ID;
     }
 
-    public void setCtnId(Integer ctnId) {
-        this.ctnId = ctnId;
+    public void setCTN_ID(Integer CTN_ID) {
+        this.CTN_ID = CTN_ID;
     }
 
-    public Integer getCtnQrNumber() {
-        return ctnQrNumber;
+    public Integer getCTN_QR_NUMBER() {
+        return CTN_QR_NUMBER;
     }
 
-    public void setCtnQrNumber(Integer ctnQrNumber) {
-        this.ctnQrNumber = ctnQrNumber;
+    public void setCTN_QR_NUMBER(Integer CTN_QR_NUMBER) {
+        this.CTN_QR_NUMBER = CTN_QR_NUMBER;
     }
 }

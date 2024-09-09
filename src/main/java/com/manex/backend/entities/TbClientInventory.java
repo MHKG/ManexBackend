@@ -7,59 +7,57 @@ import jakarta.persistence.*;
 public class TbClientInventory {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "PRODUCT_ID", nullable = false)
-    private Integer productId;
+    @Column(nullable = false)
+    private Integer PRODUCT_ID;
 
-    @Column(name = "LAST_PRICE")
-    private Float lastPrice;
+    @Column private Float LAST_PRICE;
 
-    @Column(name = "QTY")
-    private Integer qty;
+    @Column private Integer QTY;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getPRODUCT_ID() {
+        return PRODUCT_ID;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setPRODUCT_ID(Integer PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
     }
 
-    public Float getLastPrice() {
-        return lastPrice;
+    public Float getLAST_PRICE() {
+        return LAST_PRICE;
     }
 
-    public void setLastPrice(Float lastPrice) {
-        this.lastPrice = lastPrice;
+    public void setLAST_PRICE(Float LAST_PRICE) {
+        this.LAST_PRICE = LAST_PRICE;
     }
 
-    public Integer getQty() {
-        return qty;
+    public Integer getQTY() {
+        return QTY;
     }
 
-    public void setQty(Integer qty) {
-        this.qty = qty;
+    public void setQTY(Integer QTY) {
+        this.QTY = QTY;
     }
 }

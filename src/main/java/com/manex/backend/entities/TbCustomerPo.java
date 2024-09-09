@@ -7,114 +7,107 @@ import jakarta.persistence.*;
 public class TbCustomerPo {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CUST_PO_NUM")
-    private String custPoNum;
+    @Column private String CUST_PO_NUM;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "CLIENT_CUST_ID", nullable = false)
-    private Integer clientCustId;
+    @Column(nullable = false)
+    private Integer CLIENT_CUST_ID;
 
-    @Column(name = "CREATED_ON")
-    private Integer createdOn;
+    @Column private Integer CREATED_ON;
 
-    @Column(name = "CREATED_BY")
-    private Integer createdBy;
+    @Column private Integer CREATED_BY;
 
-    @Column(name = "MANAGER_APPROVAL_STATUS")
-    private Boolean managerApprovalStatus;
+    @Column private Boolean MANAGER_APPROVAL_STATUS;
 
-    @Column(name = "PO_MM")
-    private Integer poMm;
+    @Column private Integer PO_MM;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getCustPoNum() {
-        return custPoNum;
+    public String getCUST_PO_NUM() {
+        return CUST_PO_NUM;
     }
 
-    public void setCustPoNum(String custPoNum) {
-        this.custPoNum = custPoNum;
+    public void setCUST_PO_NUM(String CUST_PO_NUM) {
+        this.CUST_PO_NUM = CUST_PO_NUM;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public Integer getClientCustId() {
-        return clientCustId;
+    public Integer getCLIENT_CUST_ID() {
+        return CLIENT_CUST_ID;
     }
 
-    public void setClientCustId(Integer clientCustId) {
-        this.clientCustId = clientCustId;
+    public void setCLIENT_CUST_ID(Integer CLIENT_CUST_ID) {
+        this.CLIENT_CUST_ID = CLIENT_CUST_ID;
     }
 
-    public Integer getCreatedOn() {
-        return createdOn;
+    public Integer getCREATED_ON() {
+        return CREATED_ON;
     }
 
-    public void setCreatedOn(Integer createdOn) {
-        this.createdOn = createdOn;
+    public void setCREATED_ON(Integer CREATED_ON) {
+        this.CREATED_ON = CREATED_ON;
     }
 
-    public Integer getCreatedBy() {
-        return createdBy;
+    public Integer getCREATED_BY() {
+        return CREATED_BY;
     }
 
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
+    public void setCREATED_BY(Integer CREATED_BY) {
+        this.CREATED_BY = CREATED_BY;
     }
 
-    public void setManagerApprovalStatus(Boolean managerApprovalStatus) {
-        this.managerApprovalStatus = managerApprovalStatus;
+    public Boolean getMANAGER_APPROVAL_STATUS() {
+        return MANAGER_APPROVAL_STATUS;
     }
 
-    public Boolean isManagerApprovalStatus() {
-        return managerApprovalStatus;
+    public void setMANAGER_APPROVAL_STATUS(Boolean MANAGER_APPROVAL_STATUS) {
+        this.MANAGER_APPROVAL_STATUS = MANAGER_APPROVAL_STATUS;
     }
 
-    public Integer getPoMm() {
-        return poMm;
+    public Integer getPO_MM() {
+        return PO_MM;
     }
 
-    public void setPoMm(Integer poMm) {
-        this.poMm = poMm;
+    public void setPO_MM(Integer PO_MM) {
+        this.PO_MM = PO_MM;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 }

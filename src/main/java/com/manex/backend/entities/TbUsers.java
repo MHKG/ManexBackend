@@ -7,59 +7,56 @@ import jakarta.persistence.*;
 public class TbUsers {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "EMAIL", nullable = false)
-    private String email;
+    @Column(nullable = false)
+    private String EMAIL;
 
-    @Column(name = "PASSWORD")
-    private String password;
+    @Column private String PASSWORD;
 
-    @Column(name = "USER_TYPE")
-    private Integer userType;
+    @Column private Integer USER_TYPE;
 
-    @Column(name = "RESET_PASS")
-    private String resetPass;
+    @Column private String RESET_PASS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEMAIL() {
+        return EMAIL;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEMAIL(String EMAIL) {
+        this.EMAIL = EMAIL;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPASSWORD() {
+        return PASSWORD;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPASSWORD(String PASSWORD) {
+        this.PASSWORD = PASSWORD;
     }
 
-    public Integer getUserType() {
-        return userType;
+    public Integer getUSER_TYPE() {
+        return USER_TYPE;
     }
 
-    public void setUserType(Integer userType) {
-        this.userType = userType;
+    public void setUSER_TYPE(Integer USER_TYPE) {
+        this.USER_TYPE = USER_TYPE;
     }
 
-    public String getResetPass() {
-        return resetPass;
+    public String getRESET_PASS() {
+        return RESET_PASS;
     }
 
-    public void setResetPass(String resetPass) {
-        this.resetPass = resetPass;
+    public void setRESET_PASS(String RESET_PASS) {
+        this.RESET_PASS = RESET_PASS;
     }
 }

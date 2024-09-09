@@ -7,70 +7,68 @@ import jakarta.persistence.*;
 public class TbClientCust {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "COMPANY_ID", nullable = false)
-    private Integer companyId;
+    @Column(nullable = false)
+    private Integer COMPANY_ID;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "CUST_NUM", nullable = false)
-    private String custNum;
+    @Column(nullable = false)
+    private String CUST_NUM;
 
-    @Column(name = "IS_CUST_FAV")
-    private Character custFav;
+    @Column private Character IS_CUST_FAV;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getCOMPANY_ID() {
+        return COMPANY_ID;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setCOMPANY_ID(Integer COMPANY_ID) {
+        this.COMPANY_ID = COMPANY_ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public String getCustNum() {
-        return custNum;
+    public String getCUST_NUM() {
+        return CUST_NUM;
     }
 
-    public void setCustNum(String custNum) {
-        this.custNum = custNum;
+    public void setCUST_NUM(String CUST_NUM) {
+        this.CUST_NUM = CUST_NUM;
     }
 
-    public Character getCustFav() {
-        return custFav;
+    public Character getIS_CUST_FAV() {
+        return IS_CUST_FAV;
     }
 
-    public void setCustFav(Character custFav) {
-        this.custFav = custFav;
+    public void setIS_CUST_FAV(Character IS_CUST_FAV) {
+        this.IS_CUST_FAV = IS_CUST_FAV;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 }

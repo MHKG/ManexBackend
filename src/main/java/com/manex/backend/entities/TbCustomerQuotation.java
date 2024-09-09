@@ -9,169 +9,155 @@ import java.sql.Date;
 public class TbCustomerQuotation {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CUST_PO_ID")
-    private Integer custPoId;
+    @Column private Integer CUST_PO_ID;
 
-    @Column(name = "CUST_QUOT_NUM")
-    private String custQuotNum;
+    @Column private String CUST_QUOT_NUM;
 
-    @Column(name = "TOTAL_GOODS_AMOUNT")
-    private Float totalGoodsAmount;
+    @Column private Float TOTAL_GOODS_AMOUNT;
 
-    @Column(name = "AGENTS_COMMISION_PERCENTAGE")
-    private Float agentsCommisionPercentage;
+    @Column private Float AGENTS_COMMISION_PERCENTAGE;
 
-    @Column(name = "AGENTS_COMMISION_AMOUNT")
-    private Float agentsCommisionAmount;
+    @Column private Float AGENTS_COMMISION_AMOUNT;
 
-    @Column(name = "INVOICE_CURRENCY")
-    private Integer invoiceCurrency;
+    @Column private Integer INVOICE_CURRENCY;
 
-    @Column(name = "INVOICE_CURRENCY_RATE")
-    private Float invoiceCurrencyRate;
+    @Column private Float INVOICE_CURRENCY_RATE;
 
-    @Column(name = "SHIPPING_COST")
-    private Float shippingCost;
+    @Column private Float SHIPPING_COST;
 
-    @Column(name = "TOTAL_INV_AMOUNT")
-    private Float totalInvAmount;
+    @Column private Float TOTAL_INV_AMOUNT;
 
-    @Column(name = "QUOTATION_MM")
-    private Integer quotationMm;
+    @Column private Integer QUOTATION_MM;
 
-    @Column(name = "CREATED_ON")
-    private Date createdOn;
+    @Column private Date CREATED_ON;
 
-    @Column(name = "UPDATED_BY")
-    private Integer updatedBy;
+    @Column private Integer UPDATED_BY;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getCustPoId() {
-        return custPoId;
+    public Integer getCUST_PO_ID() {
+        return CUST_PO_ID;
     }
 
-    public void setCustPoId(Integer custPoId) {
-        this.custPoId = custPoId;
+    public void setCUST_PO_ID(Integer CUST_PO_ID) {
+        this.CUST_PO_ID = CUST_PO_ID;
     }
 
-    public String getCustQuotNum() {
-        return custQuotNum;
+    public String getCUST_QUOT_NUM() {
+        return CUST_QUOT_NUM;
     }
 
-    public void setCustQuotNum(String custQuotNum) {
-        this.custQuotNum = custQuotNum;
+    public void setCUST_QUOT_NUM(String CUST_QUOT_NUM) {
+        this.CUST_QUOT_NUM = CUST_QUOT_NUM;
     }
 
-    public Float getTotalGoodsAmount() {
-        return totalGoodsAmount;
+    public Float getTOTAL_GOODS_AMOUNT() {
+        return TOTAL_GOODS_AMOUNT;
     }
 
-    public void setTotalGoodsAmount(Float totalGoodsAmount) {
-        this.totalGoodsAmount = totalGoodsAmount;
+    public void setTOTAL_GOODS_AMOUNT(Float TOTAL_GOODS_AMOUNT) {
+        this.TOTAL_GOODS_AMOUNT = TOTAL_GOODS_AMOUNT;
     }
 
-    public Float getAgentsCommisionPercentage() {
-        return agentsCommisionPercentage;
+    public Float getAGENTS_COMMISION_PERCENTAGE() {
+        return AGENTS_COMMISION_PERCENTAGE;
     }
 
-    public void setAgentsCommisionPercentage(Float agentsCommisionPercentage) {
-        this.agentsCommisionPercentage = agentsCommisionPercentage;
+    public void setAGENTS_COMMISION_PERCENTAGE(Float AGENTS_COMMISION_PERCENTAGE) {
+        this.AGENTS_COMMISION_PERCENTAGE = AGENTS_COMMISION_PERCENTAGE;
     }
 
-    public Float getAgentsCommisionAmount() {
-        return agentsCommisionAmount;
+    public Float getAGENTS_COMMISION_AMOUNT() {
+        return AGENTS_COMMISION_AMOUNT;
     }
 
-    public void setAgentsCommisionAmount(Float agentsCommisionAmount) {
-        this.agentsCommisionAmount = agentsCommisionAmount;
+    public void setAGENTS_COMMISION_AMOUNT(Float AGENTS_COMMISION_AMOUNT) {
+        this.AGENTS_COMMISION_AMOUNT = AGENTS_COMMISION_AMOUNT;
     }
 
-    public Integer getInvoiceCurrency() {
-        return invoiceCurrency;
+    public Integer getINVOICE_CURRENCY() {
+        return INVOICE_CURRENCY;
     }
 
-    public void setInvoiceCurrency(Integer invoiceCurrency) {
-        this.invoiceCurrency = invoiceCurrency;
+    public void setINVOICE_CURRENCY(Integer INVOICE_CURRENCY) {
+        this.INVOICE_CURRENCY = INVOICE_CURRENCY;
     }
 
-    public Float getInvoiceCurrencyRate() {
-        return invoiceCurrencyRate;
+    public Float getINVOICE_CURRENCY_RATE() {
+        return INVOICE_CURRENCY_RATE;
     }
 
-    public void setInvoiceCurrencyRate(Float invoiceCurrencyRate) {
-        this.invoiceCurrencyRate = invoiceCurrencyRate;
+    public void setINVOICE_CURRENCY_RATE(Float INVOICE_CURRENCY_RATE) {
+        this.INVOICE_CURRENCY_RATE = INVOICE_CURRENCY_RATE;
     }
 
-    public Float getShippingCost() {
-        return shippingCost;
+    public Float getSHIPPING_COST() {
+        return SHIPPING_COST;
     }
 
-    public void setShippingCost(Float shippingCost) {
-        this.shippingCost = shippingCost;
+    public void setSHIPPING_COST(Float SHIPPING_COST) {
+        this.SHIPPING_COST = SHIPPING_COST;
     }
 
-    public Float getTotalInvAmount() {
-        return totalInvAmount;
+    public Float getTOTAL_INV_AMOUNT() {
+        return TOTAL_INV_AMOUNT;
     }
 
-    public void setTotalInvAmount(Float totalInvAmount) {
-        this.totalInvAmount = totalInvAmount;
+    public void setTOTAL_INV_AMOUNT(Float TOTAL_INV_AMOUNT) {
+        this.TOTAL_INV_AMOUNT = TOTAL_INV_AMOUNT;
     }
 
-    public Integer getQuotationMm() {
-        return quotationMm;
+    public Integer getQUOTATION_MM() {
+        return QUOTATION_MM;
     }
 
-    public void setQuotationMm(Integer quotationMm) {
-        this.quotationMm = quotationMm;
+    public void setQUOTATION_MM(Integer QUOTATION_MM) {
+        this.QUOTATION_MM = QUOTATION_MM;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
+    public Date getCREATED_ON() {
+        return CREATED_ON;
     }
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCREATED_ON(Date CREATED_ON) {
+        this.CREATED_ON = CREATED_ON;
     }
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
+    public Integer getUPDATED_BY() {
+        return UPDATED_BY;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setUPDATED_BY(Integer UPDATED_BY) {
+        this.UPDATED_BY = UPDATED_BY;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 }

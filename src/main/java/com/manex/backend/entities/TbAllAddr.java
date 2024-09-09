@@ -7,103 +7,98 @@ import jakarta.persistence.*;
 public class TbAllAddr {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "ADDR_1", nullable = false)
-    private String addr1;
+    @Column(nullable = false)
+    private String ADDR_1;
 
-    @Column(name = "ADDR_2")
-    private String addr2;
+    @Column private String ADDR_2;
 
-    @Column(name = "COUNTRY_ID", nullable = false)
-    private Integer countryId;
+    @Column(nullable = false)
+    private Integer COUNTRY_ID;
 
-    @Column(name = "STATE_ID")
-    private Integer stateId;
+    @Column private Integer STATE_ID;
 
-    @Column(name = "DISTRICT_ID")
-    private Integer districtId;
+    @Column private Integer DISTRICT_ID;
 
-    @Column(name = "CITY_ID")
-    private Integer cityId;
+    @Column private Integer CITY_ID;
 
-    @Column(name = "POSTAL_CODE")
-    private String postalCode;
+    @Column private String POSTAL_CODE;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public String getAddr1() {
-        return addr1;
+    public String getADDR_1() {
+        return ADDR_1;
     }
 
-    public void setAddr1(String addr1) {
-        this.addr1 = addr1;
+    public void setADDR_1(String ADDR_1) {
+        this.ADDR_1 = ADDR_1;
     }
 
-    public String getAddr2() {
-        return addr2;
+    public String getADDR_2() {
+        return ADDR_2;
     }
 
-    public void setAddr2(String addr2) {
-        this.addr2 = addr2;
+    public void setADDR_2(String ADDR_2) {
+        this.ADDR_2 = ADDR_2;
     }
 
-    public Integer getCountryId() {
-        return countryId;
+    public Integer getCOUNTRY_ID() {
+        return COUNTRY_ID;
     }
 
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
+    public void setCOUNTRY_ID(Integer COUNTRY_ID) {
+        this.COUNTRY_ID = COUNTRY_ID;
     }
 
-    public Integer getStateId() {
-        return stateId;
+    public Integer getSTATE_ID() {
+        return STATE_ID;
     }
 
-    public void setStateId(Integer stateId) {
-        this.stateId = stateId;
+    public void setSTATE_ID(Integer STATE_ID) {
+        this.STATE_ID = STATE_ID;
     }
 
-    public Integer getDistrictId() {
-        return districtId;
+    public Integer getDISTRICT_ID() {
+        return DISTRICT_ID;
     }
 
-    public void setDistrictId(Integer districtId) {
-        this.districtId = districtId;
+    public void setDISTRICT_ID(Integer DISTRICT_ID) {
+        this.DISTRICT_ID = DISTRICT_ID;
     }
 
-    public Integer getCityId() {
-        return cityId;
+    public Integer getCITY_ID() {
+        return CITY_ID;
     }
 
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
+    public void setCITY_ID(Integer CITY_ID) {
+        this.CITY_ID = CITY_ID;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getPOSTAL_CODE() {
+        return POSTAL_CODE;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setPOSTAL_CODE(String POSTAL_CODE) {
+        this.POSTAL_CODE = POSTAL_CODE;
     }
 }

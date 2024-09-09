@@ -9,92 +9,86 @@ import java.sql.Date;
 public class TbCustomerPi {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CUST_QUOT_ID", nullable = false)
-    private Integer custQuotId;
+    @Column(nullable = false)
+    private Integer CUST_QUOT_ID;
 
-    @Column(name = "CUST_PI_NUM")
-    private String custPiNum;
+    @Column private String CUST_PI_NUM;
 
-    @Column(name = "UPDATED_BY")
-    private Integer updatedBy;
+    @Column private Integer UPDATED_BY;
 
-    @Column(name = "PI_MM")
-    private Integer piMm;
+    @Column private Integer PI_MM;
 
-    @Column(name = "CREATED_ON")
-    private Date createdOn;
+    @Column private Date CREATED_ON;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    @Column(name = "REMARK")
-    private String remark;
+    @Column private String REMARK;
 
-    public Integer getId() {
-        return id;
+    public String getREMARK() {
+        return REMARK;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setREMARK(String REMARK) {
+        this.REMARK = REMARK;
     }
 
-    public Integer getCustQuotId() {
-        return custQuotId;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setCustQuotId(Integer custQuotId) {
-        this.custQuotId = custQuotId;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getCustPiNum() {
-        return custPiNum;
+    public Date getCREATED_ON() {
+        return CREATED_ON;
     }
 
-    public void setCustPiNum(String custPiNum) {
-        this.custPiNum = custPiNum;
+    public void setCREATED_ON(Date CREATED_ON) {
+        this.CREATED_ON = CREATED_ON;
     }
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
+    public Integer getPI_MM() {
+        return PI_MM;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setPI_MM(Integer PI_MM) {
+        this.PI_MM = PI_MM;
     }
 
-    public Integer getPiMm() {
-        return piMm;
+    public Integer getUPDATED_BY() {
+        return UPDATED_BY;
     }
 
-    public void setPiMm(Integer piMm) {
-        this.piMm = piMm;
+    public void setUPDATED_BY(Integer UPDATED_BY) {
+        this.UPDATED_BY = UPDATED_BY;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
+    public String getCUST_PI_NUM() {
+        return CUST_PI_NUM;
     }
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCUST_PI_NUM(String CUST_PI_NUM) {
+        this.CUST_PI_NUM = CUST_PI_NUM;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getCUST_QUOT_ID() {
+        return CUST_QUOT_ID;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setCUST_QUOT_ID(Integer CUST_QUOT_ID) {
+        this.CUST_QUOT_ID = CUST_QUOT_ID;
     }
 
-    public String getRemark() {
-        return remark;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 }

@@ -1,9 +1,9 @@
 package com.manex.backend.entities;
 
 import com.manex.backend.enums.SizeUnit;
-
 import com.manex.backend.enums.VolumeUnit;
 import com.manex.backend.enums.WeightUnit;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,171 +11,163 @@ import jakarta.persistence.*;
 public class TbContainer {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "ALIAS_NAME", nullable = false)
-    private String aliasName;
+    @Column(nullable = false)
+    private String ALIAS_NAME;
 
-    @Column(name = "LENGTH")
-    private Float length;
+    @Column private Float LENGTH;
 
-    @Column(name = "WIDTH")
-    private Float width;
+    @Column private Float WIDTH;
 
-    @Column(name = "HEIGHT")
-    private Float height;
+    @Column private Float HEIGHT;
 
-    @Column(name = "SIZE_UNIT")
+    @Column
     @Enumerated(EnumType.STRING)
-    private SizeUnit sizeUnit;
+    private SizeUnit SIZE_UNIT;
 
-    @Column(name = "TARE_WT")
-    private Integer tareWt;
+    @Column private Integer TARE_WT;
 
-    @Column(name = "MAX_WEIGHT")
-    private Float maxWeight;
+    @Column private Float MAX_WEIGHT;
 
-    @Column(name = "WEIGHT_UNIT")@Enumerated(EnumType.STRING)
-    private WeightUnit weightUnit;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private WeightUnit WEIGHT_UNIT;
 
-    @Column(name = "VOLUME")
-    private Float volume;
+    @Column private Float VOLUME;
 
-    @Column(name = "VOLUME_UNIT")
-	@Enumerated(EnumType.STRING)
-    private VolumeUnit volumeUnit;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private VolumeUnit VOLUME_UNIT;
 
-    @Column(name = "CONTAINER_ICON")
-    private Integer containerIcon;
+    @Column private Integer CONTAINER_ICON;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public String getAliasName() {
-        return aliasName;
+    public String getALIAS_NAME() {
+        return ALIAS_NAME;
     }
 
-    public void setAliasName(String aliasName) {
-        this.aliasName = aliasName;
+    public void setALIAS_NAME(String ALIAS_NAME) {
+        this.ALIAS_NAME = ALIAS_NAME;
     }
 
-    public Float getLength() {
-        return length;
+    public Float getLENGTH() {
+        return LENGTH;
     }
 
-    public void setLength(Float length) {
-        this.length = length;
+    public void setLENGTH(Float LENGTH) {
+        this.LENGTH = LENGTH;
     }
 
-    public Float getWidth() {
-        return width;
+    public Float getWIDTH() {
+        return WIDTH;
     }
 
-    public void setWidth(Float width) {
-        this.width = width;
+    public void setWIDTH(Float WIDTH) {
+        this.WIDTH = WIDTH;
     }
 
-    public Float getHeight() {
-        return height;
+    public Float getHEIGHT() {
+        return HEIGHT;
     }
 
-    public void setHeight(Float height) {
-        this.height = height;
+    public void setHEIGHT(Float HEIGHT) {
+        this.HEIGHT = HEIGHT;
     }
 
-    public SizeUnit getSizeUnit() {
-        return sizeUnit;
+    public SizeUnit getSIZE_UNIT() {
+        return SIZE_UNIT;
     }
 
-    public void setSizeUnit(SizeUnit sizeUnit) {
-        this.sizeUnit = sizeUnit;
+    public void setSIZE_UNIT(SizeUnit SIZE_UNIT) {
+        this.SIZE_UNIT = SIZE_UNIT;
     }
 
-    public Integer getTareWt() {
-        return tareWt;
+    public Integer getTARE_WT() {
+        return TARE_WT;
     }
 
-    public void setTareWt(Integer tareWt) {
-        this.tareWt = tareWt;
+    public void setTARE_WT(Integer TARE_WT) {
+        this.TARE_WT = TARE_WT;
     }
 
-    public Float getMaxWeight() {
-        return maxWeight;
+    public Float getMAX_WEIGHT() {
+        return MAX_WEIGHT;
     }
 
-    public void setMaxWeight(Float maxWeight) {
-        this.maxWeight = maxWeight;
+    public void setMAX_WEIGHT(Float MAX_WEIGHT) {
+        this.MAX_WEIGHT = MAX_WEIGHT;
     }
 
-    public WeightUnit getWeightUnit() {
-        return weightUnit;
+    public WeightUnit getWEIGHT_UNIT() {
+        return WEIGHT_UNIT;
     }
 
-    public void setWeightUnit(WeightUnit weightUnit) {
-        this.weightUnit = weightUnit;
+    public void setWEIGHT_UNIT(WeightUnit WEIGHT_UNIT) {
+        this.WEIGHT_UNIT = WEIGHT_UNIT;
     }
 
-    public Float getVolume() {
-        return volume;
+    public Float getVOLUME() {
+        return VOLUME;
     }
 
-    public void setVolume(Float volume) {
-        this.volume = volume;
+    public void setVOLUME(Float VOLUME) {
+        this.VOLUME = VOLUME;
     }
 
-    public VolumeUnit getVolumeUnit() {
-        return volumeUnit;
+    public VolumeUnit getVOLUME_UNIT() {
+        return VOLUME_UNIT;
     }
 
-    public void setVolumeUnit(VolumeUnit volumeUnit) {
-        this.volumeUnit = volumeUnit;
+    public void setVOLUME_UNIT(VolumeUnit VOLUME_UNIT) {
+        this.VOLUME_UNIT = VOLUME_UNIT;
     }
 
-    public Integer getContainerIcon() {
-        return containerIcon;
+    public Integer getCONTAINER_ICON() {
+        return CONTAINER_ICON;
     }
 
-    public void setContainerIcon(Integer containerIcon) {
-        this.containerIcon = containerIcon;
+    public void setCONTAINER_ICON(Integer CONTAINER_ICON) {
+        this.CONTAINER_ICON = CONTAINER_ICON;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 }
