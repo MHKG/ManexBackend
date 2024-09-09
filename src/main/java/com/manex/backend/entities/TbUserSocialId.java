@@ -8,16 +8,16 @@ import java.util.Objects;
 @Embeddable
 public class TbUserSocialId implements Serializable {
 
-    private Integer userId;
-    private Integer smId;
+    private Integer USER_ID;
+    private Integer SM_ID;
 
     // Default constructor
     public TbUserSocialId() {}
 
     // Parameterized constructor
     public TbUserSocialId(Integer productId, Integer companyId) {
-        this.userId = productId;
-        this.smId = companyId;
+        this.USER_ID = productId;
+        this.SM_ID = companyId;
     }
 
     // Getters, setters, equals, and hashCode methods
@@ -26,28 +26,28 @@ public class TbUserSocialId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TbUserSocialId that = (TbUserSocialId) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(smId, that.smId);
+        return Objects.equals(USER_ID, that.USER_ID) && Objects.equals(SM_ID, that.SM_ID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, smId);
+        return Objects.hash(USER_ID, SM_ID);
     }
 
     // Getters and setters
-    public Integer getUserId() {
-        return userId;
+    public Integer getUSER_ID() {
+        return USER_ID;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUSER_ID(Integer USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
-    public Integer getSmId() {
-        return smId;
+    public Integer getSM_ID() {
+        return SM_ID;
     }
 
-    public void setSmId(Integer smId) {
-        this.smId = smId;
+    public void setSM_ID(Integer SM_ID) {
+        this.SM_ID = SM_ID;
     }
 }

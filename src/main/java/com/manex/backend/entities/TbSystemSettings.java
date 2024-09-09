@@ -7,92 +7,86 @@ import jakarta.persistence.*;
 public class TbSystemSettings {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "SENDER_EMAIL")
-    private String senderEmail;
+    @Column private String SENDER_EMAIL;
 
-    @Column(name = "SMTP_SERVER_IP")
-    private String smtpServerIp;
+    @Column private String SMTP_SERVER_IP;
 
-    @Column(name = "SMTP_SVR_LOGIN")
-    private String smtpSvrLogin;
+    @Column private String SMTP_SVR_LOGIN;
 
-    @Column(name = "SMTP_SVR_PASSWD")
-    private String smtpSvrPasswd;
+    @Column private String SMTP_SVR_PASSWD;
 
-    @Column(name = "SMTP_SVR_OUTGOING_PORT_NO")
-    private Integer smtpSvrOutgoingPortNo;
+    @Column private Integer SMTP_SVR_OUTGOING_PORT_NO;
 
-    @Column(name = "SMTP_SVR_IS_SSL")
-    private String smtpSvrIsSsl;
+    @Column private String SMTP_SVR_IS_SSL;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public String getSenderEmail() {
-        return senderEmail;
+    public String getSENDER_EMAIL() {
+        return SENDER_EMAIL;
     }
 
-    public void setSenderEmail(String senderEmail) {
-        this.senderEmail = senderEmail;
+    public void setSENDER_EMAIL(String SENDER_EMAIL) {
+        this.SENDER_EMAIL = SENDER_EMAIL;
     }
 
-    public String getSmtpServerIp() {
-        return smtpServerIp;
+    public String getSMTP_SERVER_IP() {
+        return SMTP_SERVER_IP;
     }
 
-    public void setSmtpServerIp(String smtpServerIp) {
-        this.smtpServerIp = smtpServerIp;
+    public void setSMTP_SERVER_IP(String SMTP_SERVER_IP) {
+        this.SMTP_SERVER_IP = SMTP_SERVER_IP;
     }
 
-    public String getSmtpSvrLogin() {
-        return smtpSvrLogin;
+    public String getSMTP_SVR_LOGIN() {
+        return SMTP_SVR_LOGIN;
     }
 
-    public void setSmtpSvrLogin(String smtpSvrLogin) {
-        this.smtpSvrLogin = smtpSvrLogin;
+    public void setSMTP_SVR_LOGIN(String SMTP_SVR_LOGIN) {
+        this.SMTP_SVR_LOGIN = SMTP_SVR_LOGIN;
     }
 
-    public String getSmtpSvrPasswd() {
-        return smtpSvrPasswd;
+    public String getSMTP_SVR_PASSWD() {
+        return SMTP_SVR_PASSWD;
     }
 
-    public void setSmtpSvrPasswd(String smtpSvrPasswd) {
-        this.smtpSvrPasswd = smtpSvrPasswd;
+    public void setSMTP_SVR_PASSWD(String SMTP_SVR_PASSWD) {
+        this.SMTP_SVR_PASSWD = SMTP_SVR_PASSWD;
     }
 
-    public Integer getSmtpSvrOutgoingPortNo() {
-        return smtpSvrOutgoingPortNo;
+    public Integer getSMTP_SVR_OUTGOING_PORT_NO() {
+        return SMTP_SVR_OUTGOING_PORT_NO;
     }
 
-    public void setSmtpSvrOutgoingPortNo(Integer smtpSvrOutgoingPortNo) {
-        this.smtpSvrOutgoingPortNo = smtpSvrOutgoingPortNo;
+    public void setSMTP_SVR_OUTGOING_PORT_NO(Integer SMTP_SVR_OUTGOING_PORT_NO) {
+        this.SMTP_SVR_OUTGOING_PORT_NO = SMTP_SVR_OUTGOING_PORT_NO;
     }
 
-    public String getSmtpSvrIsSsl() {
-        return smtpSvrIsSsl;
+    public String getSMTP_SVR_IS_SSL() {
+        return SMTP_SVR_IS_SSL;
     }
 
-    public void setSmtpSvrIsSsl(String smtpSvrIsSsl) {
-        this.smtpSvrIsSsl = smtpSvrIsSsl;
+    public void setSMTP_SVR_IS_SSL(String SMTP_SVR_IS_SSL) {
+        this.SMTP_SVR_IS_SSL = SMTP_SVR_IS_SSL;
     }
 }

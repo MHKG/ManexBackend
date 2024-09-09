@@ -11,161 +11,153 @@ import jakarta.persistence.*;
 public class TbCtn {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "ALIAS_NAME", nullable = false)
-    private String aliasName;
+    @Column(nullable = false)
+    private String ALIAS_NAME;
 
-    @Column(name = "LENGTH")
-    private Float length;
+    @Column private Float LENGTH;
 
-    @Column(name = "WIDTH")
-    private Float width;
+    @Column private Float WIDTH;
 
-    @Column(name = "HEIGHT")
-    private Float height;
+    @Column private Float HEIGHT;
 
-    @Column(name = "SIZE_UNIT")
+    @Column
     @Enumerated(EnumType.STRING)
-    private SizeUnit sizeUnit;
+    private SizeUnit SIZE_UNIT;
 
-    @Column(name = "VOLUME")
-    private Float volume;
+    @Column private Float VOLUME;
 
-    @Column(name = "VOLUME_UNIT")
+    @Column
     @Enumerated(EnumType.STRING)
-    private VolumeUnit volumeUnit;
+    private VolumeUnit VOLUME_UNIT;
 
-    @Column(name = "MAX_WEIGHT_CAPACITY")
-    private Float maxWeightCapacity;
+    @Column private Float MAX_WEIGHT_CAPACITY;
 
-    @Column(name = "MAX_WEIGHT_CAPACITY_UNIT")
+    @Column
     @Enumerated(EnumType.STRING)
-    private WeightUnit maxWeightCapacityUnit;
+    private WeightUnit MAX_WEIGHT_CAPACITY_UNIT;
 
-    @Column(name = "CTN_ICON")
-    private Integer ctnIcon;
+    @Column private Integer CTN_ICON;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public String getAliasName() {
-        return aliasName;
+    public String getALIAS_NAME() {
+        return ALIAS_NAME;
     }
 
-    public void setAliasName(String aliasName) {
-        this.aliasName = aliasName;
+    public void setALIAS_NAME(String ALIAS_NAME) {
+        this.ALIAS_NAME = ALIAS_NAME;
     }
 
-    public Float getLength() {
-        return length;
+    public Float getLENGTH() {
+        return LENGTH;
     }
 
-    public void setLength(Float length) {
-        this.length = length;
+    public void setLENGTH(Float LENGTH) {
+        this.LENGTH = LENGTH;
     }
 
-    public Float getWidth() {
-        return width;
+    public Float getWIDTH() {
+        return WIDTH;
     }
 
-    public void setWidth(Float width) {
-        this.width = width;
+    public void setWIDTH(Float WIDTH) {
+        this.WIDTH = WIDTH;
     }
 
-    public Float getHeight() {
-        return height;
+    public Float getHEIGHT() {
+        return HEIGHT;
     }
 
-    public void setHeight(Float height) {
-        this.height = height;
+    public void setHEIGHT(Float HEIGHT) {
+        this.HEIGHT = HEIGHT;
     }
 
-    public SizeUnit getSizeUnit() {
-        return sizeUnit;
+    public SizeUnit getSIZE_UNIT() {
+        return SIZE_UNIT;
     }
 
-    public void setSizeUnit(SizeUnit sizeUnit) {
-        this.sizeUnit = sizeUnit;
+    public void setSIZE_UNIT(SizeUnit SIZE_UNIT) {
+        this.SIZE_UNIT = SIZE_UNIT;
     }
 
-    public Float getVolume() {
-        return volume;
+    public Float getVOLUME() {
+        return VOLUME;
     }
 
-    public void setVolume(Float volume) {
-        this.volume = volume;
+    public void setVOLUME(Float VOLUME) {
+        this.VOLUME = VOLUME;
     }
 
-    public VolumeUnit getVolumeUnit() {
-        return volumeUnit;
+    public VolumeUnit getVOLUME_UNIT() {
+        return VOLUME_UNIT;
     }
 
-    public void setVolumeUnit(VolumeUnit volumeUnit) {
-        this.volumeUnit = volumeUnit;
+    public void setVOLUME_UNIT(VolumeUnit VOLUME_UNIT) {
+        this.VOLUME_UNIT = VOLUME_UNIT;
     }
 
-    public Float getMaxWeightCapacity() {
-        return maxWeightCapacity;
+    public Float getMAX_WEIGHT_CAPACITY() {
+        return MAX_WEIGHT_CAPACITY;
     }
 
-    public void setMaxWeightCapacity(Float maxWeightCapacity) {
-        this.maxWeightCapacity = maxWeightCapacity;
+    public void setMAX_WEIGHT_CAPACITY(Float MAX_WEIGHT_CAPACITY) {
+        this.MAX_WEIGHT_CAPACITY = MAX_WEIGHT_CAPACITY;
     }
 
-    public WeightUnit getMaxWeightCapacityUnit() {
-        return maxWeightCapacityUnit;
+    public WeightUnit getMAX_WEIGHT_CAPACITY_UNIT() {
+        return MAX_WEIGHT_CAPACITY_UNIT;
     }
 
-    public void setMaxWeightCapacityUnit(WeightUnit maxWeightCapacityUnit) {
-        this.maxWeightCapacityUnit = maxWeightCapacityUnit;
+    public void setMAX_WEIGHT_CAPACITY_UNIT(WeightUnit MAX_WEIGHT_CAPACITY_UNIT) {
+        this.MAX_WEIGHT_CAPACITY_UNIT = MAX_WEIGHT_CAPACITY_UNIT;
     }
 
-    public Integer getCtnIcon() {
-        return ctnIcon;
+    public Integer getCTN_ICON() {
+        return CTN_ICON;
     }
 
-    public void setCtnIcon(Integer ctnIcon) {
-        this.ctnIcon = ctnIcon;
+    public void setCTN_ICON(Integer CTN_ICON) {
+        this.CTN_ICON = CTN_ICON;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 }

@@ -9,92 +9,86 @@ import java.util.Date;
 public class TbSupplierQuotation {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "SUPP_PO_ID", nullable = false)
-    private Integer suppPoId;
+    @Column(nullable = false)
+    private Integer SUPP_PO_ID;
 
-    @Column(name = "SUPPLIER_QUOT_NUM")
-    private String supplierQuotNum;
+    @Column private String SUPPLIER_QUOT_NUM;
 
-    @Column(name = "QUOTATION_MM")
-    private Integer quotationMm;
+    @Column private Integer QUOTATION_MM;
 
-    @Column(name = "TIMESTAMP")
-    private Date timestamp;
+    @Column private Date TIMESTAMP;
 
-    @Column(name = "UPDATED_BY")
-    private Integer updatedBy;
+    @Column private Integer UPDATED_BY;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getSuppPoId() {
-        return suppPoId;
+    public Integer getSUPP_PO_ID() {
+        return SUPP_PO_ID;
     }
 
-    public void setSuppPoId(Integer suppPoId) {
-        this.suppPoId = suppPoId;
+    public void setSUPP_PO_ID(Integer SUPP_PO_ID) {
+        this.SUPP_PO_ID = SUPP_PO_ID;
     }
 
-    public String getSupplierQuotNum() {
-        return supplierQuotNum;
+    public String getSUPPLIER_QUOT_NUM() {
+        return SUPPLIER_QUOT_NUM;
     }
 
-    public void setSupplierQuotNum(String supplierQuotNum) {
-        this.supplierQuotNum = supplierQuotNum;
+    public void setSUPPLIER_QUOT_NUM(String SUPPLIER_QUOT_NUM) {
+        this.SUPPLIER_QUOT_NUM = SUPPLIER_QUOT_NUM;
     }
 
-    public Integer getQuotationMm() {
-        return quotationMm;
+    public Integer getQUOTATION_MM() {
+        return QUOTATION_MM;
     }
 
-    public void setQuotationMm(Integer quotationMm) {
-        this.quotationMm = quotationMm;
+    public void setQUOTATION_MM(Integer QUOTATION_MM) {
+        this.QUOTATION_MM = QUOTATION_MM;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getTIMESTAMP() {
+        return TIMESTAMP;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setTIMESTAMP(Date TIMESTAMP) {
+        this.TIMESTAMP = TIMESTAMP;
     }
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
+    public Integer getUPDATED_BY() {
+        return UPDATED_BY;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setUPDATED_BY(Integer UPDATED_BY) {
+        this.UPDATED_BY = UPDATED_BY;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 }

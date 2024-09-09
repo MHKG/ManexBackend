@@ -7,70 +7,67 @@ import jakarta.persistence.*;
 public class TbSupplierPoItems {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "SUPPLIER_PO_ID", nullable = false)
-    private Integer supplierPoId;
+    @Column(nullable = false)
+    private Integer SUPPLIER_PO_ID;
 
-    @Column(name = "PRODUCT_ID", nullable = false)
-    private Integer productId;
+    @Column(nullable = false)
+    private Integer PRODUCT_ID;
 
-    @Column(name = "PRICE_PER_ITEM")
-    private Float pricePerItem;
+    @Column private Float PRICE_PER_ITEM;
 
-    @Column(name = "QTY")
-    private Integer qty;
+    @Column private Integer QTY;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getSupplierPoId() {
-        return supplierPoId;
+    public Integer getSUPPLIER_PO_ID() {
+        return SUPPLIER_PO_ID;
     }
 
-    public void setSupplierPoId(Integer supplierPoId) {
-        this.supplierPoId = supplierPoId;
+    public void setSUPPLIER_PO_ID(Integer SUPPLIER_PO_ID) {
+        this.SUPPLIER_PO_ID = SUPPLIER_PO_ID;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getPRODUCT_ID() {
+        return PRODUCT_ID;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setPRODUCT_ID(Integer PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
     }
 
-    public Float getPricePerItem() {
-        return pricePerItem;
+    public Float getPRICE_PER_ITEM() {
+        return PRICE_PER_ITEM;
     }
 
-    public void setPricePerItem(Float pricePerItem) {
-        this.pricePerItem = pricePerItem;
+    public void setPRICE_PER_ITEM(Float PRICE_PER_ITEM) {
+        this.PRICE_PER_ITEM = PRICE_PER_ITEM;
     }
 
-    public Integer getQty() {
-        return qty;
+    public Integer getQTY() {
+        return QTY;
     }
 
-    public void setQty(Integer qty) {
-        this.qty = qty;
+    public void setQTY(Integer QTY) {
+        this.QTY = QTY;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 }

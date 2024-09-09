@@ -9,92 +9,86 @@ import java.util.Date;
 public class TbSupplierPi {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "SUPP_QUOT_ID", nullable = false)
-    private Integer suppQuotId;
+    @Column(nullable = false)
+    private Integer SUPP_QUOT_ID;
 
-    @Column(name = "SUPP_PI_NUM")
-    private String suppPiNum;
+    @Column private String SUPP_PI_NUM;
 
-    @Column(name = "PI_MM")
-    private Integer piMm;
+    @Column private Integer PI_MM;
 
-    @Column(name = "UPDATED_BY")
-    private Integer updatedBy;
+    @Column private Integer UPDATED_BY;
 
-    @Column(name = "TIMESTAMP")
-    private Date timestamp;
+    @Column private Date TIMESTAMP;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    @Column(name = "REMARK")
-    private String remark;
+    @Column private String REMARK;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getSuppQuotId() {
-        return suppQuotId;
+    public Integer getSUPP_QUOT_ID() {
+        return SUPP_QUOT_ID;
     }
 
-    public void setSuppQuotId(Integer suppQuotId) {
-        this.suppQuotId = suppQuotId;
+    public void setSUPP_QUOT_ID(Integer SUPP_QUOT_ID) {
+        this.SUPP_QUOT_ID = SUPP_QUOT_ID;
     }
 
-    public String getSuppPiNum() {
-        return suppPiNum;
+    public String getSUPP_PI_NUM() {
+        return SUPP_PI_NUM;
     }
 
-    public void setSuppPiNum(String suppPiNum) {
-        this.suppPiNum = suppPiNum;
+    public void setSUPP_PI_NUM(String SUPP_PI_NUM) {
+        this.SUPP_PI_NUM = SUPP_PI_NUM;
     }
 
-    public Integer getPiMm() {
-        return piMm;
+    public Integer getPI_MM() {
+        return PI_MM;
     }
 
-    public void setPiMm(Integer piMm) {
-        this.piMm = piMm;
+    public void setPI_MM(Integer PI_MM) {
+        this.PI_MM = PI_MM;
     }
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
+    public Integer getUPDATED_BY() {
+        return UPDATED_BY;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setUPDATED_BY(Integer UPDATED_BY) {
+        this.UPDATED_BY = UPDATED_BY;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getTIMESTAMP() {
+        return TIMESTAMP;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setTIMESTAMP(Date TIMESTAMP) {
+        this.TIMESTAMP = TIMESTAMP;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getREMARK() {
+        return REMARK;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setREMARK(String REMARK) {
+        this.REMARK = REMARK;
     }
 }

@@ -11,128 +11,123 @@ import jakarta.persistence.*;
 public class TbProducts {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CLIENT_SUPPLIER_ID", nullable = false)
-    private Integer clientSupplierId;
+    @Column(nullable = false)
+    private Integer CLIENT_SUPPLIER_ID;
 
-    @Column(name = "DESCRIPTION", nullable = false)
-    private String description;
+    @Column(nullable = false)
+    private String DESCRIPTION;
 
-    @Column(name = "LENGTH")
-    private Float length;
+    @Column private Float LENGTH;
 
-    @Column(name = "WIDTH")
-    private Float width;
+    @Column private Float WIDTH;
 
-    @Column(name = "HEIGHT")
-    private Float height;
+    @Column private Float HEIGHT;
 
-    @Column(name = "SIZE_UNIT")
+    @Column
     @Enumerated(EnumType.STRING)
-    private SizeUnit sizeUnit;
+    private SizeUnit SIZE_UNIT;
 
-    @Column(name = "WEIGHT")
-    private Float weight;
+    @Column private Float WEIGHT;
 
-    @Column(name = "WEIGHT_UNIT")
+    @Column
     @Enumerated(EnumType.STRING)
-    private WeightUnit weightUnit;
+    private WeightUnit WEIGHT_UNIT;
 
-    @Column(name = "VOLUME")
-    private Float volume;
+    @Column private Float VOLUME;
 
-    @Column(name = "VOLUME_UNIT")
+    @Column
     @Enumerated(EnumType.STRING)
-    private VolumeUnit volumeUnit;
+    private VolumeUnit VOLUME_UNIT;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getClientSupplierId() {
-        return clientSupplierId;
+    public Integer getCLIENT_SUPPLIER_ID() {
+        return CLIENT_SUPPLIER_ID;
     }
 
-    public void setClientSupplierId(Integer clientSupplierId) {
-        this.clientSupplierId = clientSupplierId;
+    public void setCLIENT_SUPPLIER_ID(Integer CLIENT_SUPPLIER_ID) {
+        this.CLIENT_SUPPLIER_ID = CLIENT_SUPPLIER_ID;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 
-    public Float getLength() {
-        return length;
+    public Float getLENGTH() {
+        return LENGTH;
     }
 
-    public void setLength(Float length) {
-        this.length = length;
+    public void setLENGTH(Float LENGTH) {
+        this.LENGTH = LENGTH;
     }
 
-    public Float getWidth() {
-        return width;
+    public Float getWIDTH() {
+        return WIDTH;
     }
 
-    public void setWidth(Float width) {
-        this.width = width;
+    public void setWIDTH(Float WIDTH) {
+        this.WIDTH = WIDTH;
     }
 
-    public Float getHeight() {
-        return height;
+    public Float getHEIGHT() {
+        return HEIGHT;
     }
 
-    public void setHeight(Float height) {
-        this.height = height;
+    public void setHEIGHT(Float HEIGHT) {
+        this.HEIGHT = HEIGHT;
     }
 
-    public SizeUnit getSizeUnit() {
-        return sizeUnit;
+    public SizeUnit getSIZE_UNIT() {
+        return SIZE_UNIT;
     }
 
-    public void setSizeUnit(SizeUnit sizeUnit) {
-        this.sizeUnit = sizeUnit;
+    public void setSIZE_UNIT(SizeUnit SIZE_UNIT) {
+        this.SIZE_UNIT = SIZE_UNIT;
     }
 
-    public Float getWeight() {
-        return weight;
+    public Float getWEIGHT() {
+        return WEIGHT;
     }
 
-    public void setWeight(Float weight) {
-        this.weight = weight;
+    public void setWEIGHT(Float WEIGHT) {
+        this.WEIGHT = WEIGHT;
     }
 
-    public WeightUnit getWeightUnit() {
-        return weightUnit;
+    public WeightUnit getWEIGHT_UNIT() {
+        return WEIGHT_UNIT;
     }
 
-    public void setWeightUnit(WeightUnit weightUnit) {
-        this.weightUnit = weightUnit;
+    public void setWEIGHT_UNIT(WeightUnit WEIGHT_UNIT) {
+        this.WEIGHT_UNIT = WEIGHT_UNIT;
     }
 
-    public Float getVolume() {
-        return volume;
+    public Float getVOLUME() {
+        return VOLUME;
     }
 
-    public void setVolume(Float volume) {
-        this.volume = volume;
+    public void setVOLUME(Float VOLUME) {
+        this.VOLUME = VOLUME;
     }
 
-    public VolumeUnit getVolumeUnit() {
-        return volumeUnit;
+    public VolumeUnit getVOLUME_UNIT() {
+        return VOLUME_UNIT;
     }
 
-    public void setVolumeUnit(VolumeUnit volumeUnit) {
-        this.volumeUnit = volumeUnit;
+    public void setVOLUME_UNIT(VolumeUnit VOLUME_UNIT) {
+        this.VOLUME_UNIT = VOLUME_UNIT;
     }
 }

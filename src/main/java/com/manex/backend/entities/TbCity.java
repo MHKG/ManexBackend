@@ -7,59 +7,57 @@ import jakarta.persistence.*;
 public class TbCity {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CITY", nullable = false)
-    private String city;
+    @Column(nullable = false)
+    private String CITY;
 
-    @Column(name = "DISTRICT_ID", nullable = false)
-    private Integer districtId;
+    @Column(nullable = false)
+    private Integer DISTRICT_ID;
 
-    @Column(name = "LATITUDE")
-    private Double latitude;
+    @Column private Double LATITUDE;
 
-    @Column(name = "LONGITUDE")
-    private Double longitude;
+    @Column private Double LONGITUDE;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getCity() {
-        return city;
+    public String getCITY() {
+        return CITY;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCITY(String CITY) {
+        this.CITY = CITY;
     }
 
-    public Integer getDistrictId() {
-        return districtId;
+    public Integer getDISTRICT_ID() {
+        return DISTRICT_ID;
     }
 
-    public void setDistrictId(Integer districtId) {
-        this.districtId = districtId;
+    public void setDISTRICT_ID(Integer DISTRICT_ID) {
+        this.DISTRICT_ID = DISTRICT_ID;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Double getLATITUDE() {
+        return LATITUDE;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setLATITUDE(Double LATITUDE) {
+        this.LATITUDE = LATITUDE;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public Double getLONGITUDE() {
+        return LONGITUDE;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setLONGITUDE(Double LONGITUDE) {
+        this.LONGITUDE = LONGITUDE;
     }
 }

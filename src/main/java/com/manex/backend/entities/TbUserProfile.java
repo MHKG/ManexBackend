@@ -7,102 +7,95 @@ import jakarta.persistence.*;
 public class TbUserProfile {
 
     @Id
-    @Column(name = "USER_ID", nullable = false)
-    private Integer userId;
+    @Column(nullable = false)
+    private Integer USER_ID;
 
-    @Column(name = "F_NAME")
-    private String fName;
+    @Column private String F_NAME;
 
-    @Column(name = "M_NAME")
-    private String mName;
+    @Column private String M_NAME;
 
-    @Column(name = "L_NAME")
-    private String lName;
+    @Column private String L_NAME;
 
-    @Column(name = "PROFILE_IMG")
-    private Integer profileImg;
+    @Column private Integer PROFILE_IMG;
 
-    @Column(name = "COUNTRY_CODE", columnDefinition = "smallint")
-    private Integer countryCode;
+    @Column(columnDefinition = "smallint")
+    private Integer COUNTRY_CODE;
 
-    @Column(name = "PHONE_MOBILE")
-    private String phoneMobile;
+    @Column private String PHONE_MOBILE;
 
-    @Column(name = "PHONE_WORK")
-    private String phoneWork;
+    @Column private String PHONE_WORK;
 
-    @Column(name = "PHONE_WORK_EXT")
-    private String phoneWorkExt;
+    @Column private String PHONE_WORK_EXT;
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUSER_ID() {
+        return USER_ID;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUSER_ID(Integer USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
-    public String getFName() {
-        return fName;
+    public String getF_NAME() {
+        return F_NAME;
     }
 
-    public void setFName(String fName) {
-        this.fName = fName;
+    public void setF_NAME(String f_NAME) {
+        F_NAME = f_NAME;
     }
 
-    public String getMName() {
-        return mName;
+    public String getM_NAME() {
+        return M_NAME;
     }
 
-    public void setMName(String mName) {
-        this.mName = mName;
+    public void setM_NAME(String m_NAME) {
+        M_NAME = m_NAME;
     }
 
-    public String getLName() {
-        return lName;
+    public String getL_NAME() {
+        return L_NAME;
     }
 
-    public void setLName(String lName) {
-        this.lName = lName;
+    public void setL_NAME(String l_NAME) {
+        L_NAME = l_NAME;
     }
 
-    public Integer getProfileImg() {
-        return profileImg;
+    public Integer getPROFILE_IMG() {
+        return PROFILE_IMG;
     }
 
-    public void setProfileImg(Integer profileImg) {
-        this.profileImg = profileImg;
+    public void setPROFILE_IMG(Integer PROFILE_IMG) {
+        this.PROFILE_IMG = PROFILE_IMG;
     }
 
-    public Integer getCountryCode() {
-        return countryCode;
+    public Integer getCOUNTRY_CODE() {
+        return COUNTRY_CODE;
     }
 
-    public void setCountryCode(Integer countryCode) {
-        this.countryCode = countryCode;
+    public void setCOUNTRY_CODE(Integer COUNTRY_CODE) {
+        this.COUNTRY_CODE = COUNTRY_CODE;
     }
 
-    public String getPhoneMobile() {
-        return phoneMobile;
+    public String getPHONE_MOBILE() {
+        return PHONE_MOBILE;
     }
 
-    public void setPhoneMobile(String phoneMobile) {
-        this.phoneMobile = phoneMobile;
+    public void setPHONE_MOBILE(String PHONE_MOBILE) {
+        this.PHONE_MOBILE = PHONE_MOBILE;
     }
 
-    public String getPhoneWork() {
-        return phoneWork;
+    public String getPHONE_WORK() {
+        return PHONE_WORK;
     }
 
-    public void setPhoneWork(String phoneWork) {
-        this.phoneWork = phoneWork;
+    public void setPHONE_WORK(String PHONE_WORK) {
+        this.PHONE_WORK = PHONE_WORK;
     }
 
-    public String getPhoneWorkExt() {
-        return phoneWorkExt;
+    public String getPHONE_WORK_EXT() {
+        return PHONE_WORK_EXT;
     }
 
-    public void setPhoneWorkExt(String phoneWorkExt) {
-        this.phoneWorkExt = phoneWorkExt;
+    public void setPHONE_WORK_EXT(String PHONE_WORK_EXT) {
+        this.PHONE_WORK_EXT = PHONE_WORK_EXT;
     }
 }

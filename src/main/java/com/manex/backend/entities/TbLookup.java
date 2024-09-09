@@ -7,59 +7,57 @@ import jakarta.persistence.*;
 public class TbLookup {
 
     @Id
-    @Column(name = "LOOKUP_ID", nullable = false, columnDefinition = "smallint unsigned")
+    @Column(nullable = false, columnDefinition = "smallint unsigned")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer lookupId;
+    private Integer LOOKUP_ID;
 
-    @Column(name = "CATEGORY", nullable = false)
-    private String category;
+    @Column(nullable = false)
+    private String CATEGORY;
 
-    @Column(name = "FIELD_NAME", nullable = false)
-    private String fieldName;
+    @Column(nullable = false)
+    private String FIELD_NAME;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    @Column(name = "ADDL_INFO")
-    private String addlInfo;
+    @Column private String ADDL_INFO;
 
-    public Integer getLookupId() {
-        return lookupId;
+    public Integer getLOOKUP_ID() {
+        return LOOKUP_ID;
     }
 
-    public void setLookupId(Integer lookupId) {
-        this.lookupId = lookupId;
+    public void setLOOKUP_ID(Integer LOOKUP_ID) {
+        this.LOOKUP_ID = LOOKUP_ID;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCATEGORY() {
+        return CATEGORY;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCATEGORY(String CATEGORY) {
+        this.CATEGORY = CATEGORY;
     }
 
-    public String getFieldName() {
-        return fieldName;
+    public String getFIELD_NAME() {
+        return FIELD_NAME;
     }
 
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+    public void setFIELD_NAME(String FIELD_NAME) {
+        this.FIELD_NAME = FIELD_NAME;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getAddlInfo() {
-        return addlInfo;
+    public String getADDL_INFO() {
+        return ADDL_INFO;
     }
 
-    public void setAddlInfo(String addlInfo) {
-        this.addlInfo = addlInfo;
+    public void setADDL_INFO(String ADDL_INFO) {
+        this.ADDL_INFO = ADDL_INFO;
     }
 }

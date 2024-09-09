@@ -9,125 +9,115 @@ import java.sql.Date;
 public class TbCompany {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column private String NAME;
 
-    @Column(name = "REG_NUMBER")
-    private String regNumber;
+    @Column private String REG_NUMBER;
 
-    @Column(name = "TAX_NUMBER")
-    private String taxNumber;
+    @Column private String TAX_NUMBER;
 
-    @Column(name = "CONTACT_NUMBER")
-    private String contactNumber;
+    @Column private String CONTACT_NUMBER;
 
-    @Column(name = "ALT_CONTACT_NUMBER")
-    private String altContactNumber;
+    @Column private String ALT_CONTACT_NUMBER;
 
-    @Column(name = "EMAIL")
-    private String email;
+    @Column private String EMAIL;
 
-    @Column(name = "FAX")
-    private String fax;
+    @Column private String FAX;
 
-    @Column(name = "WEBSITE")
-    private String website;
+    @Column private String WEBSITE;
 
-    @Column(name = "LOGO")
-    private Integer logo;
+    @Column private Integer LOGO;
 
-    @Column(name = "CREATED_DATE")
-    private Date createdDate;
+    @Column private Date CREATED_DATE;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getName() {
-        return name;
+    public String getNAME() {
+        return NAME;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNAME(String NAME) {
+        this.NAME = NAME;
     }
 
-    public String getRegNumber() {
-        return regNumber;
+    public String getREG_NUMBER() {
+        return REG_NUMBER;
     }
 
-    public void setRegNumber(String regNumber) {
-        this.regNumber = regNumber;
+    public void setREG_NUMBER(String REG_NUMBER) {
+        this.REG_NUMBER = REG_NUMBER;
     }
 
-    public String getTaxNumber() {
-        return taxNumber;
+    public String getTAX_NUMBER() {
+        return TAX_NUMBER;
     }
 
-    public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber;
+    public void setTAX_NUMBER(String TAX_NUMBER) {
+        this.TAX_NUMBER = TAX_NUMBER;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public String getCONTACT_NUMBER() {
+        return CONTACT_NUMBER;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setCONTACT_NUMBER(String CONTACT_NUMBER) {
+        this.CONTACT_NUMBER = CONTACT_NUMBER;
     }
 
-    public String getAltContactNumber() {
-        return altContactNumber;
+    public String getALT_CONTACT_NUMBER() {
+        return ALT_CONTACT_NUMBER;
     }
 
-    public void setAltContactNumber(String altContactNumber) {
-        this.altContactNumber = altContactNumber;
+    public void setALT_CONTACT_NUMBER(String ALT_CONTACT_NUMBER) {
+        this.ALT_CONTACT_NUMBER = ALT_CONTACT_NUMBER;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEMAIL() {
+        return EMAIL;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEMAIL(String EMAIL) {
+        this.EMAIL = EMAIL;
     }
 
-    public String getFax() {
-        return fax;
+    public String getFAX() {
+        return FAX;
     }
 
-    public void setFax(String fax) {
-        this.fax = fax;
+    public void setFAX(String FAX) {
+        this.FAX = FAX;
     }
 
-    public String getWebsite() {
-        return website;
+    public String getWEBSITE() {
+        return WEBSITE;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setWEBSITE(String WEBSITE) {
+        this.WEBSITE = WEBSITE;
     }
 
-    public Integer getLogo() {
-        return logo;
+    public Integer getLOGO() {
+        return LOGO;
     }
 
-    public void setLogo(Integer logo) {
-        this.logo = logo;
+    public void setLOGO(Integer LOGO) {
+        this.LOGO = LOGO;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public Date getCREATED_DATE() {
+        return CREATED_DATE;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCREATED_DATE(Date CREATED_DATE) {
+        this.CREATED_DATE = CREATED_DATE;
     }
 }

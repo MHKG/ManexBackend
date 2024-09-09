@@ -9,82 +9,78 @@ import jakarta.persistence.*;
 public class TbMm {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "MM_TITLE")
-    private String mmTitle;
+    @Column private String MM_TITLE;
 
-    @Column(name = "MM_FILE_NAME", nullable = false)
-    private String mmFileName;
+    @Column(nullable = false)
+    private String MM_FILE_NAME;
 
-    @Column(name = "MM_TYPE")
+    @Column
     @Enumerated(EnumType.STRING)
-    private MultiMediaTypes mmType;
+    private MultiMediaTypes MM_TYPE;
 
-    @Column(name = "MM_SIZE")
-    private Integer mmSize;
+    @Column private Integer MM_SIZE;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getMmTitle() {
-        return mmTitle;
+    public String getMM_TITLE() {
+        return MM_TITLE;
     }
 
-    public void setMmTitle(String mmTitle) {
-        this.mmTitle = mmTitle;
+    public void setMM_TITLE(String MM_TITLE) {
+        this.MM_TITLE = MM_TITLE;
     }
 
-    public String getMmFileName() {
-        return mmFileName;
+    public String getMM_FILE_NAME() {
+        return MM_FILE_NAME;
     }
 
-    public void setMmFileName(String mmFileName) {
-        this.mmFileName = mmFileName;
+    public void setMM_FILE_NAME(String MM_FILE_NAME) {
+        this.MM_FILE_NAME = MM_FILE_NAME;
     }
 
-    public MultiMediaTypes getMmType() {
-        return mmType;
+    public MultiMediaTypes getMM_TYPE() {
+        return MM_TYPE;
     }
 
-    public void setMmType(MultiMediaTypes mmType) {
-        this.mmType = mmType;
+    public void setMM_TYPE(MultiMediaTypes MM_TYPE) {
+        this.MM_TYPE = MM_TYPE;
     }
 
-    public Integer getMmSize() {
-        return mmSize;
+    public Integer getMM_SIZE() {
+        return MM_SIZE;
     }
 
-    public void setMmSize(Integer mmSize) {
-        this.mmSize = mmSize;
+    public void setMM_SIZE(Integer MM_SIZE) {
+        this.MM_SIZE = MM_SIZE;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 }

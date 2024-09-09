@@ -8,16 +8,16 @@ import java.util.Objects;
 @Embeddable
 public class TbMClientSupplierItemId implements Serializable {
 
-    private Integer clientSuppId;
-    private Integer prodId;
+    private Integer CLIENT_SUPP_ID;
+    private Integer PROD_ID;
 
     // Default constructor
     public TbMClientSupplierItemId() {}
 
     // Parameterized constructor
     public TbMClientSupplierItemId(Integer productId, Integer companyId) {
-        this.clientSuppId = productId;
-        this.prodId = companyId;
+        this.CLIENT_SUPP_ID = productId;
+        this.PROD_ID = companyId;
     }
 
     // Getters, setters, equals, and hashCode methods
@@ -26,29 +26,28 @@ public class TbMClientSupplierItemId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TbMClientSupplierItemId that = (TbMClientSupplierItemId) o;
-        return Objects.equals(clientSuppId, that.clientSuppId)
-                && Objects.equals(prodId, that.prodId);
+        return Objects.equals(CLIENT_SUPP_ID, that.CLIENT_SUPP_ID)
+                && Objects.equals(PROD_ID, that.PROD_ID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clientSuppId, prodId);
+        return Objects.hash(CLIENT_SUPP_ID, PROD_ID);
     }
 
-    // Getters and setters
-    public Integer getClientSuppId() {
-        return clientSuppId;
+    public Integer getPROD_ID() {
+        return PROD_ID;
     }
 
-    public void setClientSuppId(Integer clientSuppId) {
-        this.clientSuppId = clientSuppId;
+    public void setPROD_ID(Integer PROD_ID) {
+        this.PROD_ID = PROD_ID;
     }
 
-    public Integer getProdId() {
-        return prodId;
+    public Integer getCLIENT_SUPP_ID() {
+        return CLIENT_SUPP_ID;
     }
 
-    public void setProdId(Integer prodId) {
-        this.prodId = prodId;
+    public void setCLIENT_SUPP_ID(Integer CLIENT_SUPP_ID) {
+        this.CLIENT_SUPP_ID = CLIENT_SUPP_ID;
     }
 }

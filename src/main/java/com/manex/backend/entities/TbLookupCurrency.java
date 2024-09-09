@@ -7,59 +7,59 @@ import jakarta.persistence.*;
 public class TbLookupCurrency {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CURRENCY_NAME", nullable = false)
-    private String currencyName;
+    @Column(nullable = false)
+    private String CURRENCY_NAME;
 
-    @Column(name = "CURRENCY", nullable = false)
-    private String currency;
+    @Column(nullable = false)
+    private String CURRENCY;
 
-    @Column(name = "CURRENCY_SYMBOL", nullable = false)
-    private String currencySymbol;
+    @Column(nullable = false)
+    private String CURRENCY_SYMBOL;
 
-    @Column(name = "COUNTRY_ID", nullable = false)
-    private Integer countryId;
+    @Column(nullable = false)
+    private Integer COUNTRY_ID;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getCurrencyName() {
-        return currencyName;
+    public String getCURRENCY_NAME() {
+        return CURRENCY_NAME;
     }
 
-    public void setCurrencyName(String currencyName) {
-        this.currencyName = currencyName;
+    public void setCURRENCY_NAME(String CURRENCY_NAME) {
+        this.CURRENCY_NAME = CURRENCY_NAME;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getCURRENCY() {
+        return CURRENCY;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCURRENCY(String CURRENCY) {
+        this.CURRENCY = CURRENCY;
     }
 
-    public String getCurrencySymbol() {
-        return currencySymbol;
+    public String getCURRENCY_SYMBOL() {
+        return CURRENCY_SYMBOL;
     }
 
-    public void setCurrencySymbol(String currencySymbol) {
-        this.currencySymbol = currencySymbol;
+    public void setCURRENCY_SYMBOL(String CURRENCY_SYMBOL) {
+        this.CURRENCY_SYMBOL = CURRENCY_SYMBOL;
     }
 
-    public Integer getCountryId() {
-        return countryId;
+    public Integer getCOUNTRY_ID() {
+        return COUNTRY_ID;
     }
 
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
+    public void setCOUNTRY_ID(Integer COUNTRY_ID) {
+        this.COUNTRY_ID = COUNTRY_ID;
     }
 }
