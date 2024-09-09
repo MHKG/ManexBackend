@@ -9,191 +9,182 @@ import java.sql.Date;
 public class TbCustomerInvoice {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CUST_PI_ID", nullable = false)
-    private Integer custPiId;
+    @Column(nullable = false)
+    private Integer CUST_PI_ID;
 
-    @Column(name = "CUST_INV_NUM")
-    private String custInvNum;
+    @Column private String CUST_INV_NUM;
 
-    @Column(name = "INV_MM")
-    private Integer invMm;
+    @Column private Integer INV_MM;
 
-    @Column(name = "UPDATED_BY", nullable = false)
-    private Integer updatedBy;
+    @Column(nullable = false)
+    private Integer UPDATED_BY;
 
-    @Column(name = "CREATED_ON")
-    private Date createdOn;
+    @Column private Date CREATED_ON;
 
-    @Column(name = "TOTAL_GOODS_AMOUNT", nullable = false)
-    private Float totalGoodsAmount;
+    @Column(nullable = false)
+    private Float TOTAL_GOODS_AMOUNT;
 
-    @Column(name = "AGENTS_COMMISION_PERCENTAGE", nullable = false)
-    private Float agentsCommisionPercentage;
+    @Column(nullable = false)
+    private Float AGENTS_COMMISION_PERCENTAGE;
 
-    @Column(name = "INVOICE_CURRENCY", nullable = false)
-    private Integer invoiceCurrency;
+    @Column(nullable = false)
+    private Integer INVOICE_CURRENCY;
 
-    @Column(name = "INVOICE_CURRENCY_RATE", nullable = false)
-    private Float invoiceCurrencyRate;
+    @Column(nullable = false)
+    private Float INVOICE_CURRENCY_RATE;
 
-    @Column(name = "SHIPPING_COST")
-    private Float shippingCost;
+    @Column private Float SHIPPING_COST;
 
-    @Column(name = "TOTAL_INVOICE_VALUE", nullable = false)
-    private Float totalInvoiceValue;
+    @Column(nullable = false)
+    private Float TOTAL_INVOICE_VALUE;
 
-    @Column(name = "PAYMENT_STATUS")
-    private Integer paymentStatus;
+    @Column private Integer PAYMENT_STATUS;
 
-    @Column(name = "DELIVERY_DATE")
-    private Date deliveryDate;
+    @Column private Date DELIVERY_DATE;
 
-    @Column(name = "SHIPPING_DATE")
-    private Date shippingDate;
+    @Column private Date SHIPPING_DATE;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getCustPiId() {
-        return custPiId;
+    public Integer getCUST_PI_ID() {
+        return CUST_PI_ID;
     }
 
-    public void setCustPiId(Integer custPiId) {
-        this.custPiId = custPiId;
+    public void setCUST_PI_ID(Integer CUST_PI_ID) {
+        this.CUST_PI_ID = CUST_PI_ID;
     }
 
-    public String getCustInvNum() {
-        return custInvNum;
+    public String getCUST_INV_NUM() {
+        return CUST_INV_NUM;
     }
 
-    public void setCustInvNum(String custInvNum) {
-        this.custInvNum = custInvNum;
+    public void setCUST_INV_NUM(String CUST_INV_NUM) {
+        this.CUST_INV_NUM = CUST_INV_NUM;
     }
 
-    public Integer getInvMm() {
-        return invMm;
+    public Integer getINV_MM() {
+        return INV_MM;
     }
 
-    public void setInvMm(Integer invMm) {
-        this.invMm = invMm;
+    public void setINV_MM(Integer INV_MM) {
+        this.INV_MM = INV_MM;
     }
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
+    public Integer getUPDATED_BY() {
+        return UPDATED_BY;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setUPDATED_BY(Integer UPDATED_BY) {
+        this.UPDATED_BY = UPDATED_BY;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
+    public Date getCREATED_ON() {
+        return CREATED_ON;
     }
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
+    public void setCREATED_ON(Date CREATED_ON) {
+        this.CREATED_ON = CREATED_ON;
     }
 
-    public Float getTotalGoodsAmount() {
-        return totalGoodsAmount;
+    public Float getTOTAL_GOODS_AMOUNT() {
+        return TOTAL_GOODS_AMOUNT;
     }
 
-    public void setTotalGoodsAmount(Float totalGoodsAmount) {
-        this.totalGoodsAmount = totalGoodsAmount;
+    public void setTOTAL_GOODS_AMOUNT(Float TOTAL_GOODS_AMOUNT) {
+        this.TOTAL_GOODS_AMOUNT = TOTAL_GOODS_AMOUNT;
     }
 
-    public Float getAgentsCommisionPercentage() {
-        return agentsCommisionPercentage;
+    public Float getAGENTS_COMMISION_PERCENTAGE() {
+        return AGENTS_COMMISION_PERCENTAGE;
     }
 
-    public void setAgentsCommisionPercentage(Float agentsCommisionPercentage) {
-        this.agentsCommisionPercentage = agentsCommisionPercentage;
+    public void setAGENTS_COMMISION_PERCENTAGE(Float AGENTS_COMMISION_PERCENTAGE) {
+        this.AGENTS_COMMISION_PERCENTAGE = AGENTS_COMMISION_PERCENTAGE;
     }
 
-    public Integer getInvoiceCurrency() {
-        return invoiceCurrency;
+    public Integer getINVOICE_CURRENCY() {
+        return INVOICE_CURRENCY;
     }
 
-    public void setInvoiceCurrency(Integer invoiceCurrency) {
-        this.invoiceCurrency = invoiceCurrency;
+    public void setINVOICE_CURRENCY(Integer INVOICE_CURRENCY) {
+        this.INVOICE_CURRENCY = INVOICE_CURRENCY;
     }
 
-    public Float getInvoiceCurrencyRate() {
-        return invoiceCurrencyRate;
+    public Float getINVOICE_CURRENCY_RATE() {
+        return INVOICE_CURRENCY_RATE;
     }
 
-    public void setInvoiceCurrencyRate(Float invoiceCurrencyRate) {
-        this.invoiceCurrencyRate = invoiceCurrencyRate;
+    public void setINVOICE_CURRENCY_RATE(Float INVOICE_CURRENCY_RATE) {
+        this.INVOICE_CURRENCY_RATE = INVOICE_CURRENCY_RATE;
     }
 
-    public Float getShippingCost() {
-        return shippingCost;
+    public Float getSHIPPING_COST() {
+        return SHIPPING_COST;
     }
 
-    public void setShippingCost(Float shippingCost) {
-        this.shippingCost = shippingCost;
+    public void setSHIPPING_COST(Float SHIPPING_COST) {
+        this.SHIPPING_COST = SHIPPING_COST;
     }
 
-    public Float getTotalInvoiceValue() {
-        return totalInvoiceValue;
+    public Float getTOTAL_INVOICE_VALUE() {
+        return TOTAL_INVOICE_VALUE;
     }
 
-    public void setTotalInvoiceValue(Float totalInvoiceValue) {
-        this.totalInvoiceValue = totalInvoiceValue;
+    public void setTOTAL_INVOICE_VALUE(Float TOTAL_INVOICE_VALUE) {
+        this.TOTAL_INVOICE_VALUE = TOTAL_INVOICE_VALUE;
     }
 
-    public Integer getPaymentStatus() {
-        return paymentStatus;
+    public Integer getPAYMENT_STATUS() {
+        return PAYMENT_STATUS;
     }
 
-    public void setPaymentStatus(Integer paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setPAYMENT_STATUS(Integer PAYMENT_STATUS) {
+        this.PAYMENT_STATUS = PAYMENT_STATUS;
     }
 
-    public Date getDeliveryDate() {
-        return deliveryDate;
+    public Date getDELIVERY_DATE() {
+        return DELIVERY_DATE;
     }
 
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setDELIVERY_DATE(Date DELIVERY_DATE) {
+        this.DELIVERY_DATE = DELIVERY_DATE;
     }
 
-    public Date getShippingDate() {
-        return shippingDate;
+    public Date getSHIPPING_DATE() {
+        return SHIPPING_DATE;
     }
 
-    public void setShippingDate(Date shippingDate) {
-        this.shippingDate = shippingDate;
+    public void setSHIPPING_DATE(Date SHIPPING_DATE) {
+        this.SHIPPING_DATE = SHIPPING_DATE;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 }

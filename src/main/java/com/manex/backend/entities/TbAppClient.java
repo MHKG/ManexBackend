@@ -7,114 +7,107 @@ import jakarta.persistence.*;
 public class TbAppClient {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "COMPANY_ID", nullable = false)
-    private Integer companyId;
+    @Column(nullable = false)
+    private Integer COMPANY_ID;
 
-    @Column(name = "OPERATING_CURRENCY", nullable = false)
-    private Integer operatingCurrency;
+    @Column(nullable = false)
+    private Integer OPERATING_CURRENCY;
 
-    @Column(name = "CLIENT_ICON")
-    private Integer clientIcon;
+    @Column private Integer CLIENT_ICON;
 
-    @Column(name = "CLIENT_COLOR")
-    private String clientColor;
+    @Column private String CLIENT_COLOR;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    @Column(name = "CUST_NUM_FORMAT")
-    private String custNumFormat;
+    @Column private String CUST_NUM_FORMAT;
 
-    @Column(name = "SUPP_NUM_FORMAT")
-    private String suppNumFormat;
+    @Column private String SUPP_NUM_FORMAT;
 
-    @Column(name = "CUST_OR_NUM_FORMAT")
-    private String custOrNumFormat;
+    @Column private String CUST_OR_NUM_FORMAT;
 
-    @Column(name = "SUPP_OR_NUM_FORMAT")
-    private String suppOrNumFormat;
+    @Column private String SUPP_OR_NUM_FORMAT;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getCOMPANY_ID() {
+        return COMPANY_ID;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setCOMPANY_ID(Integer COMPANY_ID) {
+        this.COMPANY_ID = COMPANY_ID;
     }
 
-    public Integer getOperatingCurrency() {
-        return operatingCurrency;
+    public Integer getOPERATING_CURRENCY() {
+        return OPERATING_CURRENCY;
     }
 
-    public void setOperatingCurrency(Integer operatingCurrency) {
-        this.operatingCurrency = operatingCurrency;
+    public void setOPERATING_CURRENCY(Integer OPERATING_CURRENCY) {
+        this.OPERATING_CURRENCY = OPERATING_CURRENCY;
     }
 
-    public Integer getClientIcon() {
-        return clientIcon;
+    public Integer getCLIENT_ICON() {
+        return CLIENT_ICON;
     }
 
-    public void setClientIcon(Integer clientIcon) {
-        this.clientIcon = clientIcon;
+    public void setCLIENT_ICON(Integer CLIENT_ICON) {
+        this.CLIENT_ICON = CLIENT_ICON;
     }
 
-    public String getClientColor() {
-        return clientColor;
+    public String getCLIENT_COLOR() {
+        return CLIENT_COLOR;
     }
 
-    public void setClientColor(String clientColor) {
-        this.clientColor = clientColor;
+    public void setCLIENT_COLOR(String CLIENT_COLOR) {
+        this.CLIENT_COLOR = CLIENT_COLOR;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getCustNumFormat() {
-        return custNumFormat;
+    public String getCUST_NUM_FORMAT() {
+        return CUST_NUM_FORMAT;
     }
 
-    public void setCustNumFormat(String custNumFormat) {
-        this.custNumFormat = custNumFormat;
+    public void setCUST_NUM_FORMAT(String CUST_NUM_FORMAT) {
+        this.CUST_NUM_FORMAT = CUST_NUM_FORMAT;
     }
 
-    public String getSuppNumFormat() {
-        return suppNumFormat;
+    public String getSUPP_NUM_FORMAT() {
+        return SUPP_NUM_FORMAT;
     }
 
-    public void setSuppNumFormat(String suppNumFormat) {
-        this.suppNumFormat = suppNumFormat;
+    public void setSUPP_NUM_FORMAT(String SUPP_NUM_FORMAT) {
+        this.SUPP_NUM_FORMAT = SUPP_NUM_FORMAT;
     }
 
-    public String getCustOrNumFormat() {
-        return custOrNumFormat;
+    public String getCUST_OR_NUM_FORMAT() {
+        return CUST_OR_NUM_FORMAT;
     }
 
-    public void setCustOrNumFormat(String custOrNumFormat) {
-        this.custOrNumFormat = custOrNumFormat;
+    public void setCUST_OR_NUM_FORMAT(String CUST_OR_NUM_FORMAT) {
+        this.CUST_OR_NUM_FORMAT = CUST_OR_NUM_FORMAT;
     }
 
-    public String getSuppOrNumFormat() {
-        return suppOrNumFormat;
+    public String getSUPP_OR_NUM_FORMAT() {
+        return SUPP_OR_NUM_FORMAT;
     }
 
-    public void setSuppOrNumFormat(String suppOrNumFormat) {
-        this.suppOrNumFormat = suppOrNumFormat;
+    public void setSUPP_OR_NUM_FORMAT(String SUPP_OR_NUM_FORMAT) {
+        this.SUPP_OR_NUM_FORMAT = SUPP_OR_NUM_FORMAT;
     }
 }

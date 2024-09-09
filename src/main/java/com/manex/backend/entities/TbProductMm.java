@@ -7,59 +7,57 @@ import jakarta.persistence.*;
 public class TbProductMm {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "PRODUCT_ID", nullable = false)
-    private Integer productId;
+    @Column(nullable = false)
+    private Integer PRODUCT_ID;
 
-    @Column(name = "MM_FILE", nullable = false)
-    private Integer mmFile;
+    @Column(nullable = false)
+    private Integer MM_FILE;
 
-    @Column(name = "DEFAULT_MM")
-    private Character defaultMm;
+    @Column private Character DEFAULT_MM;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getPRODUCT_ID() {
+        return PRODUCT_ID;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setPRODUCT_ID(Integer PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
     }
 
-    public Integer getMmFile() {
-        return mmFile;
+    public Integer getMM_FILE() {
+        return MM_FILE;
     }
 
-    public void setMmFile(Integer mmFile) {
-        this.mmFile = mmFile;
+    public void setMM_FILE(Integer MM_FILE) {
+        this.MM_FILE = MM_FILE;
     }
 
-    public Character getDefaultMm() {
-        return defaultMm;
+    public Character getDEFAULT_MM() {
+        return DEFAULT_MM;
     }
 
-    public void setDefaultMm(Character defaultMm) {
-        this.defaultMm = defaultMm;
+    public void setDEFAULT_MM(Character DEFAULT_MM) {
+        this.DEFAULT_MM = DEFAULT_MM;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 
     public Boolean isStatus() {
-        return status;
+        return STATUS;
     }
 }

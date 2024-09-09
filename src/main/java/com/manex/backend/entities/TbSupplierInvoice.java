@@ -9,147 +9,136 @@ import java.util.Date;
 public class TbSupplierInvoice {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "SUPP_PI_ID", nullable = false)
-    private Integer suppPiId;
+    @Column(nullable = false)
+    private Integer SUPP_PI_ID;
 
-    @Column(name = "SUPP_INV_NUM")
-    private String suppInvNum;
+    @Column private String SUPP_INV_NUM;
 
-    @Column(name = "INV_MM")
-    private Integer invMm;
+    @Column private Integer INV_MM;
 
-    @Column(name = "UPDATED_BY")
-    private Integer updatedBy;
+    @Column private Integer UPDATED_BY;
 
-    @Column(name = "TIMESTAMP")
-    private Date timestamp;
+    @Column private Date TIMESTAMP;
 
-    @Column(name = "TOTAL_GOODS_AMOUNT")
-    private Float totalGoodsAmount;
+    @Column private Float TOTAL_GOODS_AMOUNT;
 
-    @Column(name = "INVOICE_CURRENCY")
-    private Integer invoiceCurrency;
+    @Column private Integer INVOICE_CURRENCY;
 
-    @Column(name = "INVOICE_CURRENCY_RATE")
-    private Float invoiceCurrencyRate;
+    @Column private Float INVOICE_CURRENCY_RATE;
 
-    @Column(name = "SHIPPING_COST")
-    private Float shippingCost;
+    @Column private Float SHIPPING_COST;
 
-    @Column(name = "PAYMENT_STATUS")
-    private Integer paymentStatus;
+    @Column private Integer PAYMENT_STATUS;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    @Column(name = "REMARK")
-    private String remark;
+    @Column private String REMARK;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getSuppPiId() {
-        return suppPiId;
+    public Integer getSUPP_PI_ID() {
+        return SUPP_PI_ID;
     }
 
-    public void setSuppPiId(Integer suppPiId) {
-        this.suppPiId = suppPiId;
+    public void setSUPP_PI_ID(Integer SUPP_PI_ID) {
+        this.SUPP_PI_ID = SUPP_PI_ID;
     }
 
-    public String getSuppInvNum() {
-        return suppInvNum;
+    public String getSUPP_INV_NUM() {
+        return SUPP_INV_NUM;
     }
 
-    public void setSuppInvNum(String suppInvNum) {
-        this.suppInvNum = suppInvNum;
+    public void setSUPP_INV_NUM(String SUPP_INV_NUM) {
+        this.SUPP_INV_NUM = SUPP_INV_NUM;
     }
 
-    public Integer getInvMm() {
-        return invMm;
+    public Integer getINV_MM() {
+        return INV_MM;
     }
 
-    public void setInvMm(Integer invMm) {
-        this.invMm = invMm;
+    public void setINV_MM(Integer INV_MM) {
+        this.INV_MM = INV_MM;
     }
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
+    public Integer getUPDATED_BY() {
+        return UPDATED_BY;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setUPDATED_BY(Integer UPDATED_BY) {
+        this.UPDATED_BY = UPDATED_BY;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getTIMESTAMP() {
+        return TIMESTAMP;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setTIMESTAMP(Date TIMESTAMP) {
+        this.TIMESTAMP = TIMESTAMP;
     }
 
-    public Float getTotalGoodsAmount() {
-        return totalGoodsAmount;
+    public Float getTOTAL_GOODS_AMOUNT() {
+        return TOTAL_GOODS_AMOUNT;
     }
 
-    public void setTotalGoodsAmount(Float totalGoodsAmount) {
-        this.totalGoodsAmount = totalGoodsAmount;
+    public void setTOTAL_GOODS_AMOUNT(Float TOTAL_GOODS_AMOUNT) {
+        this.TOTAL_GOODS_AMOUNT = TOTAL_GOODS_AMOUNT;
     }
 
-    public Integer getInvoiceCurrency() {
-        return invoiceCurrency;
+    public Integer getINVOICE_CURRENCY() {
+        return INVOICE_CURRENCY;
     }
 
-    public void setInvoiceCurrency(Integer invoiceCurrency) {
-        this.invoiceCurrency = invoiceCurrency;
+    public void setINVOICE_CURRENCY(Integer INVOICE_CURRENCY) {
+        this.INVOICE_CURRENCY = INVOICE_CURRENCY;
     }
 
-    public Float getInvoiceCurrencyRate() {
-        return invoiceCurrencyRate;
+    public Float getINVOICE_CURRENCY_RATE() {
+        return INVOICE_CURRENCY_RATE;
     }
 
-    public void setInvoiceCurrencyRate(Float invoiceCurrencyRate) {
-        this.invoiceCurrencyRate = invoiceCurrencyRate;
+    public void setINVOICE_CURRENCY_RATE(Float INVOICE_CURRENCY_RATE) {
+        this.INVOICE_CURRENCY_RATE = INVOICE_CURRENCY_RATE;
     }
 
-    public Float getShippingCost() {
-        return shippingCost;
+    public Float getSHIPPING_COST() {
+        return SHIPPING_COST;
     }
 
-    public void setShippingCost(Float shippingCost) {
-        this.shippingCost = shippingCost;
+    public void setSHIPPING_COST(Float SHIPPING_COST) {
+        this.SHIPPING_COST = SHIPPING_COST;
     }
 
-    public Integer getPaymentStatus() {
-        return paymentStatus;
+    public Integer getPAYMENT_STATUS() {
+        return PAYMENT_STATUS;
     }
 
-    public void setPaymentStatus(Integer paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setPAYMENT_STATUS(Integer PAYMENT_STATUS) {
+        this.PAYMENT_STATUS = PAYMENT_STATUS;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getREMARK() {
+        return REMARK;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setREMARK(String REMARK) {
+        this.REMARK = REMARK;
     }
 }

@@ -7,59 +7,57 @@ import jakarta.persistence.*;
 public class TbCompanyAddr {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "COMPANY_ID", nullable = false)
-    private Integer companyId;
+    @Column(nullable = false)
+    private Integer COMPANY_ID;
 
-    @Column(name = "ADDR_ID", nullable = false)
-    private Integer addrId;
+    @Column(nullable = false)
+    private Integer ADDR_ID;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    @Column(name = "DEFAULT_ADDR")
-    private Character defaultAddr;
+    @Column private Character DEFAULT_ADDR;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getCOMPANY_ID() {
+        return COMPANY_ID;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setCOMPANY_ID(Integer COMPANY_ID) {
+        this.COMPANY_ID = COMPANY_ID;
     }
 
-    public Integer getAddrId() {
-        return addrId;
+    public Integer getADDR_ID() {
+        return ADDR_ID;
     }
 
-    public void setAddrId(Integer addrId) {
-        this.addrId = addrId;
+    public void setADDR_ID(Integer ADDR_ID) {
+        this.ADDR_ID = ADDR_ID;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public Character getDefaultAddr() {
-        return defaultAddr;
+    public Character getDEFAULT_ADDR() {
+        return DEFAULT_ADDR;
     }
 
-    public void setDefaultAddr(Character defaultAddr) {
-        this.defaultAddr = defaultAddr;
+    public void setDEFAULT_ADDR(Character DEFAULT_ADDR) {
+        this.DEFAULT_ADDR = DEFAULT_ADDR;
     }
 }

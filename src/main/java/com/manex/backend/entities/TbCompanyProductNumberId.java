@@ -8,18 +8,18 @@ import java.util.Objects;
 @Embeddable
 public class TbCompanyProductNumberId implements Serializable {
 
-    private Integer productId;
-    private Integer appClientId;
-    private Integer companyId;
+    private Integer PRODUCT_ID;
+    private Integer APP_CLIENT_ID;
+    private Integer COMPANY_ID;
 
     // Default constructor
     public TbCompanyProductNumberId() {}
 
     // Parameterized constructor
-    public TbCompanyProductNumberId(Integer productId, Integer appClientId, Integer companyId) {
-        this.productId = productId;
-        this.appClientId = appClientId;
-        this.companyId = companyId;
+    public TbCompanyProductNumberId(Integer PRODUCT_ID, Integer APP_CLIENT_ID, Integer COMPANY_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
+        this.COMPANY_ID = COMPANY_ID;
     }
 
     // Getters, setters, equals, and hashCode methods
@@ -28,38 +28,37 @@ public class TbCompanyProductNumberId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TbCompanyProductNumberId that = (TbCompanyProductNumberId) o;
-        return Objects.equals(productId, that.productId)
-                && Objects.equals(appClientId, that.appClientId)
-                && Objects.equals(companyId, that.companyId);
+        return Objects.equals(PRODUCT_ID, that.PRODUCT_ID)
+                && Objects.equals(APP_CLIENT_ID, that.APP_CLIENT_ID)
+                && Objects.equals(COMPANY_ID, that.COMPANY_ID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, appClientId, companyId);
+        return Objects.hash(PRODUCT_ID, APP_CLIENT_ID, COMPANY_ID);
     }
 
-    // Getters and setters
-    public Integer getProductId() {
-        return productId;
+    public Integer getPRODUCT_ID() {
+        return PRODUCT_ID;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setPRODUCT_ID(Integer PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getCOMPANY_ID() {
+        return COMPANY_ID;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setCOMPANY_ID(Integer COMPANY_ID) {
+        this.COMPANY_ID = COMPANY_ID;
     }
 }

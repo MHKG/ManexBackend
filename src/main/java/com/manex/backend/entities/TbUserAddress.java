@@ -7,59 +7,57 @@ import jakarta.persistence.*;
 public class TbUserAddress {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "USER_ID", nullable = false)
-    private Integer userId;
+    @Column(nullable = false)
+    private Integer USER_ID;
 
-    @Column(name = "ADDR_ID", nullable = false)
-    private Integer addrId;
+    @Column(nullable = false)
+    private Integer ADDR_ID;
 
-    @Column(name = "STATUS")
-    private Boolean status;
+    @Column private Boolean STATUS;
 
-    @Column(name = "DEFAULT_ADDR")
-    private Character defaultAddr;
+    @Column private Character DEFAULT_ADDR;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUSER_ID() {
+        return USER_ID;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUSER_ID(Integer USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
-    public Integer getAddrId() {
-        return addrId;
+    public Integer getADDR_ID() {
+        return ADDR_ID;
     }
 
-    public void setAddrId(Integer addrId) {
-        this.addrId = addrId;
+    public void setADDR_ID(Integer ADDR_ID) {
+        this.ADDR_ID = ADDR_ID;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public Boolean getSTATUS() {
+        return STATUS;
     }
 
-    public Boolean isStatus() {
-        return status;
+    public void setSTATUS(Boolean STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public Character getDefaultAddr() {
-        return defaultAddr;
+    public Character getDEFAULT_ADDR() {
+        return DEFAULT_ADDR;
     }
 
-    public void setDefaultAddr(Character defaultAddr) {
-        this.defaultAddr = defaultAddr;
+    public void setDEFAULT_ADDR(Character DEFAULT_ADDR) {
+        this.DEFAULT_ADDR = DEFAULT_ADDR;
     }
 }

@@ -7,59 +7,55 @@ import jakarta.persistence.*;
 public class TbProductSpec {
 
     @Id
-    @Column(name = "PRODUCT_ID")
+    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer productId;
+    private Integer PRODUCT_ID;
 
-    @Column(name = "COLOUR")
-    private String colour;
+    @Column private String COLOUR;
 
-    @Column(name = "MATERIAL")
-    private String material;
+    @Column private String MATERIAL;
 
-    @Column(name = "PACKING")
-    private String packing;
+    @Column private String PACKING;
 
-    @Column(name = "PRICE")
-    private Float price;
+    @Column private Float PRICE;
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getPRODUCT_ID() {
+        return PRODUCT_ID;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setPRODUCT_ID(Integer PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
     }
 
-    public String getColour() {
-        return colour;
+    public String getCOLOUR() {
+        return COLOUR;
     }
 
-    public void setColour(String colour) {
-        this.colour = colour;
+    public void setCOLOUR(String COLOUR) {
+        this.COLOUR = COLOUR;
     }
 
-    public String getMaterial() {
-        return material;
+    public String getMATERIAL() {
+        return MATERIAL;
     }
 
-    public void setMaterial(String material) {
-        this.material = material;
+    public void setMATERIAL(String MATERIAL) {
+        this.MATERIAL = MATERIAL;
     }
 
-    public String getPacking() {
-        return packing;
+    public String getPACKING() {
+        return PACKING;
     }
 
-    public void setPacking(String packing) {
-        this.packing = packing;
+    public void setPACKING(String PACKING) {
+        this.PACKING = PACKING;
     }
 
-    public Float getPrice() {
-        return price;
+    public Float getPRICE() {
+        return PRICE;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setPRICE(Float PRICE) {
+        this.PRICE = PRICE;
     }
 }

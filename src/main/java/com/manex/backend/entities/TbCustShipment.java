@@ -9,92 +9,86 @@ import java.util.Date;
 public class TbCustShipment {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "CONTAINER_ID", nullable = false)
-    private Integer containerId;
+    @Column(nullable = false)
+    private Integer CONTAINER_ID;
 
-    @Column(name = "CONTAINER_QR_NUM")
-    private Integer containerQrNum;
+    @Column private Integer CONTAINER_QR_NUM;
 
-    @Column(name = "SEAL_NUMBER")
-    private Integer sealNumber;
+    @Column private Integer SEAL_NUMBER;
 
-    @Column(name = "SHIPPING_FROM_ADDR")
-    private Integer shippingFromAddr;
+    @Column private Integer SHIPPING_FROM_ADDR;
 
-    @Column(name = "SHIPPING_TO_ADDR")
-    private Integer shippingToAddr;
+    @Column private Integer SHIPPING_TO_ADDR;
 
-    @Column(name = "SHIPPING_DATE")
-    private Date shippingDate;
+    @Column private Date SHIPPING_DATE;
 
-    @Column(name = "DELIVERY_STATUS")
-    private Integer deliveryStatus;
+    @Column private Integer DELIVERY_STATUS;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getContainerId() {
-        return containerId;
+    public Integer getCONTAINER_ID() {
+        return CONTAINER_ID;
     }
 
-    public void setContainerId(Integer containerId) {
-        this.containerId = containerId;
+    public void setCONTAINER_ID(Integer CONTAINER_ID) {
+        this.CONTAINER_ID = CONTAINER_ID;
     }
 
-    public Integer getContainerQrNum() {
-        return containerQrNum;
+    public Integer getCONTAINER_QR_NUM() {
+        return CONTAINER_QR_NUM;
     }
 
-    public void setContainerQrNum(Integer containerQrNum) {
-        this.containerQrNum = containerQrNum;
+    public void setCONTAINER_QR_NUM(Integer CONTAINER_QR_NUM) {
+        this.CONTAINER_QR_NUM = CONTAINER_QR_NUM;
     }
 
-    public Integer getSealNumber() {
-        return sealNumber;
+    public Integer getSEAL_NUMBER() {
+        return SEAL_NUMBER;
     }
 
-    public void setSealNumber(Integer sealNumber) {
-        this.sealNumber = sealNumber;
+    public void setSEAL_NUMBER(Integer SEAL_NUMBER) {
+        this.SEAL_NUMBER = SEAL_NUMBER;
     }
 
-    public Integer getShippingFromAddr() {
-        return shippingFromAddr;
+    public Integer getSHIPPING_FROM_ADDR() {
+        return SHIPPING_FROM_ADDR;
     }
 
-    public void setShippingFromAddr(Integer shippingFromAddr) {
-        this.shippingFromAddr = shippingFromAddr;
+    public void setSHIPPING_FROM_ADDR(Integer SHIPPING_FROM_ADDR) {
+        this.SHIPPING_FROM_ADDR = SHIPPING_FROM_ADDR;
     }
 
-    public Integer getShippingToAddr() {
-        return shippingToAddr;
+    public Integer getSHIPPING_TO_ADDR() {
+        return SHIPPING_TO_ADDR;
     }
 
-    public void setShippingToAddr(Integer shippingToAddr) {
-        this.shippingToAddr = shippingToAddr;
+    public void setSHIPPING_TO_ADDR(Integer SHIPPING_TO_ADDR) {
+        this.SHIPPING_TO_ADDR = SHIPPING_TO_ADDR;
     }
 
-    public Date getShippingDate() {
-        return shippingDate;
+    public Date getSHIPPING_DATE() {
+        return SHIPPING_DATE;
     }
 
-    public void setShippingDate(Date shippingDate) {
-        this.shippingDate = shippingDate;
+    public void setSHIPPING_DATE(Date SHIPPING_DATE) {
+        this.SHIPPING_DATE = SHIPPING_DATE;
     }
 
-    public Integer getDeliveryStatus() {
-        return deliveryStatus;
+    public Integer getDELIVERY_STATUS() {
+        return DELIVERY_STATUS;
     }
 
-    public void setDeliveryStatus(Integer deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
+    public void setDELIVERY_STATUS(Integer DELIVERY_STATUS) {
+        this.DELIVERY_STATUS = DELIVERY_STATUS;
     }
 }
