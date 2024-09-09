@@ -6,47 +6,44 @@ import jakarta.persistence.*;
 @Table(name = "tb_company_product_number")
 public class TbCompanyProductNumber {
 
-    @EmbeddedId private TbCompanyProductNumberId id;
+    @EmbeddedId private TbCompanyProductNumberId ID;
 
-    @Column(name = "ITEM_NO", nullable = false)
-    private String itemNo;
+    @Column(nullable = false)
+    private String ITEM_NO;
 
-    @Column(name = "BAR_CODE")
-    private String barCode;
+    @Column private String BAR_CODE;
 
-    @Column(name = "DUN_BAR_CODE")
-    private String dunBarCode;
+    @Column private String DUN_BAR_CODE;
 
-    // Getters and setters
-    public TbCompanyProductNumberId getId() {
-        return id;
+    public TbCompanyProductNumberId getID() {
+        return ID;
     }
 
-    public void setId(TbCompanyProductNumberId id) {
-        this.id = id;
+    public void setID(TbCompanyProductNumberId ID) {
+        this.ID = ID;
     }
 
-    public String getItemNo() {
-        return itemNo;
+    public String getITEM_NO() {
+        return ITEM_NO;
     }
 
-    public void setItemNo(String itemNo) {
-        this.itemNo = itemNo;
+    public void setITEM_NO(String ITEM_NO) {
+        this.ITEM_NO = ITEM_NO;
     }
 
-    public String getBarCode() {
-        return barCode;
+    public String getBAR_CODE() {
+        return BAR_CODE;
     }
 
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
+    public void setBAR_CODE(String BAR_CODE) {
+        this.BAR_CODE = BAR_CODE;
     }
 
-    public String getDunBarCode() {
-        return dunBarCode;
+    public String getDUN_BAR_CODE() {
+        return DUN_BAR_CODE;
     }
 
-    public void setDunBarCode(String dunBarCode) {
-        this.dunBarCode = dunBarCode;
+    public void setDUN_BAR_CODE(String DUN_BAR_CODE) {
+        this.DUN_BAR_CODE = DUN_BAR_CODE;
     }
 }

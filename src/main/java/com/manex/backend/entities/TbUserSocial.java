@@ -7,58 +7,55 @@ import jakarta.persistence.*;
 public class TbUserSocial {
 
     @Id
-    @Column(name = "SM_ID", nullable = false)
-    private Integer smId;
+    @Column(nullable = false)
+    private Integer SM_ID;
 
-    @Column(name = "USER_ID", nullable = false)
-    private Integer userId;
+    @Column(nullable = false)
+    private Integer USER_ID;
 
-    @Column(name = "SM_HANDLE")
-    private String smHandle;
+    @Column private String SM_HANDLE;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    @Column(name = "ADDL_INFO")
-    private String addlInfo;
+    @Column private String ADDL_INFO;
 
-    public Integer getSmId() {
-        return smId;
+    public Integer getSM_ID() {
+        return SM_ID;
     }
 
-    public void setSmId(Integer smId) {
-        this.smId = smId;
+    public void setSM_ID(Integer SM_ID) {
+        this.SM_ID = SM_ID;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUSER_ID() {
+        return USER_ID;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUSER_ID(Integer USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
-    public String getSmHandle() {
-        return smHandle;
+    public String getSM_HANDLE() {
+        return SM_HANDLE;
     }
 
-    public void setSmHandle(String smHandle) {
-        this.smHandle = smHandle;
+    public void setSM_HANDLE(String SM_HANDLE) {
+        this.SM_HANDLE = SM_HANDLE;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public String getAddlInfo() {
-        return addlInfo;
+    public String getADDL_INFO() {
+        return ADDL_INFO;
     }
 
-    public void setAddlInfo(String addlInfo) {
-        this.addlInfo = addlInfo;
+    public void setADDL_INFO(String ADDL_INFO) {
+        this.ADDL_INFO = ADDL_INFO;
     }
 }

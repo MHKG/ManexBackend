@@ -9,114 +9,108 @@ import java.util.Date;
 public class TbSupplierPo {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "PO_NUM", nullable = false)
-    private String poNum;
+    @Column(nullable = false)
+    private String PO_NUM;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "CLIENT_SUPPLIER_ID", nullable = false)
-    private Integer clientSupplierId;
+    @Column(nullable = false)
+    private Integer CLIENT_SUPPLIER_ID;
 
-    @Column(name = "TIMESTAMP")
-    private Date timestamp;
+    @Column private Date TIMESTAMP;
 
-    @Column(name = "CREATED_BY")
-    private Integer createdBy;
+    @Column private Integer CREATED_BY;
 
-    @Column(name = "MANAGER_APPROVAL_STATUS")
-    private Boolean managerApprovalStatus;
+    @Column private Boolean MANAGER_APPROVAL_STATUS;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    @Column(name = "PO_MM")
-    private Integer poMm;
+    @Column private Integer PO_MM;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getPoNum() {
-        return poNum;
+    public String getPO_NUM() {
+        return PO_NUM;
     }
 
-    public void setPoNum(String poNum) {
-        this.poNum = poNum;
+    public void setPO_NUM(String PO_NUM) {
+        this.PO_NUM = PO_NUM;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public Integer getClientSupplierId() {
-        return clientSupplierId;
+    public Integer getCLIENT_SUPPLIER_ID() {
+        return CLIENT_SUPPLIER_ID;
     }
 
-    public void setClientSupplierId(Integer clientSupplierId) {
-        this.clientSupplierId = clientSupplierId;
+    public void setCLIENT_SUPPLIER_ID(Integer CLIENT_SUPPLIER_ID) {
+        this.CLIENT_SUPPLIER_ID = CLIENT_SUPPLIER_ID;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getTIMESTAMP() {
+        return TIMESTAMP;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setTIMESTAMP(Date TIMESTAMP) {
+        this.TIMESTAMP = TIMESTAMP;
     }
 
-    public Integer getCreatedBy() {
-        return createdBy;
+    public Integer getCREATED_BY() {
+        return CREATED_BY;
     }
 
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
+    public void setCREATED_BY(Integer CREATED_BY) {
+        this.CREATED_BY = CREATED_BY;
     }
 
-    public void setManagerApprovalStatus(Boolean managerApprovalStatus) {
-        this.managerApprovalStatus = managerApprovalStatus;
+    public Boolean getMANAGER_APPROVAL_STATUS() {
+        return MANAGER_APPROVAL_STATUS;
     }
 
-    public Boolean isManagerApprovalStatus() {
-        return managerApprovalStatus;
+    public void setMANAGER_APPROVAL_STATUS(Boolean MANAGER_APPROVAL_STATUS) {
+        this.MANAGER_APPROVAL_STATUS = MANAGER_APPROVAL_STATUS;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 
-    public Integer getPoMm() {
-        return poMm;
+    public Integer getPO_MM() {
+        return PO_MM;
     }
 
-    public void setPoMm(Integer poMm) {
-        this.poMm = poMm;
+    public void setPO_MM(Integer PO_MM) {
+        this.PO_MM = PO_MM;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 }

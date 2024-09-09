@@ -7,37 +7,37 @@ import jakarta.persistence.*;
 public class TbDistrict {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "DISTRICT", nullable = false)
-    private String district;
+    @Column(nullable = false)
+    private String DISTRICT;
 
-    @Column(name = "STATE_ID", nullable = false)
-    private Integer stateId;
+    @Column(nullable = false)
+    private Integer STATE_ID;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getDistrict() {
-        return district;
+    public String getDISTRICT() {
+        return DISTRICT;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setDISTRICT(String DISTRICT) {
+        this.DISTRICT = DISTRICT;
     }
 
-    public Integer getStateId() {
-        return stateId;
+    public Integer getSTATE_ID() {
+        return STATE_ID;
     }
 
-    public void setStateId(Integer stateId) {
-        this.stateId = stateId;
+    public void setSTATE_ID(Integer STATE_ID) {
+        this.STATE_ID = STATE_ID;
     }
 }

@@ -6,35 +6,33 @@ import jakarta.persistence.*;
 @Table(name = "tb_m_client_supplier_item")
 public class TbMClientSupplierItem {
 
-    @EmbeddedId private TbMClientSupplierItemId id;
+    @EmbeddedId private TbMClientSupplierItemId ID;
 
-    @Column(name = "IS_PROD_FAV")
-    private Character prodFav;
+    @Column private Character IS_PROD_FAV;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    public TbMClientSupplierItemId getId() {
-        return id;
+    public TbMClientSupplierItemId getID() {
+        return ID;
     }
 
-    public void setId(TbMClientSupplierItemId id) {
-        this.id = id;
+    public void setID(TbMClientSupplierItemId ID) {
+        this.ID = ID;
     }
 
-    public Character getProdFav() {
-        return prodFav;
+    public Character getIS_PROD_FAV() {
+        return IS_PROD_FAV;
     }
 
-    public void setProdFav(Character prodFav) {
-        this.prodFav = prodFav;
+    public void setIS_PROD_FAV(Character IS_PROD_FAV) {
+        this.IS_PROD_FAV = IS_PROD_FAV;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 }

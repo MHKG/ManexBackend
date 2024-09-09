@@ -11,93 +11,90 @@ import java.sql.Date;
 public class TbSupplierOrderAp {
 
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
-    @Column(name = "SUPPLIER_INVOICE_ID", nullable = false)
-    private Integer supplierInvoiceId;
+    @Column(nullable = false)
+    private Integer SUPPLIER_INVOICE_ID;
 
-    @Column(name = "AMOUNT_PAID", nullable = false)
-    private Float amountPaid;
+    @Column(nullable = false)
+    private Float AMOUNT_PAID;
 
-    @Column(name = "DATE_PAID", nullable = false)
-    private Date datePaid;
+    @Column(nullable = false)
+    private Date DATE_PAID;
 
-    @Column(name = "PAYMENT_METHOD", nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    private PaymentMethod PAYMENT_METHOD;
 
-    @Column(name = "TXN_ID")
-    private String txnId;
+    @Column private String TXN_ID;
 
-    @Column(name = "PAYMENT_MM")
-    private Integer paymentMm;
+    @Column private Integer PAYMENT_MM;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column private String DESCRIPTION;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public Integer getSupplierInvoiceId() {
-        return supplierInvoiceId;
+    public Integer getSUPPLIER_INVOICE_ID() {
+        return SUPPLIER_INVOICE_ID;
     }
 
-    public void setSupplierInvoiceId(Integer supplierInvoiceId) {
-        this.supplierInvoiceId = supplierInvoiceId;
+    public void setSUPPLIER_INVOICE_ID(Integer SUPPLIER_INVOICE_ID) {
+        this.SUPPLIER_INVOICE_ID = SUPPLIER_INVOICE_ID;
     }
 
-    public Float getAmountPaid() {
-        return amountPaid;
+    public Float getAMOUNT_PAID() {
+        return AMOUNT_PAID;
     }
 
-    public void setAmountPaid(Float amountPaid) {
-        this.amountPaid = amountPaid;
+    public void setAMOUNT_PAID(Float AMOUNT_PAID) {
+        this.AMOUNT_PAID = AMOUNT_PAID;
     }
 
-    public Date getDatePaid() {
-        return datePaid;
+    public Date getDATE_PAID() {
+        return DATE_PAID;
     }
 
-    public void setDatePaid(Date datePaid) {
-        this.datePaid = datePaid;
+    public void setDATE_PAID(Date DATE_PAID) {
+        this.DATE_PAID = DATE_PAID;
     }
 
-    public PaymentMethod getPaymentMethod() {
-        return paymentMethod;
+    public PaymentMethod getPAYMENT_METHOD() {
+        return PAYMENT_METHOD;
     }
 
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setPAYMENT_METHOD(PaymentMethod PAYMENT_METHOD) {
+        this.PAYMENT_METHOD = PAYMENT_METHOD;
     }
 
-    public String getTxnId() {
-        return txnId;
+    public String getTXN_ID() {
+        return TXN_ID;
     }
 
-    public void setTxnId(String txnId) {
-        this.txnId = txnId;
+    public void setTXN_ID(String TXN_ID) {
+        this.TXN_ID = TXN_ID;
     }
 
-    public Integer getPaymentMm() {
-        return paymentMm;
+    public Integer getPAYMENT_MM() {
+        return PAYMENT_MM;
     }
 
-    public void setPaymentMm(Integer paymentMm) {
-        this.paymentMm = paymentMm;
+    public void setPAYMENT_MM(Integer PAYMENT_MM) {
+        this.PAYMENT_MM = PAYMENT_MM;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
     }
 }

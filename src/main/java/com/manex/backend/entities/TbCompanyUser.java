@@ -7,81 +7,78 @@ import jakarta.persistence.*;
 public class TbCompanyUser {
 
     @Id
-    @Column(name = "AC_C_USER_ID", nullable = false)
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer acCUserId;
+    private Integer AC_C_USER_ID;
 
-    @Column(name = "COMPANY_ID", nullable = false)
-    private Integer companyId;
+    @Column(nullable = false)
+    private Integer COMPANY_ID;
 
-    @Column(name = "APP_CLIENT_ID", nullable = false)
-    private Integer appClientId;
+    @Column(nullable = false)
+    private Integer APP_CLIENT_ID;
 
-    @Column(name = "USER_ID", nullable = false)
-    private Integer userId;
+    @Column(nullable = false)
+    private Integer USER_ID;
 
-    @Column(name = "SUPERVISOR_ID")
-    private Integer supervisorId;
+    @Column private Integer SUPERVISOR_ID;
 
-    @Column(name = "USER_ROLE")
-    private Integer userRole;
+    @Column private Integer USER_ROLE;
 
-    @Column(name = "STATUS")
-    private Integer status;
+    @Column private Integer STATUS;
 
-    public Integer getAcCUserId() {
-        return acCUserId;
+    public Integer getAC_C_USER_ID() {
+        return AC_C_USER_ID;
     }
 
-    public void setAcCUserId(Integer acCUserId) {
-        this.acCUserId = acCUserId;
+    public void setAC_C_USER_ID(Integer AC_C_USER_ID) {
+        this.AC_C_USER_ID = AC_C_USER_ID;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getCOMPANY_ID() {
+        return COMPANY_ID;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setCOMPANY_ID(Integer COMPANY_ID) {
+        this.COMPANY_ID = COMPANY_ID;
     }
 
-    public Integer getAppClientId() {
-        return appClientId;
+    public Integer getAPP_CLIENT_ID() {
+        return APP_CLIENT_ID;
     }
 
-    public void setAppClientId(Integer appClientId) {
-        this.appClientId = appClientId;
+    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
+        this.APP_CLIENT_ID = APP_CLIENT_ID;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getUSER_ID() {
+        return USER_ID;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUSER_ID(Integer USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
-    public Integer getSupervisorId() {
-        return supervisorId;
+    public Integer getSUPERVISOR_ID() {
+        return SUPERVISOR_ID;
     }
 
-    public void setSupervisorId(Integer supervisorId) {
-        this.supervisorId = supervisorId;
+    public void setSUPERVISOR_ID(Integer SUPERVISOR_ID) {
+        this.SUPERVISOR_ID = SUPERVISOR_ID;
     }
 
-    public Integer getUserRole() {
-        return userRole;
+    public Integer getUSER_ROLE() {
+        return USER_ROLE;
     }
 
-    public void setUserRole(Integer userRole) {
-        this.userRole = userRole;
+    public void setUSER_ROLE(Integer USER_ROLE) {
+        this.USER_ROLE = USER_ROLE;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getSTATUS() {
+        return STATUS;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setSTATUS(Integer STATUS) {
+        this.STATUS = STATUS;
     }
 }

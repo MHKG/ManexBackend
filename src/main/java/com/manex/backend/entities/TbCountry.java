@@ -9,10 +9,10 @@ public class TbCountry {
     @Id
     @Column(name = "ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer ID;
 
     @Column(name = "COUNTRY", nullable = false)
-    private String country;
+    private String COUNTRY;
 
     @Column(name = "ISO3", length = 3, columnDefinition = "CHAR(3)")
     private String ISO3;
@@ -21,28 +21,28 @@ public class TbCountry {
     private String ISO2;
 
     @Column(name = "COUNTRY_CODE")
-    private String countryCode;
+    private String COUNTRY_CODE;
 
     @Column(name = "CAPITAL")
-    private String capital;
+    private String CAPITAL;
 
     @Column(name = "NATIVE")
-    private String nativeField;
+    private String NATIVE;
 
-    public Integer getId() {
-        return id;
+    public Integer getID() {
+        return ID;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
-    public String getCountry() {
-        return country;
+    public String getCOUNTRY() {
+        return COUNTRY;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCOUNTRY(String COUNTRY) {
+        this.COUNTRY = COUNTRY;
     }
 
     public String getISO3() {
@@ -61,27 +61,27 @@ public class TbCountry {
         this.ISO2 = ISO2;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getCOUNTRY_CODE() {
+        return COUNTRY_CODE;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCOUNTRY_CODE(String COUNTRY_CODE) {
+        this.COUNTRY_CODE = COUNTRY_CODE;
     }
 
-    public String getCapital() {
-        return capital;
+    public String getCAPITAL() {
+        return CAPITAL;
     }
 
-    public void setCapital(String capital) {
-        this.capital = capital;
+    public void setCAPITAL(String CAPITAL) {
+        this.CAPITAL = CAPITAL;
     }
 
-    public String getNativeField() {
-        return nativeField;
+    public String getNATIVE() {
+        return NATIVE;
     }
 
-    public void setNativeField(String nativeField) {
-        this.nativeField = nativeField;
+    public void setNATIVE(String NATIVE) {
+        this.NATIVE = NATIVE;
     }
 }
