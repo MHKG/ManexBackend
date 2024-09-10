@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.manex.backend.DAO.AuthDAO;
 import com.manex.backend.entities.TbCompanyUser;
 import com.manex.backend.entities.TbUsers;
 import com.manex.backend.repositories.TbCompanyUserRepository;
@@ -34,7 +35,7 @@ import java.util.Objects;
 
 @Service
 @Transactional
-public class AuthService {
+public class AuthService implements AuthDAO {
 
     @Autowired private TbUsersRepository tbUsersRepository;
 
@@ -54,32 +55,6 @@ public class AuthService {
 
     public AuthService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public XscResponse login(String email, String password) {
-        TbUsers users = tbUsersRepository.findByEMAIL(email);
-
-        XscResponse response = new XscResponse();
-        if (passwordEncoder.matches(password, users.getPASSWORD())) {
-            String token = jwtUtil.generateToken(users);
-            response = new XscResponse();
-
-            List<Map<String, Object>> list = getLoginDetails(users.getID());
-
-            List<TbCompanyUser> tbCompanyUserList =
-                    tbCompanyUserRepository.findAllByUSER_ID(users.getID());
-
-            JsonObject data = getJsonObject(list, users, token, tbCompanyUserList);
-
-            JsonNode jsonNode = convertGsonToJackson(data);
-
-            response.setXscData(jsonNode);
-            response.setXscStatus(1);
-        } else {
-            response.setXscMessage("Username or password is incorrect");
-            response.setXscStatus(0);
-        }
-        return response;
     }
 
     private List<Map<String, Object>> getLoginDetails(Integer id) {
@@ -158,5 +133,40 @@ public class AuthService {
         //		data.addProperty(userProfile.get(0));
 
         return data;
+    }
+
+    @Override
+    public XscResponse login(String email, String password) {
+        TbUsers users = tbUsersRepository.findByEMAIL(email);
+
+        XscResponse response = new XscResponse();
+        if (passwordEncoder.matches(password, users.getPASSWORD())) {
+            String token = jwtUtil.generateToken(users);
+            response = new XscResponse();
+
+            List<Map<String, Object>> list = getLoginDetails(users.getID());
+
+            List<TbCompanyUser> tbCompanyUserList =
+                    tbCompanyUserRepository.findAllByUSER_ID(users.getID());
+
+            JsonObject data = getJsonObject(list, users, token, tbCompanyUserList);
+
+            JsonNode jsonNode = convertGsonToJackson(data);
+
+            response.setXscData(jsonNode);
+            response.setXscStatus(1);
+        } else {
+            response.setXscMessage("Username or password is incorrect");
+            response.setXscStatus(0);
+        }
+        return response;
+    }
+
+    @Override
+    public TbUsers updatePassword(String password, String token) {
+        String email = jwtUtil.extractUsername(token);
+        TbUsers user = tbUsersRepository.findByEMAIL(email);
+        user.setPASSWORD(passwordEncoder.encode(password));
+        return tbUsersRepository.save(user);
     }
 }
