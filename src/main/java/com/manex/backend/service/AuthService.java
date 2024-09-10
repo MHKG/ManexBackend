@@ -1,19 +1,36 @@
 package com.manex.backend.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.manex.backend.entities.TbUserProfile;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.manex.backend.entities.TbCompanyUser;
 import com.manex.backend.entities.TbUsers;
+import com.manex.backend.repositories.TbCompanyUserRepository;
 import com.manex.backend.repositories.TbUserProfileRepository;
 import com.manex.backend.repositories.TbUsersRepository;
 import com.manex.backend.response.XscResponse;
+import com.manex.backend.util.JwtUtil;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
-import org.json.JSONObject;
+import org.hibernate.query.sql.internal.NativeQueryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -25,19 +42,38 @@ public class AuthService {
 
     @Autowired private PasswordEncoder passwordEncoder;
 
-    public XscResponse login(String email, String password) throws JsonProcessingException {
+    @Autowired private JwtUtil jwtUtil;
+
+    @Autowired private TbCompanyUserRepository tbCompanyUserRepository;
+
+    @Autowired private Environment environment;
+
+    @PersistenceContext private EntityManager entityManager;
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public AuthService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public XscResponse login(String email, String password) {
         TbUsers users = tbUsersRepository.findByEMAIL(email);
 
         XscResponse response = new XscResponse();
         if (passwordEncoder.matches(password, users.getPASSWORD())) {
+            String token = jwtUtil.generateToken(users);
             response = new XscResponse();
 
-            TbUserProfile userProfile =
-                    tbUserProfileRepository.findById(users.getID()).orElseThrow();
+            List<Map<String, Object>> list = getLoginDetails(users.getID());
 
-            JSONObject data = getJsonObject(userProfile, users);
+            List<TbCompanyUser> tbCompanyUserList =
+                    tbCompanyUserRepository.findAllByUSER_ID(users.getID());
 
-            response.setXscData(data);
+            JsonObject data = getJsonObject(list, users, token, tbCompanyUserList);
+
+            JsonNode jsonNode = convertGsonToJackson(data);
+
+            response.setXscData(jsonNode);
             response.setXscStatus(1);
         } else {
             response.setXscMessage("Username or password is incorrect");
@@ -46,23 +82,81 @@ public class AuthService {
         return response;
     }
 
-    private static JSONObject getJsonObject(TbUserProfile userProfile, TbUsers users)
-            throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonData = objectMapper.writeValueAsString(userProfile);
-        JSONObject data = new JSONObject(jsonData);
-        data.put("F_NAME", userProfile.getF_NAME());
-        data.put("M_NAME", userProfile.getM_NAME());
-        data.put("L_NAME", userProfile.getL_NAME());
-        data.put("ID", userProfile.getUSER_ID());
-        data.put("PHONE_MOBILE", userProfile.getPHONE_MOBILE());
-        data.put("PHONE_WORK", userProfile.getPHONE_WORK());
-        data.put("PHONE_WORK_EXT", userProfile.getPHONE_WORK_EXT());
-        data.put("COUNTRY_CODE", userProfile.getCOUNTRY_CODE());
-        data.put("PROFILE_IMAGE", userProfile.getPROFILE_IMG());
-        data.put("RESET_PASS", users.getRESET_PASS());
-        data.put("EMAIL", users.getEMAIL());
-        data.put("USER_TYPE", users.getUSER_TYPE());
+    private List<Map<String, Object>> getLoginDetails(Integer id) {
+        Query query =
+                entityManager.createNativeQuery(environment.getProperty("getDetailsAfterLogin"));
+        String sql = ((NativeQueryImpl) query).getQueryString();
+
+        return jdbcTemplate.query(
+                sql,
+                new Object[] {id},
+                (ResultSet rs, int rowNum) -> {
+                    Map<String, Object> row = new HashMap<>();
+                    int columnCount = rs.getMetaData().getColumnCount();
+                    for (int i = 1; i <= columnCount; i++) {
+                        row.put(rs.getMetaData().getColumnName(i), rs.getObject(i));
+                    }
+                    return row;
+                });
+    }
+
+    private JsonNode convertGsonToJackson(JsonObject gsonObject) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonElement jsonElement = JsonParser.parseString(gsonObject.toString());
+            return mapper.readTree(jsonElement.toString());
+        } catch (Exception e) {
+            throw new RuntimeException("Error converting Gson JsonObject to Jackson JsonNode", e);
+        }
+    }
+
+    private static JsonObject getJsonObject(
+            List<Map<String, Object>> userProfile,
+            TbUsers users,
+            String token,
+            List<TbCompanyUser> tbCompanyUserList) {
+        JsonObject data = new JsonObject();
+
+        if (userProfile != null && !userProfile.isEmpty()) {
+            Map<String, Object> profile = userProfile.get(0);
+
+            for (Map.Entry<String, Object> entry : profile.entrySet()) {
+                if (!(Objects.equals(entry.getKey(), "AC_C_USER_ID")
+                        || Objects.equals(entry.getKey(), "APP_CLIENT_ID")
+                        || Objects.equals(entry.getKey(), "COMPANY_ID"))) {
+                    if (entry.getValue() != null) {
+                        data.addProperty(entry.getKey(), entry.getValue().toString());
+                    } else {
+                        data.addProperty(entry.getKey(), "null");
+                    }
+                }
+            }
+
+            JsonArray clientDetailsArray = new JsonArray();
+            for (Map<String, Object> user : userProfile) {
+                JsonObject jsonObject1 = new JsonObject();
+                jsonObject1.addProperty("APP_CLIENT_ID", user.get("APP_CLIENT_ID").toString());
+                jsonObject1.addProperty("CLIENT_NAME", user.get("NAME").toString());
+                JsonArray companyUserArray = new JsonArray();
+                for (TbCompanyUser tbCompanyUser : tbCompanyUserList) {
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("AC_C_USER_ID", tbCompanyUser.getAC_C_USER_ID());
+                    jsonObject.addProperty("COMPANY_ID", tbCompanyUser.getCOMPANY_ID());
+                    jsonObject.addProperty("COMPANY_NAME", user.get("NAME").toString());
+                    companyUserArray.add(jsonObject);
+                }
+                jsonObject1.add("COMPANIES", companyUserArray);
+                clientDetailsArray.add(jsonObject1);
+            }
+            data.add("APP_CLIENT_DETAILS", clientDetailsArray);
+        }
+
+        data.addProperty("RESET_PASS", users.getRESET_PASS());
+        data.addProperty("EMAIL", users.getEMAIL());
+        data.addProperty("USER_TYPE", users.getUSER_TYPE());
+        data.addProperty("TOKEN", token);
+        //		data.addProperty(userProfile.get(0));
+
         return data;
     }
 }
