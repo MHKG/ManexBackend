@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeRequests ->
                                 authorizeRequests
-                                        .requestMatchers("/auth/**")
+                                        .requestMatchers("/auth/**", "/email_controller/sendEmail")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated())
