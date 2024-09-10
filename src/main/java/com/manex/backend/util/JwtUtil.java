@@ -27,7 +27,7 @@ public class JwtUtil {
 
     public String generateToken(TbUsers user) {
         return Jwts.builder()
-                .setSubject(user.getEMAIL()) // Use email as the subject
+                .setSubject(user.getID().toString()) // Use user id as the subject
                 .setExpiration(
                         new Date(
                                 System.currentTimeMillis()
