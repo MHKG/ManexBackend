@@ -1,5 +1,7 @@
 package com.manex.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,11 +12,17 @@ public class TbUserProfile {
     @Column(nullable = false)
     private Integer USER_ID;
 
-    @Column private String F_NAME;
+    @Column
+    @JsonProperty("F_NAME")
+    private String F_NAME;
 
-    @Column private String M_NAME;
+    @Column
+    @JsonProperty("M_NAME")
+    private String M_NAME;
 
-    @Column private String L_NAME;
+    @Column
+    @JsonProperty("L_NAME")
+    private String L_NAME;
 
     @Column private Integer PROFILE_IMG;
 
@@ -39,24 +47,24 @@ public class TbUserProfile {
         return F_NAME;
     }
 
-    public void setF_NAME(String f_NAME) {
-        F_NAME = f_NAME;
+    public void setF_NAME(String F_NAME) {
+        this.F_NAME = F_NAME;
     }
 
     public String getM_NAME() {
         return M_NAME;
     }
 
-    public void setM_NAME(String m_NAME) {
-        M_NAME = m_NAME;
+    public void setM_NAME(String M_NAME) {
+        this.M_NAME = M_NAME;
     }
 
     public String getL_NAME() {
         return L_NAME;
     }
 
-    public void setL_NAME(String l_NAME) {
-        L_NAME = l_NAME;
+    public void setL_NAME(String L_NAME) {
+        this.L_NAME = L_NAME;
     }
 
     public Integer getPROFILE_IMG() {
