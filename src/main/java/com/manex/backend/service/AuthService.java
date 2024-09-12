@@ -1,12 +1,10 @@
 package com.manex.backend.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.manex.backend.DAO.AuthDAO;
+import com.manex.backend.GenericMethods.GenericMethods;
 import com.manex.backend.entities.TbCompanyUser;
 import com.manex.backend.entities.TbUsers;
 import com.manex.backend.repositories.TbCompanyUserRepository;
@@ -75,16 +73,6 @@ public class AuthService implements AuthDAO {
                 });
     }
 
-    private JsonNode convertGsonToJackson(JsonObject gsonObject) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonElement jsonElement = JsonParser.parseString(gsonObject.toString());
-            return mapper.readTree(jsonElement.toString());
-        } catch (Exception e) {
-            throw new RuntimeException("Error converting Gson JsonObject to Jackson JsonNode", e);
-        }
-    }
-
     private static JsonObject getJsonObject(
             List<Map<String, Object>> userProfile,
             TbUsers users,
@@ -151,9 +139,10 @@ public class AuthService implements AuthDAO {
 
             JsonObject data = getJsonObject(list, users, token, tbCompanyUserList);
 
-            JsonNode jsonNode = convertGsonToJackson(data);
+            JsonNode jsonNode = GenericMethods.convertGsonToJackson(data);
 
             response.setXscData(jsonNode);
+            response.setXscMessage("Login Success");
             response.setXscStatus(1);
         } else {
             response.setXscMessage("Username or password is incorrect");
@@ -164,8 +153,8 @@ public class AuthService implements AuthDAO {
 
     @Override
     public TbUsers updatePassword(String password, String token) {
-        String email = jwtUtil.extractUsername(token);
-        TbUsers user = tbUsersRepository.findByEMAIL(email);
+        String user_id = jwtUtil.extractUsername(token);
+        TbUsers user = tbUsersRepository.findById(Integer.valueOf(user_id)).orElseThrow();
         user.setPASSWORD(passwordEncoder.encode(password));
         return tbUsersRepository.save(user);
     }
