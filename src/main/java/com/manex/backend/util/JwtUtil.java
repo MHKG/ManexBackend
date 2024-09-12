@@ -1,6 +1,7 @@
 package com.manex.backend.util;
 
 import com.manex.backend.entities.TbUsers;
+import com.manex.backend.repositories.TbUsersRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,8 @@ import javax.crypto.SecretKey;
 
 @Component
 public class JwtUtil {
+
+    @Autowired private TbUsersRepository tbUsersRepository;
 
     @Value("${jwt.secret-key}")
     private String SECRET_KEY;
@@ -49,8 +53,9 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String email = extractClaims(token).getSubject();
-        return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String user_id = extractClaims(token).getSubject();
+        TbUsers users = tbUsersRepository.findById(Integer.valueOf(user_id)).orElseThrow();
+        return (users.getEMAIL().equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     public String extractUsername(String token) {
