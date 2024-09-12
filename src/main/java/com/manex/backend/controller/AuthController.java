@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     @Autowired private AuthDAO authDAO;
@@ -24,14 +23,35 @@ public class AuthController {
     }
 
     @GetMapping("/verifyToken")
-    public boolean verifyToken(@RequestHeader("Authorization") String token) {
-        return !jwtUtil.isTokenExpired(token.split(" ")[1]);
+    public XscResponse verifyToken(@RequestHeader("Authorization") String token) {
+        boolean isValid = !jwtUtil.isTokenExpired(token.split(" ")[1]);
+
+        XscResponse response = new XscResponse();
+        if (isValid) {
+            response.setXscMessage("Token is valid.");
+            response.setXscStatus(1);
+        } else {
+            response.setXscMessage("Token is invalid.");
+            response.setXscStatus(0);
+        }
+        return response;
     }
 
     @PostMapping("/updatePassword")
-    public TbUsers updatePassword(
+    public XscResponse updatePassword(
             @RequestParam("password") String password,
             @RequestHeader("Authorization") String token) {
-        return authDAO.updatePassword(password, token.substring(7));
+        TbUsers users = authDAO.updatePassword(password, token.substring(7));
+
+        XscResponse response = new XscResponse();
+
+        if (users != null) {
+            response.setXscMessage("Password has been changed successfully.");
+            response.setXscStatus(1);
+        } else {
+            response.setXscMessage("Password not changed.");
+            response.setXscStatus(0);
+        }
+        return response;
     }
 }
