@@ -13,6 +13,13 @@ public class XscResponse {
     @JsonProperty("XscStatus")
     private int XscStatus;
 
+    public XscResponse(int XscStatus, String XscMessage) {
+        this.XscStatus = XscStatus;
+        this.XscMessage = XscMessage;
+    }
+
+    public XscResponse() {}
+
     public int getXscStatus() {
         return XscStatus;
     }
