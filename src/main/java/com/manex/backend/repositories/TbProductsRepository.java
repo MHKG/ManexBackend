@@ -12,5 +12,5 @@ public interface TbProductsRepository
         extends JpaRepository<TbProducts, Integer>, JpaSpecificationExecutor<TbProducts> {
 
     @Query("SELECT tp FROM TbProducts tp WHERE CLIENT_SUPPLIER_ID = :clientSupplierId")
-    List<TbProducts> findCountByClientSupplierId(String clientSupplierId);
+    List<TbProducts> findAllByClientSupplierId(String clientSupplierId);
 }
