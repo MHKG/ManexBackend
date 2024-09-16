@@ -1,5 +1,6 @@
 package com.manex.backend.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
@@ -8,9 +9,14 @@ import java.util.Objects;
 @Embeddable
 public class TbCompanyProductNumberId implements Serializable {
 
-    private Integer PRODUCT_ID;
-    private Integer APP_CLIENT_ID;
-    private Integer COMPANY_ID;
+    @Column(name = "PRODUCT_ID")
+    private int PRODUCT_ID;
+
+    @Column(name = "APP_CLIENT_ID")
+    private int APP_CLIENT_ID;
+
+    @Column(name = "COMPANY_ID")
+    private int COMPANY_ID;
 
     // Default constructor
     public TbCompanyProductNumberId() {}

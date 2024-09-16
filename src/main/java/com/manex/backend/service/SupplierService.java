@@ -52,13 +52,16 @@ public class SupplierService implements SupplierDAO {
             throws IOException {
         XscResponse response = new XscResponse();
 
-        // TbCompany
         MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("file");
 
         TbMm tbMm = new TbMm();
         if (file != null) {
-            tbMm = tbMmDAO.saveImageFileWithName(file, payload.get("NAME").toString(), null);
+            tbMm =
+                    tbMmDAO.saveImageFileWithName(
+                            "companyProfileImages", file, payload.get("NAME").toString(), null);
         }
+
+        // TbCompany
         TbCompany company = new TbCompany();
         company.setNAME(payload.get("NAME").toString());
         company.setREG_NUMBER(payload.get("REG_NUMBER").toString());
@@ -171,7 +174,7 @@ public class SupplierService implements SupplierDAO {
                 tbCompanyRepository.findById(tbClientSupplier.getCOMPANY_ID()).orElseThrow();
 
         List<TbProducts> tbProducts =
-                tbProductsRepository.findCountByClientSupplierId(clientSupplierId);
+                tbProductsRepository.findAllByClientSupplierId(clientSupplierId);
 
         TbAllAddr tbAllAddr =
                 tbAllAddrRepository.findByAppClientId(tbClientSupplier.getAPP_CLIENT_ID());

@@ -20,15 +20,12 @@ import java.nio.file.Paths;
 @Service
 @Transactional
 public class TbMmService implements TbMmDAO {
-
-    private final String uploadDir = "companyProfileImages/";
-
     @Autowired private TbCompanyRepository tbCompanyRepository;
 
     @Autowired private TbMmRepository tbMmRepository;
 
     @Override
-    public TbMm saveImageFileWithName(MultipartFile file, String name, Integer id)
+    public TbMm saveImageFileWithName(String uploadDir, MultipartFile file, String name, Integer id)
             throws IOException {
         String fileName = name + "." + file.getOriginalFilename().split("\\.")[1];
         Path filePath = Paths.get(uploadDir, fileName);
@@ -42,8 +39,16 @@ public class TbMmService implements TbMmDAO {
             tbMm = tbMmRepository.findById(id).orElseThrow();
         }
         tbMm.setMM_FILE_NAME(filePath.toString());
-        tbMm.setMM_TITLE("Supplier Logo");
-        tbMm.setDESCRIPTION("Supplier Logo");
+        if (uploadDir.contains("supplier")) {
+            tbMm.setMM_TITLE("Supplier Logo");
+            tbMm.setDESCRIPTION("Supplier Logo");
+        } else if (uploadDir.contains("product")) {
+            tbMm.setMM_TITLE("Product Image");
+            tbMm.setDESCRIPTION("Product Image");
+        } else if (uploadDir.contains("ctn")) {
+            tbMm.setMM_TITLE("Carton Image");
+            tbMm.setDESCRIPTION("Carton Image");
+        }
         tbMm.setMM_TYPE(MultiMediaTypes.valueOf(file.getContentType().split("/")[1].toUpperCase()));
         tbMm.setMM_SIZE((int) file.getSize());
         tbMm.setSTATUS(true);

@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "tb_product_spec")
 public class TbProductSpec {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer PRODUCT_ID;
+    @Id @Column private Integer PRODUCT_ID;
 
     @Column private String COLOUR;
 
