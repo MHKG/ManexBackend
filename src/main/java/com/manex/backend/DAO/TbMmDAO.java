@@ -7,5 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface TbMmDAO {
-    TbMm saveImageFileWithName(MultipartFile file, String name, Integer id) throws IOException;
+    TbMm saveImageFileWithName(String uploadDir, MultipartFile file, String name, Integer id)
+            throws IOException;
 }

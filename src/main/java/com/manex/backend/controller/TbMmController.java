@@ -26,7 +26,7 @@ public class TbMmController {
             @RequestParam("file") MultipartFile file, @RequestParam("payload") JSONObject payload)
             throws IOException {
         TbCompany tbCompany = tbCompanyRepository.findById(1).orElseThrow();
-        TbMm tbMm = tbMmDAO.saveImageFileWithName(file, tbCompany.getNAME(), tbCompany.getLOGO());
+        TbMm tbMm = tbMmDAO.saveImageFileWithName("companyProfileImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
 
         return new XscResponse(1, "Image updated successfully.");
     }
