@@ -1,5 +1,5 @@
 package com.manex.backend.DAO;
 
 public interface EmailDAO {
-	void sendEmail(String email);
+    void sendEmail(String email);
 }

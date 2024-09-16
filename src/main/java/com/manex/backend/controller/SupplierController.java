@@ -43,8 +43,7 @@ public class SupplierController {
     }
 
     @PostMapping("/updateSupplier")
-    private XscResponse updateSupplier(
-            @RequestParam("payload") JSONObject payload) {
+    private XscResponse updateSupplier(@RequestParam("payload") JSONObject payload) {
         return supplierDAO.updateSupplier(payload);
     }
 }

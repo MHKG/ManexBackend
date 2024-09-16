@@ -11,6 +11,6 @@ import java.util.List;
 public interface TbCountryRepository
         extends JpaRepository<TbCountry, Integer>, JpaSpecificationExecutor<TbCountry> {
 
-	@Query("SELECT tc FROM TbCountry tc WHERE COUNTRY LIKE CONCAT('%', :SEARCH_KEYWORD, '%')")
+    @Query("SELECT tc FROM TbCountry tc WHERE COUNTRY LIKE CONCAT('%', :SEARCH_KEYWORD, '%')")
     List<TbCountry> findAllByKeyword(String SEARCH_KEYWORD);
 }

@@ -32,7 +32,7 @@ public class TbCountryService implements TbCountryDAO {
             countryArray.add(jsonObject);
         }
         countryObject.add("COUNTRY_NAMES", countryArray);
-		countryObject.addProperty("NEXT_PAGE", -1);
+        countryObject.addProperty("NEXT_PAGE", -1);
 
         return countryObject;
     }
