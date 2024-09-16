@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface TbUsersRepository
         extends JpaRepository<TbUsers, Integer>, JpaSpecificationExecutor<TbUsers> {
-	TbUsers findByEMAIL(String email);
+    TbUsers findByEMAIL(String email);
 }

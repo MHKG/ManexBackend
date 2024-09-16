@@ -14,7 +14,7 @@ public class TbStateController {
 
     @Autowired private TbStateDAO stateDAO;
 
-	@PostMapping("/getAllByCountry")
+    @PostMapping("/getAllByCountry")
     private XscResponse getAllByCountry(
             @RequestParam("COUNTRY_ID") String COUNTRY_ID,
             @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,

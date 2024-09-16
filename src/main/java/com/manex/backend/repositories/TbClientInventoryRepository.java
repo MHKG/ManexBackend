@@ -12,6 +12,6 @@ public interface TbClientInventoryRepository
         extends JpaRepository<TbClientInventory, Integer>,
                 JpaSpecificationExecutor<TbClientInventory> {
 
-	@Query("SELECT tci FROM TbClientInventory tci WHERE APP_CLIENT_ID = :appClientId")
-	List<TbClientInventory> findByAppClientId(Integer appClientId);
+    @Query("SELECT tci FROM TbClientInventory tci WHERE APP_CLIENT_ID = :appClientId")
+    List<TbClientInventory> findByAppClientId(Integer appClientId);
 }

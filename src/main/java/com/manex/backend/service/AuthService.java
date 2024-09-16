@@ -35,42 +35,17 @@ import java.util.Objects;
 @Transactional
 public class AuthService implements AuthDAO {
 
-    @Autowired private TbUsersRepository tbUsersRepository;
-
-    @Autowired private TbUserProfileRepository tbUserProfileRepository;
-
-    @Autowired private PasswordEncoder passwordEncoder;
-
-    @Autowired private JwtUtil jwtUtil;
-
-    @Autowired private TbCompanyUserRepository tbCompanyUserRepository;
-
-    @Autowired private Environment environment;
-
-    @PersistenceContext private EntityManager entityManager;
-
     private final JdbcTemplate jdbcTemplate;
+    @Autowired private TbUsersRepository tbUsersRepository;
+    @Autowired private TbUserProfileRepository tbUserProfileRepository;
+    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private JwtUtil jwtUtil;
+    @Autowired private TbCompanyUserRepository tbCompanyUserRepository;
+    @Autowired private Environment environment;
+    @PersistenceContext private EntityManager entityManager;
 
     public AuthService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private List<Map<String, Object>> getLoginDetails(Integer id) {
-        Query query =
-                entityManager.createNativeQuery(environment.getProperty("getDetailsAfterLogin"));
-        String sql = ((NativeQueryImpl) query).getQueryString();
-
-        return jdbcTemplate.query(
-                sql,
-                new Object[] {id},
-                (ResultSet rs, int rowNum) -> {
-                    Map<String, Object> row = new HashMap<>();
-                    int columnCount = rs.getMetaData().getColumnCount();
-                    for (int i = 1; i <= columnCount; i++) {
-                        row.put(rs.getMetaData().getColumnName(i), rs.getObject(i));
-                    }
-                    return row;
-                });
     }
 
     private static JsonObject getJsonObject(
@@ -121,6 +96,24 @@ public class AuthService implements AuthDAO {
         //		data.addProperty(userProfile.get(0));
 
         return data;
+    }
+
+    private List<Map<String, Object>> getLoginDetails(Integer id) {
+        Query query =
+                entityManager.createNativeQuery(environment.getProperty("getDetailsAfterLogin"));
+        String sql = ((NativeQueryImpl) query).getQueryString();
+
+        return jdbcTemplate.query(
+                sql,
+                new Object[] {id},
+                (ResultSet rs, int rowNum) -> {
+                    Map<String, Object> row = new HashMap<>();
+                    int columnCount = rs.getMetaData().getColumnCount();
+                    for (int i = 1; i <= columnCount; i++) {
+                        row.put(rs.getMetaData().getColumnName(i), rs.getObject(i));
+                    }
+                    return row;
+                });
     }
 
     @Override
