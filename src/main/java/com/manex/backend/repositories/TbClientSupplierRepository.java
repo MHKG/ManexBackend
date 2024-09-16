@@ -12,6 +12,6 @@ public interface TbClientSupplierRepository
         extends JpaRepository<TbClientSupplier, Integer>,
                 JpaSpecificationExecutor<TbClientSupplier> {
 
-	@Query("SELECT tcs FROM TbClientSupplier tcs WHERE tcs.APP_CLIENT_ID = :appClientId")
-	List<TbClientSupplier> findAllByAppClientId(String appClientId);
+    @Query("SELECT tcs FROM TbClientSupplier tcs WHERE tcs.APP_CLIENT_ID = :appClientId")
+    List<TbClientSupplier> findAllByAppClientId(String appClientId);
 }
