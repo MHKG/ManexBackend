@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -171,12 +171,17 @@ public class TbProductService implements TbProductDAO {
         List<TbProducts> tbProductsList =
                 tbProductsRepository.findAllByClientSupplierId(clientSupplierId);
 
-        List<TbCompanyProductNumber> tbCompanyProductNumberList = new ArrayList<>();
+        List<TbCompanyProductNumber> arrayList = new ArrayList<>();
+
+        List<ArrayList<TbCompanyProductNumber>> tbCompanyProductNumberList = new ArrayList<>();
 
         for (TbProducts tbProducts : tbProductsList) {
-            tbCompanyProductNumberList.add(
-                    tbCompanyProductNumberRepository.findByProductIdAppClientIdAndCompanyId(
-                            tbProducts.getID(), APP_CLIENT_ID, tbClientSupplier.getCOMPANY_ID()));
+            arrayList.clear();
+            arrayList.addAll(
+                    tbCompanyProductNumberRepository.findByProductIdAndAppClientId(
+                            tbProducts.getID(), APP_CLIENT_ID));
+
+            tbCompanyProductNumberList.add(new ArrayList<>(arrayList));
         }
 
         List<TbProductMm> tbProductMmList = new ArrayList<>();
@@ -184,11 +189,11 @@ public class TbProductService implements TbProductDAO {
             tbProductMmList.addAll(tbProductMmRepository.findAllByProductId(tbProducts.getID()));
         }
 
-        String defaultMM_FILE_NAME = null;
+        List<String> defaultMM_FILE_NAME = new ArrayList<>();
         for (TbProductMm tbProductMm : tbProductMmList) {
             TbMm tbMm = tbMmRepository.findById(tbProductMm.getMM_FILE()).orElseThrow();
             if (tbProductMm.getDEFAULT_MM() == 'Y') {
-                defaultMM_FILE_NAME = tbMm.getMM_FILE_NAME();
+                defaultMM_FILE_NAME.add(tbMm.getMM_FILE_NAME());
             }
         }
 
@@ -206,9 +211,26 @@ public class TbProductService implements TbProductDAO {
         JsonArray jsonArray = new JsonArray();
         for (int i = 0; i < tbProductsList.size(); i++) {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("MM_FILE_NAME", defaultMM_FILE_NAME);
-            jsonObject.addProperty("SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).getITEM_NO());
-            jsonObject.addProperty("CLIENT_PROD_NUM", (String) null);
+            jsonObject.addProperty("MM_FILE_NAME", defaultMM_FILE_NAME.get(i));
+            if (Objects.equals(
+                            tbCompanyProductNumberList.get(i).get(0).getID().getCOMPANY_ID(),
+                            tbClientSupplier.getCOMPANY_ID())
+                    && Objects.equals(
+                            tbCompanyProductNumberList.get(i).get(0).getID().getPRODUCT_ID(),
+                            tbProductsList.get(i).getID())) {
+                jsonObject.addProperty(
+                        "SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).get(0).getITEM_NO());
+
+                    jsonObject.addProperty(
+                            "CLIENT_PROD_NUM",
+                            tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
+
+            } else {
+                jsonObject.addProperty(
+                        "CLIENT_PROD_NUM", tbCompanyProductNumberList.get(i).get(0).getITEM_NO());
+                jsonObject.addProperty(
+                        "SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
+            }
             jsonObject.addProperty("PRODUCT_NAME", tbProductsList.get(i).getDESCRIPTION());
             jsonObject.addProperty("PROD_ID", tbProductsList.get(i).getID());
             jsonObject.addProperty("CURRENCY_SYMBOL", tbLookupCurrency.getCURRENCY_SYMBOL());
@@ -228,6 +250,88 @@ public class TbProductService implements TbProductDAO {
 
     @Override
     public XscResponse getProductsDetails(String clientSupplierId, String productId) {
-        return null;
+        XscResponse response = new XscResponse();
+
+        TbProducts tbProducts =
+                tbProductsRepository.findById(Integer.valueOf(productId)).orElseThrow();
+
+        List<TbProductMm> tbProductMmList =
+                tbProductMmRepository.findAllByProductId(Integer.valueOf(productId));
+
+        TbProductSpec tbProductSpec =
+                tbProductSpecRepository.findByProductId(Integer.parseInt(productId));
+
+        TbMItemCtn tbMItemCtn = tbMItemCtnRepository.findByProductId(Integer.parseInt(productId));
+
+        List<TbCompanyProductNumber> tbCompanyProductNumberList =
+                tbCompanyProductNumberRepository.findByProductIdAndAppClientId(
+                        Integer.parseInt(productId),
+                        tbClientSupplierRepository
+                                .findById(Integer.valueOf(clientSupplierId))
+                                .orElseThrow()
+                                .getAPP_CLIENT_ID());
+
+        List<TbMm> tbMmList = new ArrayList<>();
+
+        for (TbProductMm tbProductMm : tbProductMmList) {
+            tbMmList.add(tbMmRepository.findById(tbProductMm.getMM_FILE()).orElseThrow());
+        }
+
+        JsonObject data = new JsonObject();
+
+        JsonArray jsonArray1 = new JsonArray();
+        for (int i = 0; i < tbProductMmList.size(); i++) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("is_default", tbProductMmList.get(i).getDEFAULT_MM());
+            jsonObject.addProperty("PROD_MEDIA", tbMmList.get(i).getMM_FILE_NAME());
+            jsonObject.addProperty("is_default", tbProductMmList.get(i).getDEFAULT_MM());
+            jsonObject.addProperty("is_default", tbProductMmList.get(i).getDEFAULT_MM());
+            jsonArray1.add(jsonObject);
+        }
+        data.add("PROD_MEDIA", jsonArray1);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("PACKING", tbProductSpec.getPACKING());
+        jsonObject.addProperty("CTN_PKG_TYPE", tbMItemCtn.getPKG_TYPE());
+        jsonObject.addProperty("PROD_LENGTH", tbProducts.getLENGTH());
+        jsonObject.addProperty("PROD_WIDTH", tbProducts.getWIDTH());
+        jsonObject.addProperty("PROD_HEIGHT", tbProducts.getHEIGHT());
+        jsonObject.addProperty("PROD_VOLUME", tbProducts.getVOLUME());
+        jsonObject.addProperty("PROD_WT", tbProducts.getWEIGHT());
+        jsonObject.addProperty("SUPP_BAR_CODE", tbCompanyProductNumberList.get(0).getBAR_CODE());
+        jsonObject.addProperty(
+                "SUPP_DUN_BAR_CODE", tbCompanyProductNumberList.get(0).getDUN_BAR_CODE());
+        jsonObject.addProperty(
+                "SUPP_PROD_NUM", Integer.valueOf(tbCompanyProductNumberList.get(0).getITEM_NO()));
+        if (tbCompanyProductNumberList.size() == 1) {
+            jsonObject.addProperty("CLIENT_BAR_CODE", (String) null);
+            jsonObject.addProperty("CLIENT_DUN_BAR_CODE", (String) null);
+            jsonObject.addProperty("CLIENT_PROD_NUM", (String) null);
+        } else {
+            jsonObject.addProperty(
+                    "CLIENT_BAR_CODE", tbCompanyProductNumberList.get(1).getBAR_CODE());
+            jsonObject.addProperty(
+                    "CLIENT_DUN_BAR_CODE", tbCompanyProductNumberList.get(1).getDUN_BAR_CODE());
+            jsonObject.addProperty(
+                    "CLIENT_PROD_NUM", tbCompanyProductNumberList.get(1).getITEM_NO());
+        }
+        jsonObject.addProperty("PRICE", tbProductSpec.getPRICE());
+        jsonObject.addProperty("QTY_PER_CTN", tbMItemCtn.getQTY_PER_CTN());
+        jsonObject.addProperty("DESCRIPTION", tbProducts.getDESCRIPTION());
+        jsonObject.addProperty("COLOUR", tbProductSpec.getCOLOUR());
+        jsonObject.addProperty("MATERIAL", tbProductSpec.getMATERIAL());
+
+        data.add("PRODUCT_DETAILS", jsonObject);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Details of a product.");
+        response.setXscStatus(1);
+        return response;
     }
+
+	@Override
+	public InputStream getImageResource(String fileName) throws FileNotFoundException {
+		String fullPath = "productImages" + File.separator + fileName;
+		return new FileInputStream(fullPath);
+	}
 }
