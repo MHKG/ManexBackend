@@ -36,7 +36,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeRequests ->
                                 authorizeRequests
-                                        .requestMatchers("/auth/**", "/email_controller/sendEmail")
+                                        .requestMatchers(
+                                                "/auth/**",
+                                                "/email_controller/sendEmail",
+                                                "/product_controller/productImages/{imageName}",
+                                                "/tb_mm_controller/companyProfileImages/{imageName}")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.OPTIONS, "/**")
                                         .permitAll()

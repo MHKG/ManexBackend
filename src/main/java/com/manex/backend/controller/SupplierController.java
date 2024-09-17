@@ -33,7 +33,7 @@ public class SupplierController {
             @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
             @RequestParam("ITEM_PER_PAGE") String ITEM_PER_PAGE,
             @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD) {
-        return supplierDAO.listSupplier(APP_CLIENT_ID);
+        return supplierDAO.listSupplier(APP_CLIENT_ID, CURRENT_PAGE, ITEM_PER_PAGE, SEARCH_KEYWORD);
     }
 
     @PostMapping("/getSupplierDetails")
@@ -45,5 +45,20 @@ public class SupplierController {
     @PostMapping("/updateSupplier")
     private XscResponse updateSupplier(@RequestParam("payload") JSONObject payload) {
         return supplierDAO.updateSupplier(payload);
+    }
+
+    @PostMapping("/supplierNameFilter")
+    private XscResponse supplierNameFilter(
+            @RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID,
+            @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD,
+            @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
+            @RequestParam("ITEM_PER_PAGE") String ITEM_PER_PAGE) {
+        return supplierDAO.supplierNameFilter(
+                APP_CLIENT_ID, SEARCH_KEYWORD, CURRENT_PAGE, ITEM_PER_PAGE);
+    }
+
+    @PostMapping("/supplierTypeFilter")
+    private XscResponse supplierTypeFilter(@RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID) {
+        return supplierDAO.supplierTypeFilter(APP_CLIENT_ID);
     }
 }

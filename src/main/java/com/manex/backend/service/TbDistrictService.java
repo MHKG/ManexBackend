@@ -20,7 +20,7 @@ public class TbDistrictService implements TbDistrictDAO {
     @Autowired private TbDistrictRepository tbDistrictRepository;
 
     @Override
-    public JsonObject getAllByState(String stateId, String searchKeyword) {
+    public JsonObject getAllDistrictsByState(String stateId, String searchKeyword) {
         List<TbDistrict> tbDistricts =
                 tbDistrictRepository.findAllByStateIdAndKeyword(
                         Integer.parseInt(stateId), searchKeyword);

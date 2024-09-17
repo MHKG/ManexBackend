@@ -20,7 +20,7 @@ public class TbCityService implements TbCityDAO {
     @Autowired private TbCityRepository tbCityRepository;
 
     @Override
-    public JsonObject getAllByDistrict(String DISTRICT_ID, String SEARCH_KEYWORD) {
+    public JsonObject getAllCitiesByDistrict(String DISTRICT_ID, String SEARCH_KEYWORD) {
         List<TbCity> tbCities =
                 tbCityRepository.findAllByDistrictIdAndKeyword(
                         Integer.parseInt(DISTRICT_ID), SEARCH_KEYWORD);
