@@ -6,12 +6,17 @@ import com.manex.backend.entities.TbMm;
 import com.manex.backend.repositories.TbCompanyRepository;
 import com.manex.backend.response.XscResponse;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/tb_mm_controller")
@@ -31,5 +36,13 @@ public class TbMmController {
                         "companyProfileImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
 
         return new XscResponse(1, "Image updated successfully.");
+    }
+
+    @GetMapping(value = "/companyProfileImages/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    private void getImage(@PathVariable("imageName") String imageName, HttpServletResponse response)
+            throws IOException {
+        InputStream is = tbMmDAO.getImageResource(imageName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(is, response.getOutputStream());
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -53,5 +53,11 @@ public class TbMmService implements TbMmDAO {
         tbMm.setMM_SIZE((int) file.getSize());
         tbMm.setSTATUS(true);
         return tbMmRepository.save(tbMm);
+    }
+
+    @Override
+    public InputStream getImageResource(String fileName) throws FileNotFoundException {
+        String fullPath = "companyProfileImages" + File.separator + fileName;
+        return new FileInputStream(fullPath);
     }
 }
