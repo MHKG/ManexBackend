@@ -14,14 +14,14 @@ public class TbDistrictController {
 
     @Autowired private TbDistrictDAO districtDAO;
 
-    @PostMapping("/getAllByState")
-    private XscResponse getAllByState(
+    @PostMapping("/getAllDistrictsByState")
+    private XscResponse getAllDistrictsByState(
             @RequestParam("STATE_ID") String STATE_ID,
             @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
             @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD) {
         XscResponse response = new XscResponse();
 
-        JsonObject countries = districtDAO.getAllByState(STATE_ID, SEARCH_KEYWORD);
+        JsonObject countries = districtDAO.getAllDistrictsByState(STATE_ID, SEARCH_KEYWORD);
 
         response.setXscData(GenericMethods.convertGsonToJackson(countries));
         response.setXscStatus(1);

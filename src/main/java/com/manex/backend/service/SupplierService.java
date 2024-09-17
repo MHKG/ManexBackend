@@ -47,6 +47,10 @@ public class SupplierService implements SupplierDAO {
 
     @Autowired private TbCityRepository tbCityRepository;
 
+    @Autowired private TbClientCustRepository tbClientCustRepository;
+
+    @Autowired private TbMmRepository tbMmRepository;
+
     @Override
     public XscResponse addSupplier(HttpServletRequest request, JSONObject payload)
             throws IOException {
@@ -118,7 +122,11 @@ public class SupplierService implements SupplierDAO {
     }
 
     @Override
-    public XscResponse listSupplier(String APP_CLIENT_ID) {
+    public XscResponse listSupplier(
+            String APP_CLIENT_ID,
+            String CURRENT_PAGE,
+            String ITEM_PER_PAGE,
+            String SEARCH_KEYWORD) {
         int favourite_suppliers = 0;
         int regular_suppliers = 0;
 
@@ -127,7 +135,9 @@ public class SupplierService implements SupplierDAO {
         JsonObject responseObject = new JsonObject();
 
         List<TbClientSupplier> tbClientSupplierList =
-                tbClientSupplierRepository.findAllByAppClientId(APP_CLIENT_ID);
+                tbClientSupplierRepository.findAllByAppClientIdAndSearchKeyword(
+                        APP_CLIENT_ID, SEARCH_KEYWORD);
+
         List<TbCompany> tbCompanyList = new ArrayList<>();
         for (TbClientSupplier tbClientSupplier1 : tbClientSupplierList) {
             tbCompanyList.add(
@@ -141,12 +151,12 @@ public class SupplierService implements SupplierDAO {
         JsonArray arrayList = new JsonArray();
         for (int i = 0; i < tbCompanyList.size(); i++) {
             JsonObject data = new JsonObject();
-            data.addProperty("CONTACT_NUMBER", tbCompanyList.get(0).getCONTACT_NUMBER());
-            data.addProperty("EMAIL", tbCompanyList.get(0).getEMAIL());
-            data.addProperty("SUPPLIER_NAME", tbCompanyList.get(0).getNAME());
-            data.addProperty("CLIENT_SUPPLIER_ID", tbClientSupplierList.get(0).getID());
-            data.addProperty("SUPP_NUM", tbClientSupplierList.get(0).getSUPP_NUM());
-            data.addProperty("IS_SUPP_FAV", tbClientSupplierList.get(0).getIS_SUPP_FAV());
+            data.addProperty("CONTACT_NUMBER", tbCompanyList.get(i).getCONTACT_NUMBER());
+            data.addProperty("EMAIL", tbCompanyList.get(i).getEMAIL());
+            data.addProperty("SUPPLIER_NAME", tbCompanyList.get(i).getNAME());
+            data.addProperty("CLIENT_SUPPLIER_ID", tbClientSupplierList.get(i).getID());
+            data.addProperty("SUPP_NUM", tbClientSupplierList.get(i).getSUPP_NUM());
+            data.addProperty("IS_SUPP_FAV", tbClientSupplierList.get(i).getIS_SUPP_FAV());
             data.addProperty("LOCATION", "null");
             arrayList.add(data);
         }
@@ -185,11 +195,13 @@ public class SupplierService implements SupplierDAO {
 
         TbCity tbCity = tbCityRepository.findById(tbAllAddr.getCITY_ID()).orElseThrow();
 
+        TbMm tbMm = tbMmRepository.findById(tbCompany.getLOGO()).orElseThrow();
+
         JsonObject data = new JsonObject();
         JsonObject jsonObject1 = new JsonObject();
         JsonObject jsonObject2 = new JsonObject();
         jsonObject1.addProperty("CREATED_ON", tbCompany.getCREATED_DATE().getTime());
-        jsonObject1.addProperty("LOGO", tbCompany.getLOGO());
+        jsonObject1.addProperty("LOGO", tbMm.getMM_FILE_NAME());
         jsonObject1.addProperty("SUPP_NAME", tbCompany.getNAME());
         jsonObject1.addProperty("EMAIL", tbCompany.getEMAIL());
         jsonObject1.addProperty("PHONE_NUMBER", tbCompany.getCONTACT_NUMBER());
@@ -213,10 +225,6 @@ public class SupplierService implements SupplierDAO {
 
         data.add("INFO", jsonObject1);
         data.add("ORDER_AND_PAYMENT_DETAILS", jsonObject2);
-        //        data.add("INFO", jsonObject2);
-        //        data.add("INFO", jsonObject2);
-        //        data.add("INFO", jsonObject2);
-        //        data.add("INFO", jsonObject2);
         response.setXscData(GenericMethods.convertGsonToJackson(data));
         response.setXscMessage("Supplier data fetched.");
         response.setXscStatus(1);
@@ -270,6 +278,70 @@ public class SupplierService implements SupplierDAO {
         response.setXscMessage("Supplier Added Successfully");
         response.setXscStatus(1);
 
+        return response;
+    }
+
+    @Override
+    public XscResponse supplierNameFilter(
+            String appClientId, String searchKeyword, String currentPage, String itemPerPage) {
+        XscResponse response = new XscResponse();
+
+        List<TbClientSupplier> tbClientSupplierList =
+                tbClientSupplierRepository.findAllByAppClientIdAndSearchKeyword(
+                        appClientId, searchKeyword);
+
+        List<TbCompany> tbCompanyList = new ArrayList<>();
+
+        for (TbClientSupplier tbClientSupplier : tbClientSupplierList) {
+            tbCompanyList.add(
+                    tbCompanyRepository.findById(tbClientSupplier.getCOMPANY_ID()).orElseThrow());
+        }
+
+        JsonObject data = new JsonObject();
+
+        JsonArray jsonArray = new JsonArray();
+        for (int i = 0; i < tbCompanyList.size(); i++) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("CLIENT_SUPPLIER_ID", tbClientSupplierList.get(i).getID());
+            jsonObject.addProperty("NAME", tbCompanyList.get(i).getNAME());
+            jsonArray.add(jsonObject);
+        }
+        data.add("SUPPLIER_LIST", jsonArray);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Supplier filter name");
+        response.setXscStatus(1);
+        return response;
+    }
+
+    @Override
+    public XscResponse supplierTypeFilter(String appClientId) {
+        XscResponse response = new XscResponse();
+
+        List<TbClientSupplier> tbClientSupplierList =
+                tbClientSupplierRepository.findAllByAppClientIdAndSearchKeyword(appClientId, "");
+
+        JsonObject data = new JsonObject();
+
+        JsonArray jsonArray = new JsonArray();
+        for (TbClientSupplier tbClientSupplier : tbClientSupplierList) {
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("IS_FAV", tbClientSupplier.getIS_SUPP_FAV());
+            if (tbClientSupplier.getIS_SUPP_FAV() == 'Y') {
+                jsonObject.addProperty("TYPE", "Favourite");
+            } else {
+                jsonObject.addProperty("TYPE", "Regular");
+            }
+
+            jsonArray.add(jsonObject);
+        }
+
+        data.add("FAV_FILTER", jsonArray);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Favourite filter.");
+        response.setXscStatus(1);
         return response;
     }
 }
