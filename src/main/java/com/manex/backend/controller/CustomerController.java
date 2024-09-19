@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -72,4 +69,9 @@ public class CustomerController {
             @RequestParam("IS_FAVOURITE") String IS_FAVOURITE) {
         return customerDAO.markCustomerFavourite(CLIENT_CUST_ID, IS_FAVOURITE);
     }
+
+	@PostMapping("/deleteCustomer")
+	private XscResponse deleteCustomer(@RequestParam("CLIENT_CUST_ID") String CLIENT_CUST_ID){
+		return customerDAO.deleteCustomer(CLIENT_CUST_ID);
+	}
 }
