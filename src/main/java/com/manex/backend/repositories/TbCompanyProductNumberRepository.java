@@ -14,5 +14,5 @@ public interface TbCompanyProductNumberRepository
 
     @Query(
             "SELECT tcpn FROM TbCompanyProductNumber tcpn WHERE tcpn.id.PRODUCT_ID = :productId and tcpn.id.APP_CLIENT_ID = :appClientId")
-	List<TbCompanyProductNumber> findByProductIdAndAppClientId(int productId, int appClientId);
+    List<TbCompanyProductNumber> findByProductIdAndAppClientId(int productId, int appClientId);
 }

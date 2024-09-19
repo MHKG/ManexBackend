@@ -14,4 +14,7 @@ public interface TbClientInventoryRepository
 
     @Query("SELECT tci FROM TbClientInventory tci WHERE APP_CLIENT_ID = :appClientId")
     List<TbClientInventory> findByAppClientId(Integer appClientId);
+
+    @Query("SELECT tci FROM TbClientInventory tci WHERE PRODUCT_ID = :productId")
+    TbClientInventory findByProductId(int productId);
 }

@@ -6,6 +6,7 @@ import com.manex.backend.entities.TbMm;
 import com.manex.backend.repositories.TbCompanyRepository;
 import com.manex.backend.response.XscResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,15 +29,21 @@ public class TbMmController {
     @Autowired private TbCompanyRepository tbCompanyRepository;
 
     @PostMapping("/updateCompanyImage")
-    private XscResponse uploadImage(
-            @RequestParam("file") MultipartFile file, @RequestParam("payload") JSONObject payload)
+    private XscResponse updateCompanyImage(
+            HttpServletRequest request, @RequestParam("payload") JSONObject payload)
             throws IOException {
-        TbCompany tbCompany = tbCompanyRepository.findById(1).orElseThrow();
-        TbMm tbMm =
-                tbMmDAO.saveImageFileWithName(
-                        "companyProfileImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
+        MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("file");
 
-        return new XscResponse(1, "Image updated successfully.");
+        if (file != null) {
+            TbCompany tbCompany = tbCompanyRepository.findById(1).orElseThrow();
+            TbMm tbMm =
+                    tbMmDAO.saveImageFileWithName(
+                            "companyProfileImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
+
+            return new XscResponse(1, "Image updated successfully.");
+        } else {
+            return new XscResponse(1, "Image not updated by user.");
+        }
     }
 
     @GetMapping(value = "/companyProfileImages/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
