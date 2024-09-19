@@ -14,14 +14,14 @@ public class TbStateController {
 
     @Autowired private TbStateDAO stateDAO;
 
-    @PostMapping("/getAllByCountry")
-    private XscResponse getAllByCountry(
+    @PostMapping("/getAllStatesByCountry")
+    private XscResponse getAllStatesByCountry(
             @RequestParam("COUNTRY_ID") String COUNTRY_ID,
             @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
             @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD) {
         XscResponse response = new XscResponse();
 
-        JsonObject countries = stateDAO.getAllByCountry(COUNTRY_ID, SEARCH_KEYWORD);
+        JsonObject countries = stateDAO.getAllStatesByCountry(COUNTRY_ID, SEARCH_KEYWORD);
 
         response.setXscData(GenericMethods.convertGsonToJackson(countries));
         response.setXscStatus(1);

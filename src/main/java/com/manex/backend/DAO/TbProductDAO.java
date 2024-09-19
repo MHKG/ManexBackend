@@ -10,11 +10,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public interface TbProductDAO {
-    XscResponse getProductsList(String clientSupplierId, int APP_CLIENT_ID);
+    XscResponse getProductsList(JSONObject payload);
 
     XscResponse addProduct(MultipartFile[] file, JSONObject payload) throws IOException;
 
-	XscResponse getProductsDetails(String clientSupplierId, String productId);
+    XscResponse getProductsDetails(String clientSupplierId, String productId);
 
-	InputStream getImageResource(String imageName) throws FileNotFoundException;
+    InputStream getImageResource(String imageName) throws FileNotFoundException;
+
+    XscResponse productPriceFilter(String appClientId);
+
+    XscResponse productStatusFilter(String appClientId);
 }

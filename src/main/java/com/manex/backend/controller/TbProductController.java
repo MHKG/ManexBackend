@@ -30,11 +30,8 @@ public class TbProductController {
     }
 
     @PostMapping("/getProductsList")
-    private XscResponse getProductsList(
-            @RequestParam("CLIENT_SUPPLIER_ID") String CLIENT_SUPPLIER_ID,
-            @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
-            @RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID) {
-        return tbProductDAO.getProductsList(CLIENT_SUPPLIER_ID, Integer.parseInt(APP_CLIENT_ID));
+    private XscResponse getProductsList(@RequestParam("payload") JSONObject payload) {
+        return tbProductDAO.getProductsList(payload);
     }
 
     @PostMapping("/getProductsDetails")
@@ -47,8 +44,20 @@ public class TbProductController {
     @GetMapping(value = "/productImages/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
     public void getImage(@PathVariable("imageName") String imageName, HttpServletResponse response)
             throws IOException {
-		InputStream is = tbProductDAO.getImageResource(imageName);
-		response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-		StreamUtils.copy(is, response.getOutputStream());
+        InputStream is = tbProductDAO.getImageResource(imageName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(is, response.getOutputStream());
+    }
+
+    @PostMapping("/productPriceFilter")
+    public XscResponse productPriceFilter(@RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID)
+            throws IOException {
+        return tbProductDAO.productPriceFilter(APP_CLIENT_ID);
+    }
+
+    @PostMapping("/productStatusFilter")
+    public XscResponse productStatusFilter(@RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID)
+            throws IOException {
+        return tbProductDAO.productStatusFilter(APP_CLIENT_ID);
     }
 }

@@ -61,4 +61,16 @@ public class SupplierController {
     private XscResponse supplierTypeFilter(@RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID) {
         return supplierDAO.supplierTypeFilter(APP_CLIENT_ID);
     }
+
+    @PostMapping("/supplierStatusFilter")
+    private XscResponse supplierStatusFilter(@RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID) {
+        return supplierDAO.supplierStatusFilter(APP_CLIENT_ID);
+    }
+
+    @PostMapping("/markSupplierFavourite")
+    private XscResponse markSupplierFavourite(
+            @RequestParam("CLIENT_SUPP_ID") String CLIENT_SUPP_ID,
+            @RequestParam("IS_FAVOURITE") String IS_FAVOURITE) {
+        return supplierDAO.markSupplierFavourite(CLIENT_SUPP_ID, IS_FAVOURITE);
+    }
 }
