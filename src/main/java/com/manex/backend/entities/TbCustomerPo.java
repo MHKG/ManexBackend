@@ -2,6 +2,8 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 @Table(name = "tb_customer_po")
 public class TbCustomerPo {
@@ -19,7 +21,7 @@ public class TbCustomerPo {
     @Column(nullable = false)
     private Integer CLIENT_CUST_ID;
 
-    @Column private Integer CREATED_ON;
+    @Column private Date CREATED_ON;
 
     @Column private Integer CREATED_BY;
 
@@ -63,11 +65,11 @@ public class TbCustomerPo {
         this.CLIENT_CUST_ID = CLIENT_CUST_ID;
     }
 
-    public Integer getCREATED_ON() {
+    public Date getCREATED_ON() {
         return CREATED_ON;
     }
 
-    public void setCREATED_ON(Integer CREATED_ON) {
+    public void setCREATED_ON(Date CREATED_ON) {
         this.CREATED_ON = CREATED_ON;
     }
 

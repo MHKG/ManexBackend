@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -103,7 +106,7 @@ public class TbProductService implements TbProductDAO {
         tbProductSpec.setMATERIAL(payload.get("P_MATERIAL").toString());
         tbProductSpec.setPACKING(payload.get("P_PKG_TYPE").toString());
         tbProductSpec.setPRICE(Float.valueOf(payload.get("PRICE_PER_PCS").toString()));
-        tbProductSpec = tbProductSpecRepository.save(tbProductSpec);
+        tbProductSpecRepository.save(tbProductSpec);
 
         TbCompanyProductNumber tbCompanyProductNumber = new TbCompanyProductNumber();
         TbCompanyProductNumberId tbCompanyProductNumberId = new TbCompanyProductNumberId();
@@ -121,10 +124,7 @@ public class TbProductService implements TbProductDAO {
         tbCompanyProductNumber.setITEM_NO(payload.get("SUPPLIER_PROD_NUM").toString());
         tbCompanyProductNumber.setBAR_CODE(payload.get("CLIENT_P_BAR_CODE").toString());
         tbCompanyProductNumber.setDUN_BAR_CODE(payload.get("CLIENT_DUN_BAR_CODE").toString());
-        tbCompanyProductNumber = tbCompanyProductNumberRepository.save(tbCompanyProductNumber);
-
-        List<TbCtn> tbCtnList =
-                tbCtnRepository.findByAppClientId(payload.getString("APP_CLIENT_ID"));
+        tbCompanyProductNumberRepository.save(tbCompanyProductNumber);
 
         TbMItemCtn tbMItemCtn = new TbMItemCtn();
         TbMItemCtnId tbMItemCtnId = new TbMItemCtnId();
@@ -161,12 +161,20 @@ public class TbProductService implements TbProductDAO {
 
     @Override
     public XscResponse getProductsList(JSONObject payload) {
+        int APP_CLIENT_ID;
+
         XscResponse response = new XscResponse();
 
         TbClientSupplier tbClientSupplier =
                 tbClientSupplierRepository
                         .findById(Integer.valueOf(payload.getString("CLIENT_SUPPLIER_ID")))
                         .orElseThrow();
+
+        if (payload.has("APP_CLIENT_ID")) {
+            APP_CLIENT_ID = payload.getInt("APP_CLIENT_ID");
+        } else {
+            APP_CLIENT_ID = tbClientSupplier.getAPP_CLIENT_ID();
+        }
 
         List<TbProducts> tbProductsList =
                 tbProductsRepository.findAllByClientSupplierId(
@@ -180,7 +188,7 @@ public class TbProductService implements TbProductDAO {
             arrayList.clear();
             arrayList.addAll(
                     tbCompanyProductNumberRepository.findByProductIdAndAppClientId(
-                            tbProducts.getID(), payload.getInt("APP_CLIENT_ID")));
+                            tbProducts.getID(), APP_CLIENT_ID));
 
             tbCompanyProductNumberList.add(new ArrayList<>(arrayList));
         }
@@ -198,8 +206,7 @@ public class TbProductService implements TbProductDAO {
             }
         }
 
-        TbAppClient tbAppClient =
-                tbAppClientRepository.findById(payload.getInt("APP_CLIENT_ID")).orElseThrow();
+        TbAppClient tbAppClient = tbAppClientRepository.findById(APP_CLIENT_ID).orElseThrow();
 
         TbLookupCurrency tbLookupCurrency =
                 tbLookupCurrencyRepository
@@ -207,7 +214,7 @@ public class TbProductService implements TbProductDAO {
                         .orElseThrow();
 
         List<TbClientInventory> tbClientInventoryList =
-                tbClientInventoryRepository.findByAppClientId(payload.getInt("APP_CLIENT_ID"));
+                tbClientInventoryRepository.findByAppClientId(APP_CLIENT_ID);
 
         JsonObject data = new JsonObject();
         JsonArray jsonArray = new JsonArray();
@@ -277,8 +284,13 @@ public class TbProductService implements TbProductDAO {
 
         List<TbMm> tbMmList = new ArrayList<>();
 
-        for (TbProductMm tbProductMm : tbProductMmList) {
-            tbMmList.add(tbMmRepository.findById(tbProductMm.getMM_FILE()).orElseThrow());
+        int defaultMM_FILE_INDEX = 0;
+        for (int i = 0; i < tbProductMmList.size(); i++) {
+            tbMmList.add(
+                    tbMmRepository.findById(tbProductMmList.get(i).getMM_FILE()).orElseThrow());
+            if (tbProductMmList.get(i).getDEFAULT_MM() == 'Y') {
+                defaultMM_FILE_INDEX = i;
+            }
         }
 
         JsonObject data = new JsonObject();
@@ -288,18 +300,30 @@ public class TbProductService implements TbProductDAO {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("is_default", tbProductMmList.get(i).getDEFAULT_MM());
             jsonObject.addProperty("PROD_MEDIA", tbMmList.get(i).getMM_FILE_NAME());
+            jsonObject.addProperty("PROD_MM_ID", tbMmList.get(i).getID());
             jsonArray1.add(jsonObject);
         }
         data.add("PROD_MEDIA", jsonArray1);
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("PACKING", tbProductSpec.getPACKING());
+        jsonObject.addProperty("CLIENT_SUPP_ID", tbProducts.getCLIENT_SUPPLIER_ID());
+        jsonObject.addProperty("PRODUCT_ID", tbProducts.getID());
+        jsonObject.addProperty("CTN_ID", tbMItemCtn.getID().getCTN_ID());
         jsonObject.addProperty("CTN_PKG_TYPE", tbMItemCtn.getPKG_TYPE());
+        jsonObject.addProperty("CTN_NET_WT", tbMItemCtn.getNET_WT());
+        jsonObject.addProperty("CTN_GROSS_WT", tbMItemCtn.getGROSS_WT());
+        jsonObject.addProperty("CTN_WT_UNIT", String.valueOf(tbMItemCtn.getWEIGHT_UNIT()));
+
         jsonObject.addProperty("PROD_LENGTH", tbProducts.getLENGTH());
         jsonObject.addProperty("PROD_WIDTH", tbProducts.getWIDTH());
         jsonObject.addProperty("PROD_HEIGHT", tbProducts.getHEIGHT());
         jsonObject.addProperty("PROD_VOLUME", tbProducts.getVOLUME());
+        jsonObject.addProperty("PROD_VOLUME_UNIT", String.valueOf(tbProducts.getVOLUME_UNIT()));
         jsonObject.addProperty("PROD_WT", tbProducts.getWEIGHT());
+        jsonObject.addProperty("PROD_WT_UNIT", String.valueOf(tbProducts.getWEIGHT_UNIT()));
+        jsonObject.addProperty(
+                "CLIENT_COMPANY_ID", tbCompanyProductNumberList.get(0).getID().getAPP_CLIENT_ID());
         jsonObject.addProperty("SUPP_BAR_CODE", tbCompanyProductNumberList.get(0).getBAR_CODE());
         jsonObject.addProperty(
                 "SUPP_DUN_BAR_CODE", tbCompanyProductNumberList.get(0).getDUN_BAR_CODE());
@@ -322,6 +346,8 @@ public class TbProductService implements TbProductDAO {
         jsonObject.addProperty("DESCRIPTION", tbProducts.getDESCRIPTION());
         jsonObject.addProperty("COLOUR", tbProductSpec.getCOLOUR());
         jsonObject.addProperty("MATERIAL", tbProductSpec.getMATERIAL());
+        jsonObject.addProperty("PROD_SIZE_UNIT", String.valueOf(tbProducts.getSIZE_UNIT()));
+        jsonObject.addProperty("PRIMARY_IMAGE_INDEX", defaultMM_FILE_INDEX);
 
         data.add("PRODUCT_DETAILS", jsonObject);
         data.addProperty("TOTAL_STOCK", tbClientInventory.getQTY());
@@ -407,4 +433,99 @@ public class TbProductService implements TbProductDAO {
         response.setXscStatus(1);
         return response;
     }
+
+    @Override
+    public XscResponse updateProduct(JSONObject payload) {
+        XscResponse response = new XscResponse();
+
+        TbClientSupplier tbClientSupplier =
+                tbClientSupplierRepository
+                        .findById(payload.getInt("CLIENT_SUPPLIER_ID"))
+                        .orElseThrow();
+
+        TbProducts tbProducts =
+                tbProductsRepository.findById(payload.getInt("PRODUCT_ID")).orElseThrow();
+
+        TbProductSpec tbProductSpec = tbProductSpecRepository.findByProductId(tbProducts.getID());
+
+        List<TbCompanyProductNumber> tbCompanyProductNumberList =
+                tbCompanyProductNumberRepository.findByProductIdAndAppClientId(
+                        tbProducts.getID(), payload.getInt("APP_CLIENT_ID"));
+
+        TbMItemCtn tbMItemCtn =
+                tbMItemCtnRepository.findByProductIdAndCTNId(
+                        tbProducts.getID(), payload.getInt("CTN_ID"));
+
+        TbClientInventory tbClientInventory =
+                tbClientInventoryRepository.findByProductId(tbProducts.getID());
+
+        tbProducts.setVOLUME(payload.getFloat("VOLUME"));
+        tbProducts.setVOLUME_UNIT(VolumeUnit.valueOf(payload.getString("VOLUME_UNIT")));
+        tbProducts.setHEIGHT(payload.getFloat("P_HEIGHT"));
+        tbProducts.setLENGTH(payload.getFloat("P_LENGTH"));
+        tbProducts.setWIDTH(payload.getFloat("P_WIDTH"));
+        tbProducts.setSIZE_UNIT(SizeUnit.valueOf(payload.getString("SIZE_UNIT").toUpperCase()));
+        tbProducts.setDESCRIPTION(payload.getString("P_DESC"));
+        if (Objects.equals(payload.get("P_WT").toString(), "null")) {
+            tbProducts.setWEIGHT(null);
+        } else {
+            tbProducts.setWEIGHT(payload.getFloat("P_WT"));
+            tbProducts.setWEIGHT_UNIT(
+                    WeightUnit.valueOf(payload.getString("P_WT_UNIT").toUpperCase()));
+        }
+
+        tbProductSpec.setPRICE(payload.getFloat("PRICE_PER_PCS"));
+        tbProductSpec.setPACKING(payload.getString("P_PKG_TYPE"));
+        tbProductSpec.setMATERIAL(payload.getString("P_MATERIAL"));
+        tbProductSpec.setCOLOUR(payload.getString("P_COLOR"));
+
+        for (TbCompanyProductNumber tbCompanyProductNumber : tbCompanyProductNumberList) {
+            if (Objects.equals(
+                    tbCompanyProductNumber.getID().getCOMPANY_ID(),
+                    tbClientSupplier.getCOMPANY_ID())) {
+                tbCompanyProductNumber.setBAR_CODE(payload.getString("SUPP_P_BAR_CODE"));
+                tbCompanyProductNumber.setDUN_BAR_CODE(payload.getString("SUPP_DUN_BAR_CODE"));
+                tbCompanyProductNumber.setITEM_NO(payload.get("SUPPLIER_PROD_NUM").toString());
+            } else {
+                tbCompanyProductNumber.setBAR_CODE(payload.getString("CLIENT_P_BAR_CODE"));
+                tbCompanyProductNumber.setDUN_BAR_CODE(payload.getString("CLIENT_DUN_BAR_CODE"));
+                tbCompanyProductNumber.setITEM_NO(payload.getString("CLIENT_PROD_NUM"));
+            }
+        }
+
+        tbMItemCtn.setQTY_PER_CTN(payload.getInt("QTY_PER_CTN"));
+        tbMItemCtn.setPKG_TYPE(payload.getString("C_PKG_TYPE_ID"));
+        tbMItemCtn.setNET_WT(payload.getFloat("CTN_NET_WT"));
+        tbMItemCtn.setGROSS_WT(payload.getFloat("CTN_GROSS_WT"));
+        tbMItemCtn.setWEIGHT_UNIT(
+                WeightUnit.valueOf(payload.getString("CTN_WT_UNIT").toUpperCase()));
+
+        tbClientInventory.setLAST_PRICE(payload.getFloat("PRICE_PER_PCS"));
+
+        response.setXscData(GenericMethods.convertGsonToJackson(new JsonObject()));
+        response.setXscMessage("Product updated successfully.");
+        response.setXscStatus(1);
+        return response;
+    }
+
+	@Override
+	public XscResponse removeProductImage(JSONObject payload) throws IOException {
+		TbProductMm tbProductMm =
+				tbProductMmRepository.findByMmFile(payload.getInt("PRODUCT_MM_ID"));
+
+		if (!Objects.equals(Character.toUpperCase(tbProductMm.getDEFAULT_MM()), 'Y')) {
+			TbMm tbMm = tbMmRepository.findById(payload.getInt("PRODUCT_MM_ID")).orElseThrow();
+			Path filePath = Paths.get(tbMm.getMM_FILE_NAME());
+			boolean isFileDeleted = Files.deleteIfExists(filePath);
+			if (isFileDeleted) {
+                tbProductMmRepository.delete(tbProductMm);
+                tbMmRepository.delete(tbMm);
+				return new XscResponse(1, "Product image deleted successfully.");
+			} else {
+				return new XscResponse(0, "Cannot delete product image.");
+			}
+		} else {
+			return new XscResponse(0, "Cannot delete default image.");
+		}
+	}
 }

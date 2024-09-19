@@ -60,4 +60,15 @@ public class TbProductController {
             throws IOException {
         return tbProductDAO.productStatusFilter(APP_CLIENT_ID);
     }
+
+    @PostMapping("/updateProduct")
+    private XscResponse updateProduct(@RequestParam("payload") JSONObject payload) {
+        return tbProductDAO.updateProduct(payload);
+    }
+
+    @PostMapping("/removeProductImage")
+    private XscResponse removeProductImage(@RequestParam("payload") JSONObject payload)
+            throws IOException {
+        return tbProductDAO.removeProductImage(payload);
+    }
 }

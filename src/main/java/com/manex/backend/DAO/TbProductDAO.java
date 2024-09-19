@@ -21,4 +21,8 @@ public interface TbProductDAO {
     XscResponse productPriceFilter(String appClientId);
 
     XscResponse productStatusFilter(String appClientId);
+
+    XscResponse updateProduct(JSONObject payload);
+
+	XscResponse removeProductImage(JSONObject payload) throws IOException;
 }
