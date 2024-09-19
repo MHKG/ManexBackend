@@ -21,5 +21,9 @@ public interface SupplierDAO {
     XscResponse supplierNameFilter(
             String appClientId, String searchKeyword, String currentPage, String itemPerPage);
 
-	XscResponse supplierTypeFilter(String appClientId);
+    XscResponse supplierTypeFilter(String appClientId);
+
+    XscResponse supplierStatusFilter(String appClientId);
+
+    XscResponse markSupplierFavourite(String clientSuppId, String isFavourite);
 }

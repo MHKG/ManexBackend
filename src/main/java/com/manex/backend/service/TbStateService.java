@@ -20,7 +20,7 @@ public class TbStateService implements TbStateDAO {
     @Autowired private TbStateRepository tbStateRepository;
 
     @Override
-    public JsonObject getAllByCountry(String COUNTRY_ID, String SEARCH_KEYWORD) {
+    public JsonObject getAllStatesByCountry(String COUNTRY_ID, String SEARCH_KEYWORD) {
         List<TbState> tbStates =
                 tbStateRepository.findAllByCountryIdAndKeyword(
                         Integer.parseInt(COUNTRY_ID), SEARCH_KEYWORD);

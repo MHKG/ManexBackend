@@ -160,16 +160,17 @@ public class TbProductService implements TbProductDAO {
     }
 
     @Override
-    public XscResponse getProductsList(String clientSupplierId, int APP_CLIENT_ID) {
+    public XscResponse getProductsList(JSONObject payload) {
         XscResponse response = new XscResponse();
 
         TbClientSupplier tbClientSupplier =
                 tbClientSupplierRepository
-                        .findById(Integer.valueOf(clientSupplierId))
+                        .findById(Integer.valueOf(payload.getString("CLIENT_SUPPLIER_ID")))
                         .orElseThrow();
 
         List<TbProducts> tbProductsList =
-                tbProductsRepository.findAllByClientSupplierId(clientSupplierId);
+                tbProductsRepository.findAllByClientSupplierId(
+                        payload.getString("CLIENT_SUPPLIER_ID"));
 
         List<TbCompanyProductNumber> arrayList = new ArrayList<>();
 
@@ -179,7 +180,7 @@ public class TbProductService implements TbProductDAO {
             arrayList.clear();
             arrayList.addAll(
                     tbCompanyProductNumberRepository.findByProductIdAndAppClientId(
-                            tbProducts.getID(), APP_CLIENT_ID));
+                            tbProducts.getID(), payload.getInt("APP_CLIENT_ID")));
 
             tbCompanyProductNumberList.add(new ArrayList<>(arrayList));
         }
@@ -197,7 +198,8 @@ public class TbProductService implements TbProductDAO {
             }
         }
 
-        TbAppClient tbAppClient = tbAppClientRepository.findById(APP_CLIENT_ID).orElseThrow();
+        TbAppClient tbAppClient =
+                tbAppClientRepository.findById(payload.getInt("APP_CLIENT_ID")).orElseThrow();
 
         TbLookupCurrency tbLookupCurrency =
                 tbLookupCurrencyRepository
@@ -205,7 +207,7 @@ public class TbProductService implements TbProductDAO {
                         .orElseThrow();
 
         List<TbClientInventory> tbClientInventoryList =
-                tbClientInventoryRepository.findByAppClientId(APP_CLIENT_ID);
+                tbClientInventoryRepository.findByAppClientId(payload.getInt("APP_CLIENT_ID"));
 
         JsonObject data = new JsonObject();
         JsonArray jsonArray = new JsonArray();
@@ -221,9 +223,8 @@ public class TbProductService implements TbProductDAO {
                 jsonObject.addProperty(
                         "SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).get(0).getITEM_NO());
 
-                    jsonObject.addProperty(
-                            "CLIENT_PROD_NUM",
-                            tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
+                jsonObject.addProperty(
+                        "CLIENT_PROD_NUM", tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
 
             } else {
                 jsonObject.addProperty(
@@ -263,6 +264,9 @@ public class TbProductService implements TbProductDAO {
 
         TbMItemCtn tbMItemCtn = tbMItemCtnRepository.findByProductId(Integer.parseInt(productId));
 
+        TbClientInventory tbClientInventory =
+                tbClientInventoryRepository.findByProductId(Integer.parseInt(productId));
+
         List<TbCompanyProductNumber> tbCompanyProductNumberList =
                 tbCompanyProductNumberRepository.findByProductIdAndAppClientId(
                         Integer.parseInt(productId),
@@ -284,8 +288,6 @@ public class TbProductService implements TbProductDAO {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("is_default", tbProductMmList.get(i).getDEFAULT_MM());
             jsonObject.addProperty("PROD_MEDIA", tbMmList.get(i).getMM_FILE_NAME());
-            jsonObject.addProperty("is_default", tbProductMmList.get(i).getDEFAULT_MM());
-            jsonObject.addProperty("is_default", tbProductMmList.get(i).getDEFAULT_MM());
             jsonArray1.add(jsonObject);
         }
         data.add("PROD_MEDIA", jsonArray1);
@@ -322,6 +324,7 @@ public class TbProductService implements TbProductDAO {
         jsonObject.addProperty("MATERIAL", tbProductSpec.getMATERIAL());
 
         data.add("PRODUCT_DETAILS", jsonObject);
+        data.addProperty("TOTAL_STOCK", tbClientInventory.getQTY());
 
         response.setXscData(GenericMethods.convertGsonToJackson(data));
         response.setXscMessage("Details of a product.");
@@ -329,9 +332,79 @@ public class TbProductService implements TbProductDAO {
         return response;
     }
 
-	@Override
-	public InputStream getImageResource(String fileName) throws FileNotFoundException {
-		String fullPath = "productImages" + File.separator + fileName;
-		return new FileInputStream(fullPath);
-	}
+    @Override
+    public InputStream getImageResource(String fileName) throws FileNotFoundException {
+        String fullPath = "productImages" + File.separator + fileName;
+        return new FileInputStream(fullPath);
+    }
+
+    @Override
+    public XscResponse productPriceFilter(String appClientId) {
+        XscResponse response = new XscResponse();
+
+        List<TbClientInventory> tbClientInventoryList =
+                tbClientInventoryRepository.findByAppClientId(Integer.valueOf(appClientId));
+
+        float min = Float.MAX_VALUE, max = Float.MIN_VALUE;
+
+        for (TbClientInventory tbClientInventory : tbClientInventoryList) {
+            Float price = tbClientInventory.getLAST_PRICE();
+            if (price > max) {
+                max = price;
+            }
+
+            if (price < min) {
+                min = price;
+            }
+        }
+
+        JsonObject data = new JsonObject();
+
+        data.addProperty("MIN", min);
+        data.addProperty("MAX", max);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Product price range.");
+        response.setXscStatus(1);
+        return response;
+    }
+
+    @Override
+    public XscResponse productStatusFilter(String appClientId) {
+        XscResponse response = new XscResponse();
+
+        List<TbClientSupplier> tbClientSupplierList =
+                tbClientSupplierRepository.findAllByAppClientIdAndSearchKeyword(appClientId, "");
+
+        List<TbMClientSupplierItem> tbMClientSupplierItemList = new ArrayList<>();
+
+        for (TbClientSupplier tbClientSupplier : tbClientSupplierList) {
+            tbMClientSupplierItemList.addAll(
+                    tbMClientSupplierItemRepository.findAllByClientSupplierId(
+                            Integer.parseInt(String.valueOf(tbClientSupplier.getID()))));
+        }
+        JsonObject data = new JsonObject();
+
+        JsonArray jsonArray = new JsonArray();
+        for (TbMClientSupplierItem tbMClientSupplierItem : tbMClientSupplierItemList) {
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("STATUS", tbMClientSupplierItem.getSTATUS());
+            if (tbMClientSupplierItem.getSTATUS() == 1) {
+                jsonObject.addProperty("TYPE", "Active");
+            } else {
+                jsonObject.addProperty("TYPE", "Inactive");
+            }
+
+            if (!jsonArray.contains(jsonObject)) {
+                jsonArray.add(jsonObject);
+            }
+        }
+        data.add("STATUS_FILTER", jsonArray);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Status filter.");
+        response.setXscStatus(1);
+        return response;
+    }
 }
