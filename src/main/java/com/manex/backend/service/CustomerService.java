@@ -49,9 +49,15 @@ public class CustomerService implements CustomerDAO {
 
     @Autowired private TbClientCustRepository tbClientCustRepository;
 
-    @Autowired private TbMmRepository tbMmRepository;
+	@Autowired private TbMmRepository tbMmRepository;
 
-    @Override
+
+	@Autowired private TbCustomerPoRepository tbCustomerPoRepository;
+
+
+	@Autowired private TbCustPoItemsRepository tbCustPoItemsRepository;
+
+	@Override
     public XscResponse addCustomer(HttpServletRequest request, JSONObject payload)
             throws IOException {
         XscResponse response = new XscResponse();
@@ -392,5 +398,18 @@ public class CustomerService implements CustomerDAO {
         tbClientCustomer.setIS_CUST_FAV(isFavourite.charAt(0));
         tbClientCustRepository.save(tbClientCustomer);
         return new XscResponse(1, "Customer type updated successfully.");
+    }
+
+    @Override
+    public XscResponse deleteCustomer(String clientCustId) {
+        XscResponse response = new XscResponse();
+
+        TbClientCust tbClientCust =
+                tbClientCustRepository.findById(Integer.valueOf(clientCustId)).orElseThrow();
+
+		TbCustomerPo tbCustomerPo = tbCustomerPoRepository.findByClientCustId(tbClientCust.getID());
+
+		TbCustPoItems tbCustPoItems = tbCustPoItemsRepository.findByCustPoId(tbCustomerPo.getID());
+        return response;
     }
 }

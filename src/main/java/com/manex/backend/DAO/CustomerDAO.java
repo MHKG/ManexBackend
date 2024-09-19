@@ -26,4 +26,6 @@ public interface CustomerDAO {
     XscResponse customerStatusFilter(String appClientId);
 
     XscResponse markCustomerFavourite(String clientSuppId, String isFavourite);
+
+	XscResponse deleteCustomer(String clientCustId);
 }
