@@ -11,4 +11,8 @@ public interface TbMItemCtnRepository
 
     @Query("SELECT tmic FROM TbMItemCtn tmic WHERE tmic.id.PRODUCT_ID = :productId")
     TbMItemCtn findByProductId(int productId);
+
+    @Query(
+            "SELECT tmic FROM TbMItemCtn tmic WHERE tmic.id.PRODUCT_ID = :productId and tmic.id.CTN_ID = :ctnId")
+    TbMItemCtn findByProductIdAndCTNId(Integer productId, int ctnId);
 }

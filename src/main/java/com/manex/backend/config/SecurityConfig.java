@@ -40,7 +40,8 @@ public class SecurityConfig {
                                                 "/auth/**",
                                                 "/email_controller/sendEmail",
                                                 "/product_controller/productImages/{imageName}",
-                                                "/tb_mm_controller/companyProfileImages/{imageName}")
+                                                "/tb_mm_controller/companyProfileImages/{imageName}",
+                                                "/sample_files_controller/template/**")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.OPTIONS, "/**")
                                         .permitAll()

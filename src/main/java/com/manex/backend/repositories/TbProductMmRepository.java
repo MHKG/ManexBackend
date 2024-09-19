@@ -13,4 +13,7 @@ public interface TbProductMmRepository
 
     @Query("SELECT tpm FROM TbProductMm tpm WHERE tpm.PRODUCT_ID = :id")
     List<TbProductMm> findAllByProductId(Integer id);
+
+    @Query("SELECT tpm FROM TbProductMm tpm WHERE tpm.MM_FILE = :MM_FILE")
+    TbProductMm findByMmFile(Integer MM_FILE);
 }
