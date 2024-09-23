@@ -10,7 +10,6 @@ import com.manex.backend.entities.TbMm;
 import com.manex.backend.entities.TbUsers;
 import com.manex.backend.repositories.TbCompanyUserRepository;
 import com.manex.backend.repositories.TbMmRepository;
-import com.manex.backend.repositories.TbUserProfileRepository;
 import com.manex.backend.repositories.TbUsersRepository;
 import com.manex.backend.response.XscResponse;
 import com.manex.backend.util.JwtUtil;
@@ -18,79 +17,25 @@ import com.manex.backend.util.JwtUtil;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 @Transactional
 public class AuthService implements AuthDAO {
 
-    private final JdbcTemplate jdbcTemplate;
     @Autowired private TbUsersRepository tbUsersRepository;
-    @Autowired private TbUserProfileRepository tbUserProfileRepository;
+
     @Autowired private PasswordEncoder passwordEncoder;
+
     @Autowired private JwtUtil jwtUtil;
+
     @Autowired private TbCompanyUserRepository tbCompanyUserRepository;
+
     @Autowired private TbMmRepository tbMmRepository;
-
-    public AuthService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private static JsonObject getJsonObject(
-            List<Map<String, Object>> userProfile,
-            TbUsers users,
-            String token,
-            List<TbCompanyUser> tbCompanyUserList) {
-        JsonObject data = new JsonObject();
-
-        if (userProfile != null && !userProfile.isEmpty()) {
-            Map<String, Object> profile = userProfile.get(0);
-
-            for (Map.Entry<String, Object> entry : profile.entrySet()) {
-                if (!(Objects.equals(entry.getKey(), "AC_C_USER_ID")
-                        || Objects.equals(entry.getKey(), "APP_CLIENT_ID")
-                        || Objects.equals(entry.getKey(), "COMPANY_ID"))) {
-                    if (entry.getValue() != null) {
-                        data.addProperty(entry.getKey(), entry.getValue().toString());
-                    } else {
-                        data.addProperty(entry.getKey(), "null");
-                    }
-                }
-            }
-
-            JsonArray clientDetailsArray = new JsonArray();
-            for (Map<String, Object> user : userProfile) {
-                JsonObject jsonObject1 = new JsonObject();
-                jsonObject1.addProperty("APP_CLIENT_ID", user.get("APP_CLIENT_ID").toString());
-                jsonObject1.addProperty("CLIENT_NAME", user.get("NAME").toString());
-                JsonArray companyUserArray = new JsonArray();
-                for (TbCompanyUser tbCompanyUser : tbCompanyUserList) {
-                    JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("AC_C_USER_ID", tbCompanyUser.getAC_C_USER_ID());
-                    jsonObject.addProperty("COMPANY_ID", tbCompanyUser.getCOMPANY_ID());
-                    jsonObject.addProperty("COMPANY_NAME", user.get("NAME").toString());
-                    companyUserArray.add(jsonObject);
-                }
-                jsonObject1.add("COMPANIES", companyUserArray);
-                clientDetailsArray.add(jsonObject1);
-            }
-            data.add("APP_CLIENT_DETAILS", clientDetailsArray);
-        }
-
-        data.addProperty("RESET_PASS", users.getRESET_PASS());
-        data.addProperty("EMAIL", users.getEMAIL());
-        data.addProperty("USER_TYPE", users.getUSER_TYPE());
-        data.addProperty("TOKEN", token);
-        //		data.addProperty(userProfile.get(0));
-
-        return data;
-    }
 
     @Override
     public XscResponse login(String email, String password) {
