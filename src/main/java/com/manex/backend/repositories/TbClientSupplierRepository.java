@@ -18,4 +18,8 @@ public interface TbClientSupplierRepository
     List<TbClientSupplier> findAllByAppClientIdAndSearchKeyword(
             @Param("APP_CLIENT_ID") String APP_CLIENT_ID,
             @Param("SEARCH_KEYWORD") String SEARCH_KEYWORD);
+
+    @Query(
+            "SELECT tcs FROM TbClientSupplier tcs WHERE tcs.APP_CLIENT_ID = :APP_CLIENT_ID AND tcs.COMPANY_ID = :COMPANY_ID")
+    TbClientSupplier findByAppClientIdAndCompanyId(int APP_CLIENT_ID, Integer COMPANY_ID);
 }

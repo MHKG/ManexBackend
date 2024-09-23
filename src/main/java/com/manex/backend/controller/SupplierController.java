@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -22,9 +23,11 @@ public class SupplierController {
 
     @PostMapping("/addSupplier")
     private XscResponse addSupplier(
-            HttpServletRequest request, @RequestParam("payload") JSONObject payload)
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("payload") JSONObject payload,
+            HttpServletRequest request)
             throws IOException {
-        return supplierDAO.addSupplier(request, payload);
+        return supplierDAO.addSupplier(file, payload);
     }
 
     @PostMapping("/listSupplier")
@@ -72,5 +75,11 @@ public class SupplierController {
             @RequestParam("CLIENT_SUPP_ID") String CLIENT_SUPP_ID,
             @RequestParam("IS_FAVOURITE") String IS_FAVOURITE) {
         return supplierDAO.markSupplierFavourite(CLIENT_SUPP_ID, IS_FAVOURITE);
+    }
+
+    @PostMapping("/addAllSuppliers")
+    private XscResponse addALLSuppliers(@RequestParam("payload") JSONObject payload) {
+        return supplierDAO.addAllSuppliers(
+                payload.getInt("APP_CLIENT_ID"), payload.getJSONArray("LIST"));
     }
 }
