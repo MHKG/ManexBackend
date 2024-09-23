@@ -13,4 +13,6 @@ public interface TbCountryRepository
 
     @Query("SELECT tc FROM TbCountry tc WHERE COUNTRY LIKE CONCAT('%', :SEARCH_KEYWORD, '%')")
     List<TbCountry> findAllByKeyword(String SEARCH_KEYWORD);
+
+    TbCountry findByISO3(String countryIso3);
 }

@@ -10,14 +10,13 @@ import com.manex.backend.entities.*;
 import com.manex.backend.repositories.*;
 import com.manex.backend.response.XscResponse;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -52,11 +51,8 @@ public class SupplierService implements SupplierDAO {
     @Autowired private TbMmRepository tbMmRepository;
 
     @Override
-    public XscResponse addSupplier(HttpServletRequest request, JSONObject payload)
-            throws IOException {
+    public XscResponse addSupplier(MultipartFile file, JSONObject payload) throws IOException {
         XscResponse response = new XscResponse();
-
-        MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("file");
 
         TbMm tbMm = new TbMm();
         if (file != null) {
@@ -395,5 +391,56 @@ public class SupplierService implements SupplierDAO {
         tbClientSupplier.setIS_SUPP_FAV(isFavourite.charAt(0));
         tbClientSupplierRepository.save(tbClientSupplier);
         return new XscResponse(1, "Supplier type updated successfully.");
+    }
+
+    @Override
+    public XscResponse addAllSuppliers(int appClientId, JSONArray list) {
+        XscResponse response = new XscResponse();
+
+        for (int i = 0; i < list.length(); i++) {
+            JSONObject jsonObject = list.getJSONObject(i);
+
+            TbCountry tbCountry =
+                    tbCountryRepository.findByISO3(jsonObject.getString("COUNTRY_ISO3"));
+
+            TbCompany tbCompany = new TbCompany();
+            tbCompany.setNAME(jsonObject.getString("COMPANY_NAME"));
+            tbCompany.setEMAIL(jsonObject.getString("EMAIL"));
+            tbCompany.setCONTACT_NUMBER(jsonObject.getString("CONTACT_NO"));
+            tbCompany.setALT_CONTACT_NUMBER(jsonObject.getString("ALT_CONTACT_NO"));
+            tbCompany.setWEBSITE(jsonObject.getString("WEBSITE"));
+            tbCompany.setREG_NUMBER(jsonObject.getString("REG_NO"));
+            tbCompany.setTAX_NUMBER(jsonObject.getString("TAX").replace(".0", ""));
+            tbCompany.setFAX(jsonObject.getString("FAX").replace(".0", ""));
+            tbCompany.setCREATED_DATE(Date.valueOf(LocalDate.now()));
+            tbCompany = tbCompanyRepository.save(tbCompany);
+
+            TbAllAddr tbAllAddr = new TbAllAddr();
+            tbAllAddr.setAPP_CLIENT_ID(appClientId);
+            tbAllAddr.setADDR_1(jsonObject.getString("ADDR_LINE_1"));
+            tbAllAddr.setADDR_2(jsonObject.getString("ADDR_LINE_2"));
+            tbAllAddr.setCOUNTRY_ID(tbCountry.getID());
+            tbAllAddr.setPOSTAL_CODE(jsonObject.getString("PINCODE").replace(".0", ""));
+            tbAllAddr = tbAllAddrRepository.save(tbAllAddr);
+
+            TbCompanyAddr tbCompanyAddr = new TbCompanyAddr();
+            tbCompanyAddr.setCOMPANY_ID(tbCompany.getID());
+            tbCompanyAddr.setADDR_ID(tbAllAddr.getID());
+            tbCompanyAddr.setSTATUS(1);
+            tbCompanyAddr.setDEFAULT_ADDR('Y');
+            tbCompanyAddrRepository.save(tbCompanyAddr);
+
+            TbClientSupplier tbClientSupplier = new TbClientSupplier();
+            tbClientSupplier.setCOMPANY_ID(tbCompany.getID());
+            tbClientSupplier.setAPP_CLIENT_ID(appClientId);
+            tbClientSupplier.setIS_SUPP_FAV('N');
+            tbClientSupplier.setSTATUS(1);
+            tbClientSupplier.setSUPP_NUM("Random");
+            tbClientSupplierRepository.save(tbClientSupplier);
+        }
+
+        response.setXscStatus(1);
+        response.setXscMessage("Suppliers added successfully.");
+        return response;
     }
 }
