@@ -4,6 +4,7 @@ import com.manex.backend.response.XscResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -27,5 +28,7 @@ public interface CustomerDAO {
 
     XscResponse markCustomerFavourite(String clientSuppId, String isFavourite);
 
-	XscResponse deleteCustomer(String clientCustId);
+    XscResponse deleteCustomer(String clientCustId);
+
+    XscResponse addAllCustomers(int appClientId, JSONArray list);
 }
