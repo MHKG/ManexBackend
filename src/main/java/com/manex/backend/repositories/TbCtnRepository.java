@@ -13,4 +13,7 @@ public interface TbCtnRepository
 
     @Query("SELECT tc FROM TbCtn tc WHERE tc.APP_CLIENT_ID = :appClientId")
     List<TbCtn> findByAppClientId(String appClientId);
+
+    @Query("SELECT tc FROM TbCtn tc WHERE tc.ALIAS_NAME = :ALIAS_NAME")
+    TbCtn findByAliasName(String ALIAS_NAME);
 }
