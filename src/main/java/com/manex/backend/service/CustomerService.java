@@ -13,6 +13,7 @@ import com.manex.backend.response.XscResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,15 +50,13 @@ public class CustomerService implements CustomerDAO {
 
     @Autowired private TbClientCustRepository tbClientCustRepository;
 
-	@Autowired private TbMmRepository tbMmRepository;
+    @Autowired private TbMmRepository tbMmRepository;
 
+    @Autowired private TbCustomerPoRepository tbCustomerPoRepository;
 
-	@Autowired private TbCustomerPoRepository tbCustomerPoRepository;
+    @Autowired private TbCustPoItemsRepository tbCustPoItemsRepository;
 
-
-	@Autowired private TbCustPoItemsRepository tbCustPoItemsRepository;
-
-	@Override
+    @Override
     public XscResponse addCustomer(HttpServletRequest request, JSONObject payload)
             throws IOException {
         XscResponse response = new XscResponse();
@@ -407,9 +406,60 @@ public class CustomerService implements CustomerDAO {
         TbClientCust tbClientCust =
                 tbClientCustRepository.findById(Integer.valueOf(clientCustId)).orElseThrow();
 
-		TbCustomerPo tbCustomerPo = tbCustomerPoRepository.findByClientCustId(tbClientCust.getID());
+        TbCustomerPo tbCustomerPo = tbCustomerPoRepository.findByClientCustId(tbClientCust.getID());
 
-		TbCustPoItems tbCustPoItems = tbCustPoItemsRepository.findByCustPoId(tbCustomerPo.getID());
+        TbCustPoItems tbCustPoItems = tbCustPoItemsRepository.findByCustPoId(tbCustomerPo.getID());
+        return response;
+    }
+
+    @Override
+    public XscResponse addAllCustomers(int appClientId, JSONArray list) {
+        XscResponse response = new XscResponse();
+
+        for (int i = 0; i < list.length(); i++) {
+            JSONObject jsonObject = list.getJSONObject(i);
+
+            TbCountry tbCountry =
+                    tbCountryRepository.findByISO3(jsonObject.getString("COUNTRY_ISO3"));
+
+            TbCompany tbCompany = new TbCompany();
+            tbCompany.setNAME(jsonObject.getString("COMPANY_NAME"));
+            tbCompany.setEMAIL(jsonObject.getString("EMAIL"));
+            tbCompany.setCONTACT_NUMBER(jsonObject.getString("CONTACT_NO"));
+            tbCompany.setALT_CONTACT_NUMBER(jsonObject.getString("ALT_CONTACT_NO"));
+            tbCompany.setWEBSITE(jsonObject.getString("WEBSITE"));
+            tbCompany.setREG_NUMBER(jsonObject.getString("REG_NO"));
+            tbCompany.setTAX_NUMBER(jsonObject.getString("TAX").replace(".0", ""));
+            tbCompany.setFAX(jsonObject.getString("FAX").replace(".0", ""));
+            tbCompany.setCREATED_DATE(Date.valueOf(LocalDate.now()));
+            tbCompany = tbCompanyRepository.save(tbCompany);
+
+            TbAllAddr tbAllAddr = new TbAllAddr();
+            tbAllAddr.setAPP_CLIENT_ID(appClientId);
+            tbAllAddr.setADDR_1(jsonObject.getString("ADDR_LINE_1"));
+            tbAllAddr.setADDR_2(jsonObject.getString("ADDR_LINE_2"));
+            tbAllAddr.setCOUNTRY_ID(tbCountry.getID());
+            tbAllAddr.setPOSTAL_CODE(jsonObject.getString("PINCODE").replace(".0", ""));
+            tbAllAddr = tbAllAddrRepository.save(tbAllAddr);
+
+            TbCompanyAddr tbCompanyAddr = new TbCompanyAddr();
+            tbCompanyAddr.setCOMPANY_ID(tbCompany.getID());
+            tbCompanyAddr.setADDR_ID(tbAllAddr.getID());
+            tbCompanyAddr.setSTATUS(1);
+            tbCompanyAddr.setDEFAULT_ADDR('Y');
+            tbCompanyAddrRepository.save(tbCompanyAddr);
+
+            TbClientCust tbClientCust = new TbClientCust();
+            tbClientCust.setCOMPANY_ID(tbCompany.getID());
+            tbClientCust.setAPP_CLIENT_ID(appClientId);
+            tbClientCust.setIS_CUST_FAV('N');
+            tbClientCust.setSTATUS(1);
+            tbClientCust.setCUST_NUM("Random");
+            tbClientCustRepository.save(tbClientCust);
+        }
+
+        response.setXscStatus(1);
+        response.setXscMessage("Suppliers added successfully.");
         return response;
     }
 }

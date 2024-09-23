@@ -46,10 +46,15 @@ public class TbMmController {
         }
     }
 
-    @GetMapping(value = "/companyProfileImages/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
-    private void getImage(@PathVariable("imageName") String imageName, HttpServletResponse response)
+    @GetMapping(
+            value = "/viewImages/{folderName}/{imageName}",
+            produces = MediaType.IMAGE_JPEG_VALUE)
+    private void getImage(
+            @PathVariable("imageName") String imageName,
+            @PathVariable("folderName") String folderName,
+            HttpServletResponse response)
             throws IOException {
-        InputStream is = tbMmDAO.getImageResource(imageName);
+        InputStream is = tbMmDAO.getImageResource(folderName, imageName);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(is, response.getOutputStream());
     }
