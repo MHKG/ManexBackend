@@ -67,7 +67,7 @@ public class CustomerService implements CustomerDAO {
         if (file != null) {
             tbMm =
                     tbMmDAO.saveImageFileWithName(
-                            "companyProfileImages", file, payload.get("NAME").toString(), null);
+                            "customerImages", file, payload.get("NAME").toString(), null);
         }
 
         // TbCompany
@@ -158,7 +158,7 @@ public class CustomerService implements CustomerDAO {
         List<TbCountry> tbCountryList = new ArrayList<>();
         for (TbCompany tbCompany : tbCompanyList) {
             TbCompanyAddr tbCompanyAddr =
-                    tbCompanyAddrRepository.findByCompanyId(tbCompany.getID());
+                    tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
             TbAllAddr tbAllAddr =
                     tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow();
             tbCountryList.add(
@@ -198,8 +198,11 @@ public class CustomerService implements CustomerDAO {
         TbCompany tbCompany =
                 tbCompanyRepository.findById(tbClientCustomer.getCOMPANY_ID()).orElseThrow();
 
+        TbCompanyAddr tbCompanyAddr =
+                tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
+
         TbAllAddr tbAllAddr =
-                tbAllAddrRepository.findByAppClientId(tbClientCustomer.getAPP_CLIENT_ID());
+                tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow();
 
         TbCountry tbCountry = tbCountryRepository.findById(tbAllAddr.getCOUNTRY_ID()).orElseThrow();
 
@@ -257,8 +260,11 @@ public class CustomerService implements CustomerDAO {
                 tbClientCustRepository.findById(payload.getInt("CLIENT_CUST_ID")).orElseThrow();
         TbCompany tbCompany =
                 tbCompanyRepository.findById(tbClientCust.getCOMPANY_ID()).orElseThrow();
+
+        TbCompanyAddr tbCompanyAddr =
+                tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
         TbAllAddr tbAllAddr =
-                tbAllAddrRepository.findByAppClientId(tbClientCust.getAPP_CLIENT_ID());
+                tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow();
 
         // TbClientCustomer
         tbClientCust.setIS_CUST_FAV(payload.get("IS_SUPP_FAV").toString().charAt(0));

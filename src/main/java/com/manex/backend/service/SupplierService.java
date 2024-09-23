@@ -58,7 +58,7 @@ public class SupplierService implements SupplierDAO {
         if (file != null) {
             tbMm =
                     tbMmDAO.saveImageFileWithName(
-                            "companyProfileImages", file, payload.get("NAME").toString(), null);
+                            "supplierImages", file, payload.get("NAME").toString(), null);
         }
 
         // TbCompany
@@ -149,7 +149,7 @@ public class SupplierService implements SupplierDAO {
         List<TbCountry> tbCountryList = new ArrayList<>();
         for (TbCompany tbCompany : tbCompanyList) {
             TbCompanyAddr tbCompanyAddr =
-                    tbCompanyAddrRepository.findByCompanyId(tbCompany.getID());
+                    tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
             TbAllAddr tbAllAddr =
                     tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow();
             tbCountryList.add(
@@ -194,8 +194,11 @@ public class SupplierService implements SupplierDAO {
         List<TbProducts> tbProducts =
                 tbProductsRepository.findAllByClientSupplierId(clientSupplierId);
 
+        TbCompanyAddr tbCompanyAddr =
+                tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
+
         TbAllAddr tbAllAddr =
-                tbAllAddrRepository.findByAppClientId(tbClientSupplier.getAPP_CLIENT_ID());
+                tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow();
 
         TbCountry tbCountry = tbCountryRepository.findById(tbAllAddr.getCOUNTRY_ID()).orElseThrow();
 
@@ -208,6 +211,7 @@ public class SupplierService implements SupplierDAO {
         JsonObject data = new JsonObject();
         JsonObject jsonObject1 = new JsonObject();
         JsonObject jsonObject2 = new JsonObject();
+        jsonObject1.addProperty("COMPANY_ID", tbCompany.getID());
         jsonObject1.addProperty("CREATED_ON", tbCompany.getCREATED_DATE().getTime());
         jsonObject1.addProperty("LOGO", tbMm.getMM_FILE_NAME());
         jsonObject1.addProperty("SUPP_NAME", tbCompany.getNAME());
@@ -250,8 +254,11 @@ public class SupplierService implements SupplierDAO {
                         .orElseThrow();
         TbCompany tbCompany =
                 tbCompanyRepository.findById(tbClientSupplier.getCOMPANY_ID()).orElseThrow();
+
+        TbCompanyAddr tbCompanyAddr =
+                tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
         TbAllAddr tbAllAddr =
-                tbAllAddrRepository.findByAppClientId(payload.getInt("APP_CLIENT_ID"));
+                tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow();
 
         // TbClientSupplier
         tbClientSupplier.setIS_SUPP_FAV(payload.get("IS_SUPP_FAV").toString().charAt(0));
