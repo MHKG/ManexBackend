@@ -525,31 +525,79 @@ public class TbProductService implements TbProductDAO {
     }
 
     @Override
-    public XscResponse addAllProduct(int appClientId, JSONArray list) {
+    public XscResponse addAllProduct(int clientSuppId, JSONArray list) {
         XscResponse response = new XscResponse();
 
-        TbAppClient tbAppClient = tbAppClientRepository.findById(appClientId).orElseThrow();
-
         TbClientSupplier tbClientSupplier =
-                tbClientSupplierRepository.findByAppClientIdAndCompanyId(
-                        appClientId, tbAppClient.getCOMPANY_ID());
+                tbClientSupplierRepository.findById(clientSuppId).orElseThrow();
+
+        TbAppClient tbAppClient =
+                tbAppClientRepository.findById(tbClientSupplier.getAPP_CLIENT_ID()).orElseThrow();
 
         for (int i = 0; i < list.length(); i++) {
             JSONObject jsonObject = list.getJSONObject(i);
 
             TbProducts tbProducts = new TbProducts();
-            tbProducts.setNAME(jsonObject.getString("Product_Name"));
-            tbProducts.setDESCRIPTION(jsonObject.getString("Product_Description"));
-            tbProducts.setLENGTH(jsonObject.getFloat("Product_Length"));
-            tbProducts.setWIDTH(jsonObject.getFloat("Product_Width"));
-            tbProducts.setHEIGHT(jsonObject.getFloat("Product_Height"));
+            tbProducts.setNAME(jsonObject.getString("PRODUCT_NAME"));
+            tbProducts.setDESCRIPTION(jsonObject.getString("P_DESC"));
+            tbProducts.setLENGTH(jsonObject.getFloat("PRODUCT_LENGTH"));
+            tbProducts.setWIDTH(jsonObject.getFloat("PRODUCT_WIDTH"));
+            tbProducts.setHEIGHT(jsonObject.getFloat("PRODUCT_HEIGHT"));
             tbProducts.setSIZE_UNIT(SizeUnit.MTR);
-            tbProducts.setVOLUME(jsonObject.getFloat("Product_CBM"));
+            tbProducts.setVOLUME(jsonObject.getFloat("PRODUCT_CBM"));
             tbProducts.setVOLUME_UNIT(VolumeUnit.CB_MTR);
             tbProducts.setCLIENT_SUPPLIER_ID(tbClientSupplier.getID());
+            tbProducts = tbProductsRepository.save(tbProducts);
 
-			TbProductSpec tbProductSpec = new TbProductSpec();
+            TbProductSpec tbProductSpec = new TbProductSpec();
+            tbProductSpec.setPRODUCT_ID(tbProducts.getID());
+            tbProductSpec.setPRICE(jsonObject.getFloat("PRICE_PER_PCS"));
+            tbProductSpec.setPACKING(jsonObject.getString("PACKAGING"));
+            tbProductSpec.setMATERIAL(jsonObject.getString("PRODUCT_MATERIAL"));
+            tbProductSpecRepository.save(tbProductSpec);
+
+            TbCompanyProductNumber tbCompanyProductNumber = new TbCompanyProductNumber();
+            TbCompanyProductNumberId tbCompanyProductNumberId = new TbCompanyProductNumberId();
+            tbCompanyProductNumberId.setPRODUCT_ID(tbProducts.getID());
+            tbCompanyProductNumberId.setAPP_CLIENT_ID(tbAppClient.getID());
+            tbCompanyProductNumberId.setCOMPANY_ID(tbClientSupplier.getCOMPANY_ID());
+
+            tbCompanyProductNumber.setID(tbCompanyProductNumberId);
+            tbCompanyProductNumber.setBAR_CODE(
+                    jsonObject.getString("PRODUCT_BARCODE_NUMBER").replace(".0", ""));
+            tbCompanyProductNumber.setITEM_NO("PROD12");
+            tbCompanyProductNumberRepository.save(tbCompanyProductNumber);
+
+            TbCtn tbCtn = tbCtnRepository.findByAliasName(jsonObject.getString("CTN_TYPE"));
+
+            TbMItemCtn tbMItemCtn = new TbMItemCtn();
+            TbMItemCtnId tbMItemCtnId = new TbMItemCtnId();
+            tbMItemCtnId.setPRODUCT_ID(tbProducts.getID());
+            tbMItemCtnId.setCTN_ID(tbCtn.getID());
+            tbMItemCtn.setID(tbMItemCtnId);
+            tbMItemCtn.setPKG_TYPE(jsonObject.getString("PACKAGE_TYPE"));
+            tbMItemCtn.setQTY_PER_CTN(jsonObject.getInt("QTY_PER_CTN"));
+            tbMItemCtn.setNET_WT(jsonObject.getFloat("NET_WEIGHT"));
+            tbMItemCtn.setGROSS_WT(jsonObject.getFloat("GROSS_WEIGHT"));
+            tbMItemCtn.setWEIGHT_UNIT(WeightUnit.KG);
+            tbMItemCtnRepository.save(tbMItemCtn);
+
+            TbClientInventory tbClientInventory = new TbClientInventory();
+            tbClientInventory.setQTY(jsonObject.getInt("QTY_PER_CTN"));
+            tbClientInventory.setAPP_CLIENT_ID(tbAppClient.getID());
+            tbClientInventory.setPRODUCT_ID(tbProducts.getID());
+            tbClientInventory.setLAST_PRICE(jsonObject.getFloat("PRICE_PER_PCS"));
+            tbClientInventoryRepository.save(tbClientInventory);
+
+            TbMClientSupplierItem tbMClientSupplierItem = new TbMClientSupplierItem();
+            TbMClientSupplierItemId tbMClientSupplierItemId = new TbMClientSupplierItemId();
+            tbMClientSupplierItemId.setPROD_ID(tbProducts.getID());
+            tbMClientSupplierItemId.setCLIENT_SUPP_ID(tbClientSupplier.getID());
+            tbMClientSupplierItem.setID(tbMClientSupplierItemId);
+            tbMClientSupplierItem.setSTATUS(1);
+            tbMClientSupplierItem.setIS_PROD_FAV('N');
+            tbMClientSupplierItemRepository.save(tbMClientSupplierItem);
         }
-        return response;
+        return new XscResponse(1, "Products imported successfully.");
     }
 }

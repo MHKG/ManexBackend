@@ -42,6 +42,9 @@ public class TbMmService implements TbMmDAO {
         if (uploadDir.contains("supplier")) {
             tbMm.setMM_TITLE("Supplier Logo");
             tbMm.setDESCRIPTION("Supplier Logo");
+        } else if (uploadDir.contains("customer")) {
+            tbMm.setMM_TITLE("Customer Logo");
+            tbMm.setDESCRIPTION("Customer Logo");
         } else if (uploadDir.contains("product")) {
             tbMm.setMM_TITLE("Product Image");
             tbMm.setDESCRIPTION("Product Image");
