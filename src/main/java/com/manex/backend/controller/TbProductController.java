@@ -63,6 +63,6 @@ public class TbProductController {
     private XscResponse addAllProduct(@RequestParam("payload") JSONObject payload)
             throws IOException {
         return tbProductDAO.addAllProduct(
-                payload.getInt("APP_CLIENT_ID"), payload.getJSONArray("LIST"));
+                payload.getInt("CLIENT_SUPP_ID"), payload.getJSONArray("LIST"));
     }
 }

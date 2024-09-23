@@ -28,14 +28,35 @@ public class TbMmController {
 
     @Autowired private TbCompanyRepository tbCompanyRepository;
 
-    @PostMapping("/updateCompanyImage")
-    private XscResponse updateCompanyImage(
+    @PostMapping("/updateSupplierImage")
+    private XscResponse updateSupplierImage(
             HttpServletRequest request, @RequestParam("payload") JSONObject payload)
             throws IOException {
         MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("file");
 
         if (file != null) {
-            TbCompany tbCompany = tbCompanyRepository.findById(1).orElseThrow();
+            TbCompany tbCompany =
+                    tbCompanyRepository.findById(payload.getInt("COMPANY_ID")).orElseThrow();
+            TbMm tbMm =
+                    tbMmDAO.saveImageFileWithName(
+                            "supplierImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
+
+            return new XscResponse(1, "Image updated successfully.");
+        } else {
+            return new XscResponse(1, "Image not updated by user.");
+        }
+    }
+
+    @PostMapping("/updateCustomerImage")
+    private XscResponse updateCustomerImage(
+            HttpServletRequest request, @RequestParam("payload") JSONObject payload)
+            throws IOException {
+        MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("file");
+
+        if (file != null) {
+            TbCompany tbCompany =
+                    tbCompanyRepository.findById(payload.getInt("COMPANY_ID")).orElseThrow();
+
             TbMm tbMm =
                     tbMmDAO.saveImageFileWithName(
                             "companyProfileImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
