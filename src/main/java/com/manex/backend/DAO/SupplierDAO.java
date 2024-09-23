@@ -2,14 +2,14 @@ package com.manex.backend.DAO;
 
 import com.manex.backend.response.XscResponse;
 
-import jakarta.servlet.http.HttpServletRequest;
-
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 public interface SupplierDAO {
-    XscResponse addSupplier(HttpServletRequest request, JSONObject payload) throws IOException;
+    XscResponse addSupplier(MultipartFile file, JSONObject payload) throws IOException;
 
     XscResponse listSupplier(
             String APP_CLIENT_ID, String CURRENT_PAGE, String ITEM_PER_PAGE, String SEARCH_KEYWORD);
@@ -26,4 +26,6 @@ public interface SupplierDAO {
     XscResponse supplierStatusFilter(String appClientId);
 
     XscResponse markSupplierFavourite(String clientSuppId, String isFavourite);
+
+    XscResponse addAllSuppliers(int appClientId, JSONArray list);
 }

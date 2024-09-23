@@ -56,8 +56,9 @@ public class TbMmService implements TbMmDAO {
     }
 
     @Override
-    public InputStream getImageResource(String fileName) throws FileNotFoundException {
-        String fullPath = "companyProfileImages" + File.separator + fileName;
+    public InputStream getImageResource(String folderName, String fileName)
+            throws FileNotFoundException {
+        String fullPath = folderName + File.separator + fileName;
         return new FileInputStream(fullPath);
     }
 }
