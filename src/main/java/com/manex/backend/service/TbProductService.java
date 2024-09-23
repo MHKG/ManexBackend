@@ -14,6 +14,7 @@ import com.manex.backend.response.XscResponse;
 
 import jakarta.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -359,12 +360,6 @@ public class TbProductService implements TbProductDAO {
     }
 
     @Override
-    public InputStream getImageResource(String fileName) throws FileNotFoundException {
-        String fullPath = "productImages" + File.separator + fileName;
-        return new FileInputStream(fullPath);
-    }
-
-    @Override
     public XscResponse productPriceFilter(String appClientId) {
         XscResponse response = new XscResponse();
 
@@ -508,24 +503,53 @@ public class TbProductService implements TbProductDAO {
         return response;
     }
 
-	@Override
-	public XscResponse removeProductImage(JSONObject payload) throws IOException {
-		TbProductMm tbProductMm =
-				tbProductMmRepository.findByMmFile(payload.getInt("PRODUCT_MM_ID"));
+    @Override
+    public XscResponse removeProductImage(JSONObject payload) throws IOException {
+        TbProductMm tbProductMm =
+                tbProductMmRepository.findByMmFile(payload.getInt("PRODUCT_MM_ID"));
 
-		if (!Objects.equals(Character.toUpperCase(tbProductMm.getDEFAULT_MM()), 'Y')) {
-			TbMm tbMm = tbMmRepository.findById(payload.getInt("PRODUCT_MM_ID")).orElseThrow();
-			Path filePath = Paths.get(tbMm.getMM_FILE_NAME());
-			boolean isFileDeleted = Files.deleteIfExists(filePath);
-			if (isFileDeleted) {
+        if (!Objects.equals(Character.toUpperCase(tbProductMm.getDEFAULT_MM()), 'Y')) {
+            TbMm tbMm = tbMmRepository.findById(payload.getInt("PRODUCT_MM_ID")).orElseThrow();
+            Path filePath = Paths.get(tbMm.getMM_FILE_NAME());
+            boolean isFileDeleted = Files.deleteIfExists(filePath);
+            if (isFileDeleted) {
                 tbProductMmRepository.delete(tbProductMm);
                 tbMmRepository.delete(tbMm);
-				return new XscResponse(1, "Product image deleted successfully.");
-			} else {
-				return new XscResponse(0, "Cannot delete product image.");
-			}
-		} else {
-			return new XscResponse(0, "Cannot delete default image.");
-		}
-	}
+                return new XscResponse(1, "Product image deleted successfully.");
+            } else {
+                return new XscResponse(0, "Cannot delete product image.");
+            }
+        } else {
+            return new XscResponse(0, "Cannot delete default image.");
+        }
+    }
+
+    @Override
+    public XscResponse addAllProduct(int appClientId, JSONArray list) {
+        XscResponse response = new XscResponse();
+
+        TbAppClient tbAppClient = tbAppClientRepository.findById(appClientId).orElseThrow();
+
+        TbClientSupplier tbClientSupplier =
+                tbClientSupplierRepository.findByAppClientIdAndCompanyId(
+                        appClientId, tbAppClient.getCOMPANY_ID());
+
+        for (int i = 0; i < list.length(); i++) {
+            JSONObject jsonObject = list.getJSONObject(i);
+
+            TbProducts tbProducts = new TbProducts();
+            tbProducts.setNAME(jsonObject.getString("Product_Name"));
+            tbProducts.setDESCRIPTION(jsonObject.getString("Product_Description"));
+            tbProducts.setLENGTH(jsonObject.getFloat("Product_Length"));
+            tbProducts.setWIDTH(jsonObject.getFloat("Product_Width"));
+            tbProducts.setHEIGHT(jsonObject.getFloat("Product_Height"));
+            tbProducts.setSIZE_UNIT(SizeUnit.MTR);
+            tbProducts.setVOLUME(jsonObject.getFloat("Product_CBM"));
+            tbProducts.setVOLUME_UNIT(VolumeUnit.CB_MTR);
+            tbProducts.setCLIENT_SUPPLIER_ID(tbClientSupplier.getID());
+
+			TbProductSpec tbProductSpec = new TbProductSpec();
+        }
+        return response;
+    }
 }

@@ -19,6 +19,9 @@ public class TbProducts {
     private Integer CLIENT_SUPPLIER_ID;
 
     @Column(nullable = false)
+    private String NAME;
+
+    @Column(nullable = false)
     private String DESCRIPTION;
 
     @Column private Float LENGTH;
@@ -57,6 +60,14 @@ public class TbProducts {
 
     public void setCLIENT_SUPPLIER_ID(Integer CLIENT_SUPPLIER_ID) {
         this.CLIENT_SUPPLIER_ID = CLIENT_SUPPLIER_ID;
+    }
+
+    public String getNAME() {
+        return NAME;
+    }
+
+    public void setNAME(String NAME) {
+        this.NAME = NAME;
     }
 
     public String getDESCRIPTION() {

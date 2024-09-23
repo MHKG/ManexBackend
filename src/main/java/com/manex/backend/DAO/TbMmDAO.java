@@ -12,5 +12,5 @@ public interface TbMmDAO {
     TbMm saveImageFileWithName(String uploadDir, MultipartFile file, String name, Integer id)
             throws IOException;
 
-    InputStream getImageResource(String imageName) throws FileNotFoundException;
+    InputStream getImageResource(String folderName, String imageName) throws FileNotFoundException;
 }

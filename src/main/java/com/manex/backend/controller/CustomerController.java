@@ -70,8 +70,14 @@ public class CustomerController {
         return customerDAO.markCustomerFavourite(CLIENT_CUST_ID, IS_FAVOURITE);
     }
 
-	@PostMapping("/deleteCustomer")
-	private XscResponse deleteCustomer(@RequestParam("CLIENT_CUST_ID") String CLIENT_CUST_ID){
-		return customerDAO.deleteCustomer(CLIENT_CUST_ID);
-	}
+    @PostMapping("/deleteCustomer")
+    private XscResponse deleteCustomer(@RequestParam("CLIENT_CUST_ID") String CLIENT_CUST_ID) {
+        return customerDAO.deleteCustomer(CLIENT_CUST_ID);
+    }
+
+    @PostMapping("/addAllCustomers")
+    private XscResponse addALLCustomers(@RequestParam("payload") JSONObject payload) {
+        return customerDAO.addAllCustomers(
+                payload.getInt("APP_CLIENT_ID"), payload.getJSONArray("LIST"));
+    }
 }
