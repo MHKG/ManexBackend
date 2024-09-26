@@ -526,8 +526,6 @@ public class TbProductService implements TbProductDAO {
 
     @Override
     public XscResponse addAllProduct(int clientSuppId, JSONArray list) {
-        XscResponse response = new XscResponse();
-
         TbClientSupplier tbClientSupplier =
                 tbClientSupplierRepository.findById(clientSuppId).orElseThrow();
 
