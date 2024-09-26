@@ -60,8 +60,7 @@ public class TbProductController {
     }
 
     @PostMapping("/addAllProduct")
-    private XscResponse addAllProduct(@RequestParam("payload") JSONObject payload)
-            throws IOException {
+    private XscResponse addAllProduct(@RequestParam("payload") JSONObject payload) {
         return tbProductDAO.addAllProduct(
                 payload.getInt("CLIENT_SUPP_ID"), payload.getJSONArray("LIST"));
     }

@@ -2,6 +2,8 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.Formula;
+
 import java.util.Date;
 
 @Entity
@@ -37,6 +39,9 @@ public class TbSupplierInvoice {
     @Column private Integer STATUS;
 
     @Column private String REMARK;
+
+    @Formula("TOTAL_GOODS_AMOUNT + SHIPPING_COST")
+    private Float GRAND_TOTAL;
 
     public Integer getID() {
         return ID;
@@ -140,5 +145,13 @@ public class TbSupplierInvoice {
 
     public void setREMARK(String REMARK) {
         this.REMARK = REMARK;
+    }
+
+    public Float getGRAND_TOTAL() {
+        return GRAND_TOTAL;
+    }
+
+    public void setGRAND_TOTAL(Float GRAND_TOTAL) {
+        this.GRAND_TOTAL = GRAND_TOTAL;
     }
 }
