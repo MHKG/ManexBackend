@@ -68,11 +68,11 @@ public class TbCtnService implements TbCtnDAO {
     }
 
     @Override
-    public XscResponse getCartons(String appClientId) {
-
+    public XscResponse getCartons(JSONObject payload) {
         XscResponse response = new XscResponse();
 
-        List<TbCtn> tbCtnList = tbCtnRepository.findByAppClientId(appClientId);
+        List<TbCtn> tbCtnList =
+                tbCtnRepository.findByAppClientId(payload.get("APP_CLIENT_ID").toString());
 
         JsonObject data = new JsonObject();
 
