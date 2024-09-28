@@ -7,5 +7,5 @@ import org.json.JSONObject;
 public interface TbClientInventoryDAO {
     XscResponse getInventoryDetails(JSONObject payload);
 
-	XscResponse viewPurchaseHistory(JSONObject payload);
+    XscResponse viewPurchaseHistory(JSONObject payload);
 }

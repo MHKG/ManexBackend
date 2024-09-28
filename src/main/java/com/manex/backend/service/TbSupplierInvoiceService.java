@@ -31,6 +31,29 @@ public class TbSupplierInvoiceService implements TbSupplierInvoiceDAO {
 
     @Autowired private TbSupplierPiRepository tbSupplierPiRepository;
 
+    @Autowired private TbProductsRepository tbProductsRepository;
+
+    @Autowired private TbSupplierPoItemsRepository tbSupplierPoItemsRepository;
+
+    private static JsonObject getJsonObject(
+            TbSupplierInvoice tbSupplierInvoice, List<TbSupplierOrderAp> tbSupplierOrderApList) {
+        JsonObject data = new JsonObject();
+
+        JsonArray jsonArray = new JsonArray();
+        for (TbSupplierOrderAp tbSupplierOrderAp : tbSupplierOrderApList) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("INVOICE_NO", tbSupplierInvoice.getSUPP_INV_NUM());
+            jsonObject.addProperty("INVOICE_AMOUNT", tbSupplierInvoice.getGRAND_TOTAL());
+            jsonObject.addProperty(
+                    "DUE_AMOUNT",
+                    tbSupplierInvoice.getGRAND_TOTAL() - tbSupplierOrderAp.getAMOUNT_PAID());
+            jsonArray.add(jsonObject);
+        }
+
+        data.add("INVOICE_DETAILS", jsonArray);
+        return data;
+    }
+
     @Override
     public XscResponse paySupplierDisplay(JSONObject payload) {
         XscResponse response = new XscResponse();
@@ -40,32 +63,15 @@ public class TbSupplierInvoiceService implements TbSupplierInvoiceDAO {
                         .findById(payload.getInt("SUPP_INVOICE_ID"))
                         .orElseThrow();
 
-        TbSupplierOrderAp tbSupplierOrderAp =
+        List<TbSupplierOrderAp> tbSupplierOrderApList =
                 tbSupplierOrderApRepository.findBySupplierInvoiceId(tbSupplierInvoice.getID());
 
-        JsonObject data = getJsonObject(tbSupplierInvoice, tbSupplierOrderAp);
+        JsonObject data = getJsonObject(tbSupplierInvoice, tbSupplierOrderApList);
 
         response.setXscData(GenericMethods.convertGsonToJackson(data));
         response.setXscMessage("Invoice details fetched successfully");
         response.setXscStatus(1);
         return response;
-    }
-
-    private static JsonObject getJsonObject(
-            TbSupplierInvoice tbSupplierInvoice, TbSupplierOrderAp tbSupplierOrderAp) {
-        JsonObject data = new JsonObject();
-
-        JsonArray jsonArray = new JsonArray();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("INVOICE_NO", tbSupplierInvoice.getSUPP_INV_NUM());
-        jsonObject.addProperty("INVOICE_AMOUNT", tbSupplierInvoice.getGRAND_TOTAL());
-        jsonObject.addProperty(
-                "DUE_AMOUNT",
-                tbSupplierInvoice.getGRAND_TOTAL() - tbSupplierOrderAp.getAMOUNT_PAID());
-        jsonArray.add(jsonObject);
-
-        data.add("INVOICE_DETAILS", jsonArray);
-        return data;
     }
 
     @Override
@@ -100,7 +106,7 @@ public class TbSupplierInvoiceService implements TbSupplierInvoiceDAO {
         List<TbSupplierOrderAp> tbSupplierOrderApList = new ArrayList<>();
 
         for (TbSupplierInvoice tbSupplierInvoice : tbSupplierInvoiceList) {
-            tbSupplierOrderApList.add(
+            tbSupplierOrderApList.addAll(
                     tbSupplierOrderApRepository.findBySupplierInvoiceId(tbSupplierInvoice.getID()));
         }
 
@@ -130,6 +136,67 @@ public class TbSupplierInvoiceService implements TbSupplierInvoiceDAO {
         data.add("SUPPLIER_INVOICE", jsonArray);
         response.setXscData(GenericMethods.convertGsonToJackson(data));
         response.setXscMessage("Supplier invoice details");
+        response.setXscStatus(1);
+        return response;
+    }
+
+    @Override
+    public XscResponse viewSupplierInvoice(JSONObject payload) {
+        float totalInvoiceAmount = 0;
+
+        XscResponse response = new XscResponse();
+
+        TbSupplierInvoice tbSupplierInvoice =
+                tbSupplierInvoiceRepository.findById(payload.getInt("INVOICE_ID")).orElseThrow();
+
+        List<TbProducts> tbProductsList =
+                tbProductsRepository.findAllByClientSupplierId(
+                        payload.getString("CLIENT_SUPPLIER_ID"));
+
+        TbSupplierPi tbSupplierPi =
+                tbSupplierPiRepository.findById(tbSupplierInvoice.getSUPP_PI_ID()).orElseThrow();
+
+        TbSupplierQuotation tbSupplierQuotation =
+                tbSupplierQuotationRepository
+                        .findById(tbSupplierPi.getSUPP_QUOT_ID())
+                        .orElseThrow();
+
+        List<TbSupplierPoItems> tbSupplierPoItemsList =
+                tbSupplierPoItemsRepository.findAllBySupplierPoId(
+                        tbSupplierQuotation.getSUPP_PO_ID());
+
+        JsonObject data = new JsonObject();
+
+        JsonArray jsonArray = new JsonArray();
+        for (int i = 0; i < tbSupplierPoItemsList.size(); i++) {
+            float total_cost =
+                    tbSupplierPoItemsList.get(i).getQTY()
+                            * tbSupplierPoItemsList.get(i).getPRICE_PER_ITEM();
+            totalInvoiceAmount += total_cost;
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("CLIENT_PROD_ID", tbProductsList.get(i).getID());
+            jsonObject.addProperty("SUPP_PROD_ID", tbProductsList.get(i).getID());
+            jsonObject.addProperty("DESCRIPTION", tbProductsList.get(i).getDESCRIPTION());
+            jsonObject.addProperty("TOTAL_QTY", tbSupplierPoItemsList.get(i).getQTY());
+            jsonObject.addProperty(
+                    "PRICE_PER_ITEM", tbSupplierPoItemsList.get(i).getPRICE_PER_ITEM());
+            jsonObject.addProperty("TOTAL_COST", total_cost);
+
+            jsonArray.add(jsonObject);
+        }
+
+        data.add("INV_ITEMS", jsonArray);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("TOTAL_COST", totalInvoiceAmount);
+        jsonObject.addProperty(
+                "INVOICE_CURRENCY_RATE", tbSupplierInvoice.getINVOICE_CURRENCY_RATE());
+        jsonObject.addProperty("TOTAL_INVOICE_VALUE", totalInvoiceAmount);
+
+        data.add("SUMMARY", jsonObject);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Data fetched successfully");
         response.setXscStatus(1);
         return response;
     }

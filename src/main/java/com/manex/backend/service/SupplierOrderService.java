@@ -2,7 +2,7 @@ package com.manex.backend.service;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.manex.backend.DAO.OrderDAO;
+import com.manex.backend.DAO.SupplierOrderDAO;
 import com.manex.backend.GenericMethods.GenericMethods;
 import com.manex.backend.entities.*;
 import com.manex.backend.repositories.*;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class OrderService implements OrderDAO {
+public class SupplierOrderService implements SupplierOrderDAO {
 
     @Autowired private TbClientSupplierRepository tbClientSupplierRepository;
 
@@ -118,7 +118,14 @@ public class OrderService implements OrderDAO {
         }
         data.add("PO_LIST", jsonArray);
 
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("COUNT", tbSupplierPoList.size());
+
+        data.add("TOTAL_PO_COUNT", jsonObject);
+
         response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Order list fetched successfully");
+        response.setXscStatus(1);
         return response;
     }
 }

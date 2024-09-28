@@ -13,7 +13,7 @@ public interface ExcelFilesDAO {
 
     ResponseEntity<byte[]> downloadSampleExcelFile(String filename) throws IOException;
 
-	XscResponse uploadExcelFile(MultipartFile file, JSONObject payload);
+    XscResponse uploadExcelFile(MultipartFile file, JSONObject payload);
 
-	XscResponse uploadProductExcelFile(MultipartFile file, JSONObject payload);
+    XscResponse uploadProductExcelFile(MultipartFile file, JSONObject payload);
 }
