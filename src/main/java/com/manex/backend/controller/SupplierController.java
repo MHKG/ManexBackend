@@ -7,10 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -51,13 +49,12 @@ public class SupplierController {
     }
 
     @PostMapping("/supplierNameFilter")
-    private XscResponse supplierNameFilter(
-            @RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID,
-            @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD,
-            @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
-            @RequestParam("ITEM_PER_PAGE") String ITEM_PER_PAGE) {
+    private XscResponse supplierNameFilter(@RequestParam("payload") JSONObject payload) {
         return supplierDAO.supplierNameFilter(
-                APP_CLIENT_ID, SEARCH_KEYWORD, CURRENT_PAGE, ITEM_PER_PAGE);
+                payload.getString("APP_CLIENT_ID"),
+                payload.getString("SEARCH_KEYWORD"),
+                payload.getString("CURRENT_PAGE"),
+                payload.getString("ITEM_PER_PAGE"));
     }
 
     @PostMapping("/supplierTypeFilter")
@@ -81,5 +78,22 @@ public class SupplierController {
     private XscResponse addALLSuppliers(@RequestParam("payload") JSONObject payload) {
         return supplierDAO.addAllSuppliers(
                 payload.getInt("APP_CLIENT_ID"), payload.getJSONArray("LIST"));
+    }
+
+    @PostMapping("/getReports")
+    private XscResponse getReports(@RequestParam("payload") JSONObject payload) {
+        return supplierDAO.getReports(payload);
+    }
+
+    @PostMapping("/supplierOrderReportDownloadPdf")
+    private XscResponse supplierOrderReportDownloadPdf(@RequestParam("payload") JSONObject payload)
+            throws IOException {
+        return supplierDAO.supplierOrderReportDownloadPdf(payload);
+    }
+
+    @GetMapping("/downloadPdfReports")
+    private ResponseEntity<byte[]> downloadPdfReports(@RequestParam("fileId") String fileId)
+            throws IOException {
+        return supplierDAO.downloadPdfReports(fileId);
     }
 }

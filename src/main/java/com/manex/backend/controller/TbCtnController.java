@@ -28,7 +28,7 @@ public class TbCtnController {
     }
 
     @PostMapping("/getCartons")
-    private XscResponse getCartons(@RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID) {
-        return tbCtnDAO.getCartons(APP_CLIENT_ID);
+    private XscResponse getCartons(@RequestParam("payload") JSONObject payload) {
+        return tbCtnDAO.getCartons(payload);
     }
 }

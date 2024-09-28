@@ -4,6 +4,7 @@ import com.manex.backend.response.XscResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -28,4 +29,10 @@ public interface SupplierDAO {
     XscResponse markSupplierFavourite(String clientSuppId, String isFavourite);
 
     XscResponse addAllSuppliers(int appClientId, JSONArray list);
+
+    XscResponse getReports(JSONObject payload);
+
+    XscResponse supplierOrderReportDownloadPdf(JSONObject payload) throws IOException;
+
+    ResponseEntity<byte[]> downloadPdfReports(String fileId) throws IOException;
 }
