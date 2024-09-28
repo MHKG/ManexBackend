@@ -7,6 +7,7 @@ import com.manex.backend.DAO.CustomerDAO;
 import com.manex.backend.DAO.TbMmDAO;
 import com.manex.backend.GenericMethods.GenericMethods;
 import com.manex.backend.entities.*;
+import com.manex.backend.entities.ClientCustProjection;
 import com.manex.backend.repositories.*;
 import com.manex.backend.response.XscResponse;
 
@@ -37,8 +38,6 @@ public class CustomerService implements CustomerDAO {
     @Autowired private TbAllAddrRepository tbAllAddrRepository;
 
     @Autowired private TbCompanyAddrRepository tbCompanyAddrRepository;
-
-    @Autowired private TbProductsRepository tbProductsRepository;
 
     @Autowired private TbCountryRepository tbCountryRepository;
 
@@ -139,16 +138,18 @@ public class CustomerService implements CustomerDAO {
 
         JsonObject responseObject = new JsonObject();
 
-        List<TbClientCust> tbClientCustomerList =
+        List<ClientCustProjection> clientCustProjectionList =
                 tbClientCustRepository.findAllByAppClientIdAndSearchKeyword(
                         APP_CLIENT_ID, SEARCH_KEYWORD);
 
         List<TbCompany> tbCompanyList = new ArrayList<>();
-        for (TbClientCust tbClientCustomer1 : tbClientCustomerList) {
-            tbCompanyList.add(
-                    tbCompanyRepository.findById(tbClientCustomer1.getCOMPANY_ID()).orElseThrow());
+        for (ClientCustProjection clientCustProjection : clientCustProjectionList) {
+            TbClientCust tbClientCust = clientCustProjection.getTbClientCust();
 
-            if (tbClientCustomer1.getIS_CUST_FAV() == 'Y') {
+            tbCompanyList.add(
+                    tbCompanyRepository.findById(tbClientCust.getCOMPANY_ID()).orElseThrow());
+
+            if (tbClientCust.getIS_CUST_FAV() == 'Y') {
                 favourite_customers++;
             } else {
                 regular_customers++;
@@ -171,9 +172,13 @@ public class CustomerService implements CustomerDAO {
             data.addProperty("CONTACT_NUMBER", tbCompanyList.get(i).getCONTACT_NUMBER());
             data.addProperty("EMAIL", tbCompanyList.get(i).getEMAIL());
             data.addProperty("CUSTOMER_NAME", tbCompanyList.get(i).getNAME());
-            data.addProperty("CLIENT_CUST_ID", tbClientCustomerList.get(i).getID());
-            data.addProperty("CUST_NUM", tbClientCustomerList.get(i).getCUST_NUM());
-            data.addProperty("IS_CUST_FAV", tbClientCustomerList.get(i).getIS_CUST_FAV());
+            data.addProperty(
+                    "CLIENT_CUST_ID", clientCustProjectionList.get(i).getTbClientCust().getID());
+            data.addProperty(
+                    "CUST_NUM", clientCustProjectionList.get(i).getTbClientCust().getCUST_NUM());
+            data.addProperty(
+                    "IS_CUST_FAV",
+                    clientCustProjectionList.get(i).getTbClientCust().getIS_CUST_FAV());
             data.addProperty("LOCATION", tbCountryList.get(i).getCOUNTRY());
             arrayList.add(data);
         }
@@ -307,24 +312,19 @@ public class CustomerService implements CustomerDAO {
             String appClientId, String searchKeyword, String currentPage, String itemPerPage) {
         XscResponse response = new XscResponse();
 
-        List<TbClientCust> tbClientCustomerList =
+        List<ClientCustProjection> clientCustProjectionList =
                 tbClientCustRepository.findAllByAppClientIdAndSearchKeyword(
                         appClientId, searchKeyword);
-
-        List<TbCompany> tbCompanyList = new ArrayList<>();
-
-        for (TbClientCust tbClientCustomer : tbClientCustomerList) {
-            tbCompanyList.add(
-                    tbCompanyRepository.findById(tbClientCustomer.getCOMPANY_ID()).orElseThrow());
-        }
 
         JsonObject data = new JsonObject();
 
         JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i < tbCompanyList.size(); i++) {
+        for (int i = 0; i < clientCustProjectionList.size(); i++) {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("CLIENT_CUST_ID", tbClientCustomerList.get(i).getID());
-            jsonObject.addProperty("CUSTOMERS_NAME", tbCompanyList.get(i).getNAME());
+            jsonObject.addProperty(
+                    "CLIENT_CUST_ID", clientCustProjectionList.get(i).getTbClientCust().getID());
+            jsonObject.addProperty(
+                    "CUSTOMERS_NAME", clientCustProjectionList.get(i).getTbCompany().getNAME());
             jsonArray.add(jsonObject);
         }
         data.add("CUSTOMER_LIST", jsonArray);
@@ -339,17 +339,18 @@ public class CustomerService implements CustomerDAO {
     public XscResponse customerTypeFilter(String appClientId) {
         XscResponse response = new XscResponse();
 
-        List<TbClientCust> tbClientCustomerList =
+        List<ClientCustProjection> clientCustProjectionList =
                 tbClientCustRepository.findAllByAppClientIdAndSearchKeyword(appClientId, "");
 
         JsonObject data = new JsonObject();
 
         JsonArray jsonArray = new JsonArray();
-        for (TbClientCust tbClientCustomer : tbClientCustomerList) {
+        for (ClientCustProjection clientCustProjection : clientCustProjectionList) {
+            TbClientCust tbClientCust = clientCustProjection.getTbClientCust();
 
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("IS_FAV", tbClientCustomer.getIS_CUST_FAV());
-            if (tbClientCustomer.getIS_CUST_FAV() == 'Y') {
+            jsonObject.addProperty("IS_FAV", tbClientCust.getIS_CUST_FAV());
+            if (tbClientCust.getIS_CUST_FAV() == 'Y') {
                 jsonObject.addProperty("TYPE", "Favourite");
             } else {
                 jsonObject.addProperty("TYPE", "Regular");
@@ -369,16 +370,17 @@ public class CustomerService implements CustomerDAO {
     public XscResponse customerStatusFilter(String appClientId) {
         XscResponse response = new XscResponse();
 
-        List<TbClientCust> tbClientCustomerList =
+        List<ClientCustProjection> clientCustProjectionList =
                 tbClientCustRepository.findAllByAppClientIdAndSearchKeyword(appClientId, "");
         JsonObject data = new JsonObject();
 
         JsonArray jsonArray = new JsonArray();
-        for (TbClientCust tbClientCustomer : tbClientCustomerList) {
+        for (ClientCustProjection clientCustProjection : clientCustProjectionList) {
+            TbClientCust tbClientCust = clientCustProjection.getTbClientCust();
 
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("STATUS", tbClientCustomer.getSTATUS());
-            if (tbClientCustomer.getSTATUS() == 1) {
+            jsonObject.addProperty("STATUS", tbClientCust.getSTATUS());
+            if (tbClientCust.getSTATUS() == 1) {
                 jsonObject.addProperty("TYPE", "Active");
             } else {
                 jsonObject.addProperty("TYPE", "Inactive");
@@ -466,6 +468,35 @@ public class CustomerService implements CustomerDAO {
 
         response.setXscStatus(1);
         response.setXscMessage("Suppliers added successfully.");
+        return response;
+    }
+
+    @Override
+    public XscResponse getCustomersByNames(JSONObject payload) {
+        XscResponse response = new XscResponse();
+
+        List<ClientCustProjection> clientCustProjectionList =
+                tbClientCustRepository.findAllByAppClientIdAndSearchKeyword(
+                        payload.getString("APP_CLIENT_ID"), payload.getString("SEARCH_KEYWORD"));
+
+        JsonObject data = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
+        for (ClientCustProjection clientCustProjection : clientCustProjectionList) {
+            TbClientCust tbClientCust = clientCustProjection.getTbClientCust();
+            TbCompany tbCompany = clientCustProjection.getTbCompany();
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("CLIENT_CUST_ID", tbClientCust.getID());
+            jsonObject.addProperty("NAME", tbCompany.getNAME());
+
+            jsonArray.add(jsonObject);
+        }
+
+        data.add("CUST_NAME_LIST", jsonArray);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Customer name list updated");
+        response.setXscStatus(1);
         return response;
     }
 }

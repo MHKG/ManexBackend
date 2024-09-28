@@ -31,4 +31,6 @@ public interface CustomerDAO {
     XscResponse deleteCustomer(String clientCustId);
 
     XscResponse addAllCustomers(int appClientId, JSONArray list);
+
+    XscResponse getCustomersByNames(JSONObject payload);
 }

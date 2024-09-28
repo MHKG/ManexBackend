@@ -80,4 +80,9 @@ public class CustomerController {
         return customerDAO.addAllCustomers(
                 payload.getInt("APP_CLIENT_ID"), payload.getJSONArray("LIST"));
     }
+
+    @PostMapping("/getCustomersByNames")
+    private XscResponse getCustomersByNames(@RequestParam("payload") JSONObject payload) {
+        return customerDAO.getCustomersByNames(payload);
+    }
 }

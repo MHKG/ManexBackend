@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface TbSupplierQuotationRepository
         extends JpaRepository<TbSupplierQuotation, Integer>,
                 JpaSpecificationExecutor<TbSupplierQuotation> {
@@ -13,4 +15,7 @@ public interface TbSupplierQuotationRepository
     @Query(
             "SELECT tsq FROM TbSupplierQuotation tsq WHERE tsq.SUPP_PO_ID = :SUPP_PO_ID ORDER BY tsq.TIMESTAMP desc LIMIT 1")
     TbSupplierQuotation findLatestBySuppPoId(Integer SUPP_PO_ID);
+
+    @Query("SELECT tsq FROM TbSupplierQuotation tsq WHERE tsq.SUPP_PO_ID = :SUPP_PO_ID")
+    List<TbSupplierQuotation> findAllBySuppPoId(Integer SUPP_PO_ID);
 }

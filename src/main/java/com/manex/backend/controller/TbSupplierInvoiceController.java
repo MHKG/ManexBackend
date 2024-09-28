@@ -22,4 +22,9 @@ public class TbSupplierInvoiceController {
     private XscResponse supplierInvoiceList(@RequestParam("payload") JSONObject payload) {
         return tbSupplierInvoiceDAO.supplierInvoiceList(payload);
     }
+
+    @PostMapping("/viewSupplierInvoice")
+    private XscResponse viewSupplierInvoice(@RequestParam("payload") JSONObject payload) {
+        return tbSupplierInvoiceDAO.viewSupplierInvoice(payload);
+    }
 }

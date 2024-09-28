@@ -3,7 +3,6 @@ package com.manex.backend.service;
 import com.manex.backend.DAO.TbMmDAO;
 import com.manex.backend.entities.TbMm;
 import com.manex.backend.enums.MultiMediaTypes;
-import com.manex.backend.repositories.TbCompanyRepository;
 import com.manex.backend.repositories.TbMmRepository;
 
 import jakarta.transaction.Transactional;
@@ -20,7 +19,6 @@ import java.nio.file.Paths;
 @Service
 @Transactional
 public class TbMmService implements TbMmDAO {
-    @Autowired private TbCompanyRepository tbCompanyRepository;
 
     @Autowired private TbMmRepository tbMmRepository;
 

@@ -19,7 +19,8 @@ public class TbUserProfileController {
 
     @PostMapping("/updateUser")
     private XscResponse updateUser(
-            HttpServletRequest request, @RequestParam("payload") JSONObject payload) throws IOException {
+            HttpServletRequest request, @RequestParam("payload") JSONObject payload)
+            throws IOException {
         return tbUserProfileDAO.updateUser(request, payload);
     }
 }

@@ -12,21 +12,37 @@ import com.manex.backend.response.XscResponse;
 
 import jakarta.transaction.Transactional;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @Transactional
 public class SupplierService implements SupplierDAO {
+
+    private static final ConcurrentHashMap<String, Path> tempFilesMap = new ConcurrentHashMap<>();
 
     @Autowired private TbMmDAO tbMmDAO;
 
@@ -46,9 +62,21 @@ public class SupplierService implements SupplierDAO {
 
     @Autowired private TbCityRepository tbCityRepository;
 
-    @Autowired private TbClientCustRepository tbClientCustRepository;
-
     @Autowired private TbMmRepository tbMmRepository;
+
+    @Autowired private TbSupplierPoRepository tbSupplierPoRepository;
+
+    @Autowired private TbSupplierQuotationRepository tbSupplierQuotationRepository;
+
+    @Autowired private TbSupplierPiRepository tbSupplierPiRepository;
+
+    @Autowired private TbSupplierInvoiceRepository tbSupplierInvoiceRepository;
+
+    @Autowired private TbSupplierPoItemsRepository tbSupplierPoItemsRepository;
+
+    @Autowired private TbAppClientRepository tbAppClientRepository;
+
+    @Autowired private TbSupplierOrderApRepository tbSupplierOrderApRepository;
 
     @Override
     public XscResponse addSupplier(MultipartFile file, JSONObject payload) throws IOException {
@@ -449,5 +477,320 @@ public class SupplierService implements SupplierDAO {
         response.setXscStatus(1);
         response.setXscMessage("Suppliers added successfully.");
         return response;
+    }
+
+    @Override
+    public XscResponse getReports(JSONObject payload) {
+        XscResponse response = new XscResponse();
+
+        List<TbSupplierPo> tbSupplierPoList =
+                tbSupplierPoRepository.findByAppClientIdAndClientSupplierId(
+                        payload.getInt("APP_CLIENT_ID"), payload.getInt("CLIENT_SUPPLIER_ID"));
+
+        List<TbSupplierQuotation> tbSupplierQuotationList =
+                tbSupplierPoList.stream()
+                        .flatMap(
+                                tbSupplierPo ->
+                                        tbSupplierQuotationRepository
+                                                .findAllBySuppPoId(tbSupplierPo.getID())
+                                                .stream())
+                        .toList();
+
+        List<TbSupplierPi> tbSupplierPiList =
+                tbSupplierQuotationList.stream()
+                        .flatMap(
+                                tbSupplierQuotation ->
+                                        tbSupplierPiRepository
+                                                .findAllBySuppQuotId(tbSupplierQuotation.getID())
+                                                .stream())
+                        .toList();
+
+        List<TbSupplierInvoice> tbSupplierInvoiceList =
+                tbSupplierPiList.stream()
+                        .flatMap(
+                                tbSupplierPi ->
+                                        tbSupplierInvoiceRepository
+                                                .findAllBySuppPiId(tbSupplierPi.getID())
+                                                .stream())
+                        .toList();
+
+        List<TbSupplierPoItems> tbSupplierPoItemsList =
+                tbSupplierPoList.stream()
+                        .flatMap(
+                                tbSupplierPo ->
+                                        tbSupplierPoItemsRepository
+                                                .findAllBySupplierPoId(tbSupplierPo.getID())
+                                                .stream())
+                        .toList();
+
+        List<TbSupplierOrderAp> tbSupplierOrderApList =
+                tbSupplierInvoiceList.stream()
+                        .flatMap(
+                                tbSupplierInvoice ->
+                                        tbSupplierOrderApRepository
+                                                .findBySupplierInvoiceId(tbSupplierInvoice.getID())
+                                                .stream())
+                        .toList();
+
+        JsonObject data = new JsonObject();
+
+        JsonArray jsonArray = new JsonArray();
+
+        for (int i = 0; i < tbSupplierInvoiceList.size(); i++) {
+            JsonObject jsonObject = new JsonObject();
+
+            jsonObject.addProperty("INVOICE_ID", tbSupplierInvoiceList.get(i).getID());
+            jsonObject.addProperty("ORDER_NUMBER", tbSupplierInvoiceList.get(i).getSUPP_INV_NUM());
+            jsonObject.addProperty("TOTAL_ITEM", tbSupplierPoItemsList.get(i).getQTY());
+            jsonObject.addProperty("TOTAL_CTN", tbSupplierPoItemsList.get(i).getQTY());
+            jsonObject.addProperty(
+                    "CREATED_ON",
+                    String.valueOf(tbSupplierInvoiceList.get(i).getTIMESTAMP()).split(" ")[0]);
+            jsonObject.addProperty("TOTAL_AMOUNT", tbSupplierInvoiceList.get(i).getGRAND_TOTAL());
+            jsonObject.addProperty(
+                    "DUE_AMOUNT",
+                    tbSupplierInvoiceList.get(i).getGRAND_TOTAL()
+                            - tbSupplierOrderApList.get(i).getAMOUNT_PAID());
+            jsonObject.addProperty(
+                    "PAYMENT_STATUS", tbSupplierInvoiceList.get(i).getSUPP_INV_NUM());
+            jsonObject.addProperty("TOTAL_ORDERS", tbSupplierInvoiceList.size());
+
+            jsonArray.add(jsonObject);
+        }
+
+        data.add("ORDER_LIST", jsonArray);
+
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Data fetched successfully");
+        response.setXscStatus(1);
+        return response;
+    }
+
+    @Override
+    public XscResponse supplierOrderReportDownloadPdf(JSONObject payload) throws IOException {
+        XscResponse response = new XscResponse();
+
+        List<TbSupplierInvoice> tbSupplierInvoiceList = new ArrayList<>();
+
+        for (int i = 0; i < payload.getJSONArray("CLIENT_SUPP_INV_ID").length(); i++) {
+            int tb_supplier_invoice = payload.getJSONArray("CLIENT_SUPP_INV_ID").getInt(i);
+            tbSupplierInvoiceList.add(
+                    tbSupplierInvoiceRepository.findById(tb_supplier_invoice).orElseThrow());
+        }
+
+        List<TbSupplierPi> tbSupplierPiList = new ArrayList<>();
+
+        for (TbSupplierInvoice tbSupplierInvoice : tbSupplierInvoiceList) {
+            tbSupplierPiList.add(
+                    tbSupplierPiRepository
+                            .findById(tbSupplierInvoice.getSUPP_PI_ID())
+                            .orElseThrow());
+        }
+
+        List<TbSupplierQuotation> tbSupplierQuotationList = new ArrayList<>();
+
+        for (TbSupplierPi tbSupplierPi : tbSupplierPiList) {
+            tbSupplierQuotationList.add(
+                    tbSupplierQuotationRepository
+                            .findById(tbSupplierPi.getSUPP_QUOT_ID())
+                            .orElseThrow());
+        }
+
+        List<TbSupplierPo> tbSupplierPoList = new ArrayList<>();
+
+        for (TbSupplierQuotation tbSupplierQuotation : tbSupplierQuotationList) {
+            tbSupplierPoList.add(
+                    tbSupplierPoRepository
+                            .findById(tbSupplierQuotation.getSUPP_PO_ID())
+                            .orElseThrow());
+        }
+
+        List<TbClientSupplier> tbClientSupplierList = new ArrayList<>();
+
+        for (TbSupplierPo tbSupplierPo : tbSupplierPoList) {
+            tbClientSupplierList.add(
+                    tbClientSupplierRepository
+                            .findById(tbSupplierPo.getCLIENT_SUPPLIER_ID())
+                            .orElseThrow());
+        }
+
+        List<TbCompany> tbCompanyList = new ArrayList<>();
+
+        for (TbClientSupplier tbClientSupplier : tbClientSupplierList) {
+            tbCompanyList.add(
+                    tbCompanyRepository.findById(tbClientSupplier.getCOMPANY_ID()).orElseThrow());
+        }
+
+        List<TbCompanyAddr> tbCompanyAddrList = new ArrayList<>();
+
+        for (TbCompany tbCompany : tbCompanyList) {
+            tbCompanyAddrList.add(
+                    tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID()));
+        }
+
+        List<TbAllAddr> tbAllAddrList = new ArrayList<>();
+
+        for (TbCompanyAddr tbCompanyAddr : tbCompanyAddrList) {
+            tbAllAddrList.add(
+                    tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow());
+        }
+
+        List<TbCity> tbCityList = new ArrayList<>();
+
+        for (TbAllAddr tbAllAddr : tbAllAddrList) {
+            tbCityList.add(tbCityRepository.findById(tbAllAddr.getCITY_ID()).orElseThrow());
+        }
+
+        Path tempDirectory = Files.createTempDirectory("tempFolder");
+        Path tempFile = Files.createTempFile(tempDirectory, "pdfFile", ".pdf");
+
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            PDTrueTypeFont arialBoldFont =
+                    PDTrueTypeFont.loadTTF(
+                            document, new File("D:\\Manex\\ManexBackend\\arial\\ARIALBD.TTF"));
+
+            PDTrueTypeFont arialFont =
+                    PDTrueTypeFont.loadTTF(
+                            document, new File("D:\\Manex\\ManexBackend\\arial\\ARIAL.TTF"));
+
+            File imageFile = new File("D:\\Manex\\manex-fe\\src\\assets\\Manex Logo.png");
+            PDImageXObject pdImageXObject =
+                    PDImageXObject.createFromFileByContent(imageFile, document);
+
+            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                float pageWidth = page.getMediaBox().getWidth();
+                contentStream.drawImage(pdImageXObject, (pageWidth - 215) / 2, 635.5F, 215, 115);
+
+                // Heading
+                contentStream.beginText();
+                contentStream.setFont(arialBoldFont, 25);
+                String text = "MANEX EXPORTS (H.K.) LTD.";
+                float titleWidth = arialBoldFont.getStringWidth(text) / 1000 * 25;
+                float xPosition = (pageWidth - titleWidth) / 2;
+                contentStream.newLineAtOffset(xPosition, 637);
+                contentStream.showText(text);
+                contentStream.endText();
+
+                // Date
+                contentStream.beginText();
+                contentStream.setFont(arialFont, 12);
+                LocalDate localDate = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                String date = "DATE: " + localDate.format(formatter);
+                float dateWidth = arialFont.getStringWidth(date) / 1000 * 12;
+                xPosition = (pageWidth - dateWidth) / 2;
+                contentStream.newLineAtOffset(xPosition, 619.5F);
+                contentStream.showText(date);
+                contentStream.endText();
+
+                // Report Heading
+                contentStream.beginText();
+                contentStream.setFont(arialBoldFont, 18);
+                text = "Suppliers Report";
+                float textWidth = arialBoldFont.getStringWidth(text) / 1000 * 18;
+                xPosition = (pageWidth - textWidth) / 2;
+                contentStream.newLineAtOffset(xPosition, 589.5F);
+                contentStream.showText(text);
+                contentStream.endText();
+
+                // Report
+                contentStream.setStrokingColor(Color.DARK_GRAY);
+                contentStream.setLineWidth(1);
+                float cellWidth = 97.5F;
+                int colCount = tbCompanyList.size() + 1;
+                int rowCount = 5;
+
+                int initX = (int) ((pageWidth - (cellWidth * rowCount)) / 2);
+                float initY = 567.5F;
+
+                for (int i = 0; i < colCount; i++) {
+                    float cellHeight = (i == 0) ? 27.5F : 17.5F;
+
+                    for (int j = 0; j < rowCount; j++) {
+                        if (i == 0) {
+                            contentStream.setNonStrokingColor(Color.decode("#635bff"));
+                            contentStream.addRect(initX, initY, cellWidth, -cellHeight);
+                            contentStream.fill();
+                        }
+
+                        contentStream.setStrokingColor(Color.DARK_GRAY);
+                        contentStream.addRect(initX, initY, cellWidth, -cellHeight);
+                        contentStream.stroke();
+
+                        contentStream.beginText();
+
+                        if (i == 0) {
+                            if (j == 0) text = "SUPPLIER NUM";
+                            else if (j == 1) text = "SUPPLIER NAME";
+                            else if (j == 2) text = "EMAIL";
+                            else if (j == 3) text = "PHONE NUMBER";
+                            else text = "LOCATION";
+                            textWidth = arialBoldFont.getStringWidth(text) / 1000 * 10;
+                            contentStream.setNonStrokingColor(Color.WHITE);
+                            contentStream.newLineAtOffset(
+                                    initX + ((cellWidth - textWidth) / 2), initY - 13);
+                            contentStream.setFont(arialBoldFont, 10);
+                        } else {
+                            if (j == 0) text = tbCompanyList.get(i - 1).getREG_NUMBER();
+                            else if (j == 1) text = tbCompanyList.get(i - 1).getNAME();
+                            else if (j == 2) text = tbCompanyList.get(i - 1).getEMAIL();
+                            else if (j == 3) text = tbCompanyList.get(i - 1).getCONTACT_NUMBER();
+                            else text = tbCityList.get(i - 1).getCITY();
+                            textWidth = arialFont.getStringWidth(text) / 1000 * 10;
+                            contentStream.setNonStrokingColor(Color.BLACK);
+                            contentStream.newLineAtOffset(
+                                    initX + ((cellWidth - textWidth) / 2), initY - 12.5F);
+                            contentStream.setFont(arialFont, 10);
+                        }
+                        contentStream.showText(text);
+                        contentStream.endText();
+
+                        initX += cellWidth;
+                    }
+
+                    initX = (int) ((pageWidth - (cellWidth * rowCount)) / 2);
+                    initY -= cellHeight;
+                }
+            }
+            document.save(tempFile.toFile());
+        }
+
+        String fileId = tempFile.getFileName().toString();
+        tempFilesMap.put(fileId, tempFile);
+
+        JsonObject data = new JsonObject();
+        data.addProperty("URL", "downloadPdfReports?fileId=" + fileId);
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscMessage("Download pdf");
+        response.setXscStatus(1);
+        return response;
+    }
+
+    @Override
+    public ResponseEntity<byte[]> downloadPdfReports(String fileId) throws IOException {
+        Path tempFile = tempFilesMap.get(fileId);
+        if (tempFile == null || !Files.exists(tempFile)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        byte[] fileContent = Files.readAllBytes(tempFile);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(
+                HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=" + tempFile.getFileName().toString());
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+
+        ResponseEntity<byte[]> responseEntity =
+                new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
+
+        Files.delete(tempFile);
+        Files.deleteIfExists(tempFile.getParent());
+        tempFilesMap.remove(fileId);
+
+        return responseEntity;
     }
 }

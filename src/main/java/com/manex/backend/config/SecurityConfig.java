@@ -41,7 +41,8 @@ public class SecurityConfig {
                                                 "/email_controller/sendEmail",
                                                 "/product_controller/productImages/{imageName}",
                                                 "/tb_mm_controller/viewImages/**",
-                                                "/sample_files_controller/template/**")
+                                                "/sample_files_controller/template/**",
+                                                "/supplier_controller/downloadPdfReports")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.OPTIONS, "/**")
                                         .permitAll()
