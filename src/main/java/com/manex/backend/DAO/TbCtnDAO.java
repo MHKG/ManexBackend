@@ -11,5 +11,5 @@ import java.io.IOException;
 public interface TbCtnDAO {
     XscResponse add(HttpServletRequest request, JSONObject payload) throws IOException;
 
-    XscResponse getCartons(String appClientId);
+    XscResponse getCartons(JSONObject payload);
 }
