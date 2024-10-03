@@ -43,19 +43,7 @@ public class ExcelFilesService implements ExcelFilesDAO {
         return response;
     }
 
-    @Override
-    public ResponseEntity<byte[]> downloadSampleExcelFile(String filename) throws IOException {
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Sample Sheet");
-
-        Font headerFont = workbook.createFont();
-        headerFont.setBold(true);
-
-        CellStyle headerCellStyle = workbook.createCellStyle();
-        headerCellStyle.setFont(headerFont);
-
-        Row headerRow = sheet.createRow(0);
-
+    private static String[] getHeaders(String filename) {
         String[] headers;
         if (filename.contains("Product")) {
             headers =
@@ -86,6 +74,41 @@ public class ExcelFilesService implements ExcelFilesDAO {
                         "ADDR_LINE_2", "PINCODE", "TAX", "FAX"
                     };
         }
+        return headers;
+    }
+
+    private static HttpHeaders getResponseHeaders(String filename) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if (filename.contains("Supplier")) {
+            responseHeaders.add(
+                    HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=ImportSupplierTemplate.xlsx");
+        } else if (filename.contains("Customer")) {
+            responseHeaders.add(
+                    HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=ImportCustomerTemplate.xlsx");
+        } else if (filename.contains("Product")) {
+            responseHeaders.add(
+                    HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=ImportProductTemplate.xlsx");
+        }
+        return responseHeaders;
+    }
+
+    @Override
+    public ResponseEntity<byte[]> downloadSampleExcelFile(String filename) throws IOException {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Sample Sheet");
+
+        Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
+
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(headerFont);
+
+        Row headerRow = sheet.createRow(0);
+
+        String[] headers = getHeaders(filename);
 
         for (int i = 0; i < headers.length; i++) {
             Cell cell = headerRow.createCell(i);
@@ -106,20 +129,7 @@ public class ExcelFilesService implements ExcelFilesDAO {
         workbook.write(out);
         workbook.close();
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        if (filename.contains("Supplier")) {
-            responseHeaders.add(
-                    HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=ImportSupplierTemplate.xlsx");
-        } else if (filename.contains("Customer")) {
-            responseHeaders.add(
-                    HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=ImportCustomerTemplate.xlsx");
-        } else if (filename.contains("Product")) {
-            responseHeaders.add(
-                    HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=ImportProductTemplate.xlsx");
-        }
+        HttpHeaders responseHeaders = getResponseHeaders(filename);
 
         return new ResponseEntity<>(out.toByteArray(), responseHeaders, HttpStatus.OK);
     }
