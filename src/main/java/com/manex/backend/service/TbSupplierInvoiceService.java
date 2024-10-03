@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -149,9 +151,11 @@ public class TbSupplierInvoiceService implements TbSupplierInvoiceDAO {
         TbSupplierInvoice tbSupplierInvoice =
                 tbSupplierInvoiceRepository.findById(payload.getInt("INVOICE_ID")).orElseThrow();
 
+        Pageable pageable = PageRequest.of(0, 1000);
+
         List<TbProducts> tbProductsList =
                 tbProductsRepository.findAllByClientSupplierId(
-                        payload.getString("CLIENT_SUPPLIER_ID"));
+                        payload.getString("CLIENT_SUPPLIER_ID"), pageable);
 
         TbSupplierPi tbSupplierPi =
                 tbSupplierPiRepository.findById(tbSupplierInvoice.getSUPP_PI_ID()).orElseThrow();

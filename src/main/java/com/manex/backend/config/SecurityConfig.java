@@ -3,6 +3,8 @@ package com.manex.backend.config;
 import com.manex.backend.service.CustomUserDetailsService;
 import com.manex.backend.util.JwtUtil;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +44,8 @@ public class SecurityConfig {
                                                 "/product_controller/productImages/{imageName}",
                                                 "/tb_mm_controller/viewImages/**",
                                                 "/sample_files_controller/template/**",
-                                                "/supplier_controller/downloadPdfReports")
+                                                "/supplier_controller/downloadPdfReports",
+                                                "/supplier_controller/downloadExcelReports")
                                         .permitAll()
                                         .requestMatchers(HttpMethod.OPTIONS, "/**")
                                         .permitAll()
@@ -50,7 +53,16 @@ public class SecurityConfig {
                                         .authenticated())
                 .addFilterBefore(
                         jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .exceptionHandling(
+                        exceptions ->
+                                exceptions.authenticationEntryPoint(
+                                        (request, response, authException) -> {
+                                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                                            response.setHeader(
+                                                    "WWW-Authenticate", ""); // Clear the header
+                                            response.getWriter().write("Unauthorized");
+                                        }));
 
         return http.build();
     }
