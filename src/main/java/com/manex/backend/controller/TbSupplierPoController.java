@@ -25,4 +25,14 @@ public class TbSupplierPoController {
     private XscResponse getClientSupplierDetails(@RequestParam("payload") JSONObject payload) {
         return tbSupplierPoDAO.getClientSupplierDetails(payload);
     }
+
+    @PostMapping("/getSupplierPo")
+    private XscResponse getSupplierPo(@RequestParam("payload") JSONObject payload) {
+        return tbSupplierPoDAO.getSupplierPo(payload);
+    }
+
+    @PostMapping("/listSupplierPo")
+    private XscResponse listSupplierPo(@RequestParam("payload") JSONObject payload) {
+        return tbSupplierPoDAO.listSupplierPo(payload);
+    }
 }

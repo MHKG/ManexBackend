@@ -16,4 +16,8 @@ public interface TbProductMmRepository
 
     @Query("SELECT tpm FROM TbProductMm tpm WHERE tpm.MM_FILE = :MM_FILE")
     TbProductMm findByMmFile(Integer MM_FILE);
+
+    @Query(
+            "SELECT tpm FROM TbProductMm tpm WHERE tpm.PRODUCT_ID = :PRODUCT_ID and DEFAULT_MM = 'Y'")
+    TbProductMm findDefaultByProductId(Integer PRODUCT_ID);
 }

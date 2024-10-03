@@ -17,6 +17,8 @@ import jakarta.transaction.Transactional;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -163,6 +165,7 @@ public class TbProductService implements TbProductDAO {
     @Override
     public XscResponse getProductsList(JSONObject payload) {
         int APP_CLIENT_ID;
+        int currentPage = payload.getInt("CURRENT_PAGE");
 
         XscResponse response = new XscResponse();
 
@@ -177,9 +180,10 @@ public class TbProductService implements TbProductDAO {
             APP_CLIENT_ID = tbClientSupplier.getAPP_CLIENT_ID();
         }
 
+        Pageable pageable = PageRequest.of(currentPage - 1, 10);
         List<TbProducts> tbProductsList =
                 tbProductsRepository.findAllByClientSupplierId(
-                        payload.getString("CLIENT_SUPPLIER_ID"));
+                        payload.getString("CLIENT_SUPPLIER_ID"), pageable);
 
         List<TbCompanyProductNumber> arrayList = new ArrayList<>();
 
@@ -221,7 +225,11 @@ public class TbProductService implements TbProductDAO {
         JsonArray jsonArray = new JsonArray();
         for (int i = 0; i < tbProductsList.size(); i++) {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("MM_FILE_NAME", defaultMM_FILE_NAME.get(i));
+            if (defaultMM_FILE_NAME.size() > i) {
+                jsonObject.addProperty("MM_FILE_NAME", defaultMM_FILE_NAME.get(i));
+            } else {
+                jsonObject.addProperty("MM_FILE_NAME", "");
+            }
             if (Objects.equals(
                             tbCompanyProductNumberList.get(i).get(0).getID().getCOMPANY_ID(),
                             tbClientSupplier.getCOMPANY_ID())
@@ -231,14 +239,22 @@ public class TbProductService implements TbProductDAO {
                 jsonObject.addProperty(
                         "SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).get(0).getITEM_NO());
 
-                jsonObject.addProperty(
-                        "CLIENT_PROD_NUM", tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
-
+                if (tbCompanyProductNumberList.get(i).size() == 2) {
+                    jsonObject.addProperty(
+                            "CLIENT_PROD_NUM",
+                            tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
+                } else {
+                    jsonObject.addProperty("CLIENT_PROD_NUM", "");
+                }
             } else {
                 jsonObject.addProperty(
                         "CLIENT_PROD_NUM", tbCompanyProductNumberList.get(i).get(0).getITEM_NO());
-                jsonObject.addProperty(
-                        "SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
+                if (tbCompanyProductNumberList.get(i).size() == 2) {
+                    jsonObject.addProperty(
+                            "SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
+                } else {
+                    jsonObject.addProperty("SUPP_PROD_NUM", "");
+                }
             }
             jsonObject.addProperty("PRODUCT_NAME", tbProductsList.get(i).getDESCRIPTION());
             jsonObject.addProperty("PROD_ID", tbProductsList.get(i).getID());
@@ -328,8 +344,7 @@ public class TbProductService implements TbProductDAO {
         jsonObject.addProperty("SUPP_BAR_CODE", tbCompanyProductNumberList.get(0).getBAR_CODE());
         jsonObject.addProperty(
                 "SUPP_DUN_BAR_CODE", tbCompanyProductNumberList.get(0).getDUN_BAR_CODE());
-        jsonObject.addProperty(
-                "SUPP_PROD_NUM", Integer.valueOf(tbCompanyProductNumberList.get(0).getITEM_NO()));
+        jsonObject.addProperty("SUPP_PROD_NUM", tbCompanyProductNumberList.get(0).getITEM_NO());
         if (tbCompanyProductNumberList.size() == 1) {
             jsonObject.addProperty("CLIENT_BAR_CODE", (String) null);
             jsonObject.addProperty("CLIENT_DUN_BAR_CODE", (String) null);

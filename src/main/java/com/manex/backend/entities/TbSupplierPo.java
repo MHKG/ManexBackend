@@ -26,7 +26,7 @@ public class TbSupplierPo {
 
     @Column private Integer CREATED_BY;
 
-    @Column private Boolean MANAGER_APPROVAL_STATUS;
+    @Column private Integer MANAGER_APPROVAL_STATUS;
 
     @Column private Integer STATUS;
 
@@ -82,11 +82,11 @@ public class TbSupplierPo {
         this.CREATED_BY = CREATED_BY;
     }
 
-    public Boolean getMANAGER_APPROVAL_STATUS() {
+    public Integer getMANAGER_APPROVAL_STATUS() {
         return MANAGER_APPROVAL_STATUS;
     }
 
-    public void setMANAGER_APPROVAL_STATUS(Boolean MANAGER_APPROVAL_STATUS) {
+    public void setMANAGER_APPROVAL_STATUS(Integer MANAGER_APPROVAL_STATUS) {
         this.MANAGER_APPROVAL_STATUS = MANAGER_APPROVAL_STATUS;
     }
 
