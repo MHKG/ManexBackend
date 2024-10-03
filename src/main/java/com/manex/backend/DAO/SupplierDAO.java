@@ -35,4 +35,8 @@ public interface SupplierDAO {
     XscResponse supplierOrderReportDownloadPdf(JSONObject payload) throws IOException;
 
     ResponseEntity<byte[]> downloadPdfReports(String fileId) throws IOException;
+
+    XscResponse supplierOrderReportDownloadExcel(JSONObject payload) throws IOException;
+
+    ResponseEntity<byte[]> downloadExcelReports(String fileId) throws IOException;
 }

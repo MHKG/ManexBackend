@@ -12,8 +12,11 @@ import jakarta.transaction.Transactional;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,6 +32,12 @@ public class SupplierOrderService implements SupplierOrderDAO {
     @Autowired private TbSupplierPiRepository tbSupplierPiRepository;
 
     @Autowired private TbSupplierInvoiceRepository tbSupplierInvoiceRepository;
+
+    @Autowired private TbProductMmRepository tbProductMmRepository;
+
+    @Autowired private TbMmRepository tbMmRepository;
+
+    @Autowired private TbProductsRepository tbProductsRepository;
 
     @Override
     public XscResponse orderStatusFilter(JSONObject payload) {
@@ -95,12 +104,34 @@ public class SupplierOrderService implements SupplierOrderDAO {
                 tbSupplierPoRepository.findByAppClientIdAndClientSupplierId(
                         payload.getInt("CLIENT_SUPPLIER_ID"), tbClientSupplier.getAPP_CLIENT_ID());
 
+        Pageable pageable = PageRequest.of(0, 1000);
+        List<TbProducts> tbProductsList =
+                tbProductsRepository.findAllByClientSupplierId(
+                        payload.get("CLIENT_SUPPLIER_ID").toString(), pageable);
+
+        List<TbProductMm> tbProductMmList = new ArrayList<>();
+
+        for (TbProducts tbProducts : tbProductsList) {
+            TbProductMm tbProductMm =
+                    tbProductMmRepository.findDefaultByProductId(tbProducts.getID());
+            if (tbProductMm != null) {
+                tbProductMmList.add(tbProductMm);
+            }
+        }
+
+        List<TbMm> tbMmList = new ArrayList<>();
+
+        for (TbProductMm tbProductMm : tbProductMmList) {
+            tbMmList.add(tbMmRepository.findById(tbProductMm.getMM_FILE()).orElseThrow());
+        }
+
         JsonObject data = new JsonObject();
 
         JsonArray jsonArray = new JsonArray();
-        for (TbSupplierPo tbSupplierPo : tbSupplierPoList) {
+        for (int i = 0; i < tbSupplierPoList.size(); i++) {
             TbSupplierQuotation tbSupplierQuotation =
-                    tbSupplierQuotationRepository.findLatestBySuppPoId(tbSupplierPo.getID());
+                    tbSupplierQuotationRepository.findLatestBySuppPoId(
+                            tbSupplierPoList.get(i).getID());
 
             TbSupplierPi tbSupplierPi =
                     tbSupplierPiRepository.findLatestBySuppQuotId(tbSupplierQuotation.getID());
@@ -109,11 +140,16 @@ public class SupplierOrderService implements SupplierOrderDAO {
                     tbSupplierInvoiceRepository.findLatestBySuppPiId(tbSupplierPi.getID());
 
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("SUPP_PO_ID", tbSupplierPo.getID());
-            jsonObject.addProperty("PO_NUM", tbSupplierPo.getPO_NUM());
+            jsonObject.addProperty("SUPP_PO_ID", tbSupplierPoList.get(i).getID());
+            jsonObject.addProperty("ORDER_NUM", tbSupplierPoList.get(i).getPO_NUM());
             jsonObject.addProperty(
-                    "CREATED_ON", String.valueOf(tbSupplierPo.getTIMESTAMP()).split(" ")[0]);
+                    "MANAGER_APPROVAL_STATUS",
+                    tbSupplierPoList.get(i).getMANAGER_APPROVAL_STATUS());
+            jsonObject.addProperty(
+                    "CREATED_ON",
+                    String.valueOf(tbSupplierPoList.get(i).getTIMESTAMP()).split(" ")[0]);
             jsonObject.addProperty("TOTAL_AMOUNT", tbSupplierInvoice.getGRAND_TOTAL());
+            jsonObject.addProperty("MM_FILE_NAME", tbMmList.get(i).getMM_FILE_NAME());
             jsonArray.add(jsonObject);
         }
         data.add("PO_LIST", jsonArray);

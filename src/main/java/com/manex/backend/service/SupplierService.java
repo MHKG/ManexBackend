@@ -17,18 +17,23 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDTrueTypeFont;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Color;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Date;
@@ -219,8 +224,10 @@ public class SupplierService implements SupplierDAO {
         TbCompany tbCompany =
                 tbCompanyRepository.findById(tbClientSupplier.getCOMPANY_ID()).orElseThrow();
 
+        Pageable pageable = PageRequest.of(0, 1000);
+
         List<TbProducts> tbProducts =
-                tbProductsRepository.findAllByClientSupplierId(clientSupplierId);
+                tbProductsRepository.findAllByClientSupplierId(clientSupplierId, pageable);
 
         TbCompanyAddr tbCompanyAddr =
                 tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
@@ -310,7 +317,7 @@ public class SupplierService implements SupplierDAO {
         tbAllAddr.setSTATE_ID(Integer.valueOf(payload.get("STATE_ID").toString()));
         tbAllAddr.setCITY_ID(Integer.valueOf(payload.get("CITY_ID").toString()));
         tbAllAddr.setPOSTAL_CODE(payload.get("POSTAL_CODE").toString());
-        tbAllAddr = tbAllAddrRepository.save(tbAllAddr);
+        tbAllAddrRepository.save(tbAllAddr);
 
         JsonObject data = new JsonObject();
 
@@ -607,11 +614,16 @@ public class SupplierService implements SupplierDAO {
 
         List<TbClientSupplier> tbClientSupplierList = new ArrayList<>();
 
+        List<Integer> tbClientSupplierIdList = new ArrayList<>();
+
         for (TbSupplierPo tbSupplierPo : tbSupplierPoList) {
-            tbClientSupplierList.add(
-                    tbClientSupplierRepository
-                            .findById(tbSupplierPo.getCLIENT_SUPPLIER_ID())
-                            .orElseThrow());
+            if (!tbClientSupplierIdList.contains(tbSupplierPo.getCLIENT_SUPPLIER_ID())) {
+                tbClientSupplierList.add(
+                        tbClientSupplierRepository
+                                .findById(tbSupplierPo.getCLIENT_SUPPLIER_ID())
+                                .orElseThrow());
+                tbClientSupplierIdList.add(tbSupplierPo.getCLIENT_SUPPLIER_ID());
+            }
         }
 
         List<TbCompany> tbCompanyList = new ArrayList<>();
@@ -748,7 +760,7 @@ public class SupplierService implements SupplierDAO {
                         contentStream.showText(text);
                         contentStream.endText();
 
-                        initX += cellWidth;
+                        initX += (int) cellWidth;
                     }
 
                     initX = (int) ((pageWidth - (cellWidth * rowCount)) / 2);
@@ -770,6 +782,371 @@ public class SupplierService implements SupplierDAO {
     }
 
     @Override
+    public XscResponse supplierOrderReportDownloadExcel(JSONObject payload) throws IOException {
+        XscResponse response = new XscResponse();
+
+        int fav_supplier = 0, reg_supplier = 0;
+        List<TbSupplierInvoice> tbSupplierInvoiceList = new ArrayList<>();
+
+        for (int i = 0; i < payload.getJSONArray("CLIENT_SUPP_INV_ID").length(); i++) {
+            int tb_supplier_invoice = payload.getJSONArray("CLIENT_SUPP_INV_ID").getInt(i);
+            tbSupplierInvoiceList.add(
+                    tbSupplierInvoiceRepository.findById(tb_supplier_invoice).orElseThrow());
+        }
+
+        List<TbSupplierPi> tbSupplierPiList = new ArrayList<>();
+
+        for (TbSupplierInvoice tbSupplierInvoice : tbSupplierInvoiceList) {
+            tbSupplierPiList.add(
+                    tbSupplierPiRepository
+                            .findById(tbSupplierInvoice.getSUPP_PI_ID())
+                            .orElseThrow());
+        }
+
+        List<TbSupplierQuotation> tbSupplierQuotationList = new ArrayList<>();
+
+        for (TbSupplierPi tbSupplierPi : tbSupplierPiList) {
+            tbSupplierQuotationList.add(
+                    tbSupplierQuotationRepository
+                            .findById(tbSupplierPi.getSUPP_QUOT_ID())
+                            .orElseThrow());
+        }
+
+        List<TbSupplierPo> tbSupplierPoList = new ArrayList<>();
+
+        for (TbSupplierQuotation tbSupplierQuotation : tbSupplierQuotationList) {
+            tbSupplierPoList.add(
+                    tbSupplierPoRepository
+                            .findById(tbSupplierQuotation.getSUPP_PO_ID())
+                            .orElseThrow());
+        }
+
+        List<TbClientSupplier> tbClientSupplierList = new ArrayList<>();
+
+        List<Integer> tbClientSupplierIdList = new ArrayList<>();
+
+        for (TbSupplierPo tbSupplierPo : tbSupplierPoList) {
+            if (!tbClientSupplierIdList.contains(tbSupplierPo.getCLIENT_SUPPLIER_ID())) {
+                tbClientSupplierList.add(
+                        tbClientSupplierRepository
+                                .findById(tbSupplierPo.getCLIENT_SUPPLIER_ID())
+                                .orElseThrow());
+                tbClientSupplierIdList.add(tbSupplierPo.getCLIENT_SUPPLIER_ID());
+            }
+        }
+
+        List<TbCompany> tbCompanyList = new ArrayList<>();
+
+        for (TbClientSupplier tbClientSupplier : tbClientSupplierList) {
+            tbCompanyList.add(
+                    tbCompanyRepository.findById(tbClientSupplier.getCOMPANY_ID()).orElseThrow());
+            if (tbClientSupplier.getIS_SUPP_FAV() == 'Y') {
+                fav_supplier++;
+            } else {
+                reg_supplier++;
+            }
+        }
+
+        List<TbCompanyAddr> tbCompanyAddrList = new ArrayList<>();
+
+        for (TbCompany tbCompany : tbCompanyList) {
+            tbCompanyAddrList.add(
+                    tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID()));
+        }
+
+        List<TbAllAddr> tbAllAddrList = new ArrayList<>();
+
+        for (TbCompanyAddr tbCompanyAddr : tbCompanyAddrList) {
+            tbAllAddrList.add(
+                    tbAllAddrRepository.findById(tbCompanyAddr.getADDR_ID()).orElseThrow());
+        }
+
+        List<TbCity> tbCityList = new ArrayList<>();
+
+        for (TbAllAddr tbAllAddr : tbAllAddrList) {
+            tbCityList.add(tbCityRepository.findById(tbAllAddr.getCITY_ID()).orElseThrow());
+        }
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Sheet1");
+        sheet.setDefaultRowHeightInPoints(36);
+
+        sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 3));
+        sheet.addMergedRegion(new CellRangeAddress(1, 2, 4, 6));
+        sheet.addMergedRegion(new CellRangeAddress(6, 6, 0, 1));
+        sheet.addMergedRegion(new CellRangeAddress(6, 6, 2, 3));
+        sheet.addMergedRegion(new CellRangeAddress(6, 6, 4, 5));
+        sheet.addMergedRegion(new CellRangeAddress(7, 7, 0, 1));
+        sheet.addMergedRegion(new CellRangeAddress(7, 7, 2, 3));
+        sheet.addMergedRegion(new CellRangeAddress(7, 7, 4, 5));
+
+        XSSFFont headerFont = workbook.createFont();
+        headerFont.setFontName("Inter");
+        headerFont.setColor(new XSSFColor(Color.WHITE, null));
+        headerFont.setFontHeight(12);
+        headerFont.setBold(true);
+
+        XSSFColor backgroundColor = new XSSFColor(new Color(99, 91, 255), null);
+
+        XSSFCellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFont(headerFont);
+        headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        headerStyle.setAlignment(HorizontalAlignment.LEFT);
+        headerStyle.setFillForegroundColor(backgroundColor);
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerStyle.setBorderTop(BorderStyle.THIN);
+        headerStyle.setBorderRight(BorderStyle.THIN);
+        headerStyle.setBorderBottom(BorderStyle.THIN);
+        headerStyle.setBorderLeft(BorderStyle.THIN);
+        headerStyle.setIndention((short) 1);
+
+        Row headerRow = sheet.createRow(9);
+        headerRow.setHeightInPoints(36);
+
+        Row row0 = sheet.createRow(0);
+        row0.setHeightInPoints(13.5F);
+
+        Row row1 = sheet.createRow(1);
+        row1.setHeightInPoints(36);
+        Row row3 = sheet.createRow(3);
+        row3.setHeightInPoints(13.5F);
+
+        Row row4 = sheet.createRow(4);
+        row4.setHeightInPoints(0);
+
+        Row row6 = sheet.createRow(6);
+        row6.setHeightInPoints(36);
+
+        Row row7 = sheet.createRow(7);
+        row7.setHeightInPoints(36);
+
+        Row row8 = sheet.createRow(11);
+        row8.setHeightInPoints(13.5F);
+
+        String[] headers =
+                new String[] {
+                    "Supplier ID", "Supplier Type", "Supplier Name", "Email", "Phone Number",
+                    "Website", "Registration No", "Country", "Address Line 1", "Address Line 2",
+                    "State/Province", "City", "ZIP/Postal Code", "Tax No", "Fax No"
+                };
+
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(headerStyle);
+        }
+
+        for (int i = 0; i < headers.length + 1; i++) {
+            sheet.setColumnWidth(i, 22 * 256);
+        }
+
+        InputStream is = new FileInputStream("D:\\Manex\\ManexBackend\\assets\\Logo.png");
+        byte[] bytes = IOUtils.toByteArray(is);
+        int pictureIndex = workbook.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
+        is.close();
+
+        Drawing<?> drawing = sheet.createDrawingPatriarch();
+
+        ClientAnchor anchor = workbook.getCreationHelper().createClientAnchor();
+        anchor.setCol1(0); // Starting column for the image
+        anchor.setRow1(0); // Starting row for the image
+        anchor.setCol2(3); // Ending column for the image
+        anchor.setRow2(3); // Ending row for the image
+
+        Picture picture = drawing.createPicture(anchor, pictureIndex);
+        picture.resize();
+
+        XSSFFont row1Font = workbook.createFont();
+        row1Font.setFontName("Inter");
+        row1Font.setFontHeight(22);
+        row1Font.setBold(true);
+
+        Cell cell1 = row1.createCell(4);
+        cell1.setCellValue("Supplier Report");
+        CellStyle cellStyle1 = workbook.createCellStyle();
+        cellStyle1.setFont(row1Font);
+        cellStyle1.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyle1.setVerticalAlignment(VerticalAlignment.CENTER);
+        cell1.setCellStyle(cellStyle1);
+
+        XSSFFont row3Font = workbook.createFont();
+        row3Font.setFontName("Inter");
+        row3Font.setFontHeight(12);
+        row3Font.setBold(true);
+
+        Cell cell2 = row3.createCell(5);
+        cell2.setCellValue("Date:");
+        CellStyle cellStyle2 = workbook.createCellStyle();
+        cellStyle2.setFont(row3Font);
+        cellStyle2.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyle2.setVerticalAlignment(VerticalAlignment.CENTER);
+        cell2.setCellStyle(cellStyle2);
+
+        XSSFFont row4Font = workbook.createFont();
+        row4Font.setFontName("Inter");
+        row4Font.setFontHeight(12);
+        row4Font.setColor(new XSSFColor(new Color(128, 128, 128), null));
+
+        Cell cell3 = row3.createCell(6);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        cell3.setCellValue(LocalDate.now().format(formatter));
+        XSSFCellStyle cellStyle3 = workbook.createCellStyle();
+        cellStyle3.setFont(row4Font);
+        cellStyle3.setAlignment(HorizontalAlignment.LEFT);
+        cellStyle3.setVerticalAlignment(VerticalAlignment.CENTER);
+        cell3.setCellStyle(cellStyle3);
+
+        XSSFCellStyle cellStyle4 = workbook.createCellStyle();
+        cellStyle4.setFont(row3Font);
+        cellStyle4.setAlignment(HorizontalAlignment.LEFT);
+        cellStyle4.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle4.setIndention((short) 1);
+
+        Cell cell4 = row6.createCell(0);
+        cell4.setCellValue("Total Supplier");
+        cell4.setCellStyle(cellStyle4);
+
+        Cell cell5 = row6.createCell(2);
+        cell5.setCellValue("Regular Supplier");
+        cell5.setCellStyle(cellStyle4);
+
+        Cell cell6 = row6.createCell(4);
+        cell6.setCellValue("Favourite Supplier");
+        cell6.setCellStyle(cellStyle4);
+
+        XSSFFont row5Font = workbook.createFont();
+        row5Font.setFontName("Inter");
+        row5Font.setFontHeight(12);
+
+        XSSFCellStyle cellStyle5 = workbook.createCellStyle();
+        cellStyle5.setFont(row5Font);
+        cellStyle5.setAlignment(HorizontalAlignment.LEFT);
+        cellStyle5.setVerticalAlignment(VerticalAlignment.CENTER);
+        cellStyle5.setIndention((short) 1);
+
+        Cell cell7 = row7.createCell(0);
+        cell7.setCellValue(tbClientSupplierList.size());
+        cell7.setCellStyle(cellStyle5);
+
+        Cell cell8 = row7.createCell(2);
+        cell8.setCellValue(fav_supplier);
+        cell8.setCellStyle(cellStyle5);
+
+        Cell cell9 = row7.createCell(4);
+        cell9.setCellValue(reg_supplier);
+        cell9.setCellStyle(cellStyle5);
+
+        XSSFFont valuesFont = workbook.createFont();
+        valuesFont.setFontName("Inter");
+        valuesFont.setFontHeight(12);
+
+        XSSFCellStyle valuesStyle = workbook.createCellStyle();
+        valuesStyle.setFont(valuesFont);
+        valuesStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        valuesStyle.setAlignment(HorizontalAlignment.CENTER);
+        valuesStyle.setBorderTop(BorderStyle.THIN);
+        valuesStyle.setBorderRight(BorderStyle.THIN);
+        valuesStyle.setBorderBottom(BorderStyle.THIN);
+        valuesStyle.setBorderLeft(BorderStyle.THIN);
+
+        for (int i = 0; i < tbCompanyList.size(); i++) {
+            Row valuesRow = sheet.createRow(10 + i);
+            valuesRow.setHeightInPoints(36);
+
+            Cell cell = valuesRow.createCell(0);
+            cell.setCellValue(tbClientSupplierList.get(i).getSUPP_NUM());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(1);
+            cell.setCellValue(tbClientSupplierList.get(i).getIS_SUPP_FAV());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(2);
+            cell.setCellValue(tbCompanyList.get(i).getNAME());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(3);
+            cell.setCellValue(tbCompanyList.get(i).getEMAIL());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(4);
+            cell.setCellValue(tbCompanyList.get(i).getCONTACT_NUMBER());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(5);
+            cell.setCellValue(tbCompanyList.get(i).getWEBSITE());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(6);
+            cell.setCellValue(tbCompanyList.get(i).getREG_NUMBER());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(7);
+            cell.setCellValue(
+                    tbCountryRepository
+                            .findById(tbAllAddrList.get(i).getCOUNTRY_ID())
+                            .orElseThrow()
+                            .getCOUNTRY());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(8);
+            cell.setCellValue(tbAllAddrList.get(i).getADDR_1());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(9);
+            cell.setCellValue(tbAllAddrList.get(i).getADDR_2());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(10);
+            cell.setCellValue(
+                    tbStateRepository
+                            .findById(tbAllAddrList.get(0).getSTATE_ID())
+                            .orElseThrow()
+                            .getSTATE());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(11);
+            cell.setCellValue(
+                    tbCityRepository
+                            .findById(tbAllAddrList.get(0).getCITY_ID())
+                            .orElseThrow()
+                            .getCITY());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(12);
+            cell.setCellValue(tbAllAddrList.get(i).getPOSTAL_CODE());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(13);
+            cell.setCellValue(tbCompanyList.get(i).getTAX_NUMBER());
+            cell.setCellStyle(valuesStyle);
+
+            cell = valuesRow.createCell(14);
+            cell.setCellValue(tbCompanyList.get(i).getFAX());
+            cell.setCellStyle(valuesStyle);
+        }
+
+        Path tempDirectory = Files.createTempDirectory("tempFolder");
+        Path tempFile = Files.createTempFile(tempDirectory, "supplier_order_report_", ".xlsx");
+
+        try (FileOutputStream fileOut = new FileOutputStream(tempFile.toFile())) {
+            workbook.write(fileOut);
+        } finally {
+            workbook.close();
+        }
+
+        String fileId = tempFile.getFileName().toString();
+        tempFilesMap.put(fileId, tempFile);
+
+        JsonObject data = new JsonObject();
+        data.addProperty("URL", "downloadExcelReports?fileId=" + fileId);
+        response.setXscData(GenericMethods.convertGsonToJackson(data));
+        response.setXscStatus(1);
+        response.setXscMessage("File created at: " + tempFile);
+        return response;
+    }
+
+    @Override
     public ResponseEntity<byte[]> downloadPdfReports(String fileId) throws IOException {
         Path tempFile = tempFilesMap.get(fileId);
         if (tempFile == null || !Files.exists(tempFile)) {
@@ -783,6 +1160,30 @@ public class SupplierService implements SupplierDAO {
                 HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=" + tempFile.getFileName().toString());
         headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+
+        ResponseEntity<byte[]> responseEntity =
+                new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
+
+        Files.delete(tempFile);
+        Files.deleteIfExists(tempFile.getParent());
+        tempFilesMap.remove(fileId);
+
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity<byte[]> downloadExcelReports(String fileId) throws IOException {
+        Path tempFile = tempFilesMap.get(fileId);
+        if (tempFile == null || !Files.exists(tempFile)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        byte[] fileContent = Files.readAllBytes(tempFile);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(
+                HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=" + tempFile.getFileName().toString());
 
         ResponseEntity<byte[]> responseEntity =
                 new ResponseEntity<>(fileContent, headers, HttpStatus.OK);

@@ -53,8 +53,8 @@ public class SupplierController {
         return supplierDAO.supplierNameFilter(
                 payload.getString("APP_CLIENT_ID"),
                 payload.getString("SEARCH_KEYWORD"),
-                payload.getString("CURRENT_PAGE"),
-                payload.getString("ITEM_PER_PAGE"));
+                payload.get("CURRENT_PAGE").toString(),
+                payload.get("ITEM_PER_PAGE").toString());
     }
 
     @PostMapping("/supplierTypeFilter")
@@ -91,9 +91,21 @@ public class SupplierController {
         return supplierDAO.supplierOrderReportDownloadPdf(payload);
     }
 
+    @PostMapping("/supplierOrderReportDownloadExcel")
+    private XscResponse supplierOrderReportDownloadExcel(
+            @RequestParam("payload") JSONObject payload) throws IOException {
+        return supplierDAO.supplierOrderReportDownloadExcel(payload);
+    }
+
     @GetMapping("/downloadPdfReports")
     private ResponseEntity<byte[]> downloadPdfReports(@RequestParam("fileId") String fileId)
             throws IOException {
         return supplierDAO.downloadPdfReports(fileId);
+    }
+
+    @GetMapping("/downloadExcelReports")
+    private ResponseEntity<byte[]> downloadExcelReports(@RequestParam("fileId") String fileId)
+            throws IOException {
+        return supplierDAO.downloadExcelReports(fileId);
     }
 }
