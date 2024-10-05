@@ -1,6 +1,7 @@
 package com.manex.backend.controller;
 
 import com.manex.backend.DAO.CustomerDAO;
+import com.manex.backend.GenericMethods.Validations;
 import com.manex.backend.response.XscResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,10 @@ public class CustomerController {
     private XscResponse addCustomer(
             HttpServletRequest request, @RequestParam("payload") JSONObject payload)
             throws IOException {
+        XscResponse response = Validations.validateFields(payload);
+        if (response.getXscStatus() == 0) {
+            return response;
+        }
         return customerDAO.addCustomer(request, payload);
     }
 

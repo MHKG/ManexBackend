@@ -1,6 +1,7 @@
 package com.manex.backend.controller;
 
 import com.manex.backend.DAO.SupplierDAO;
+import com.manex.backend.GenericMethods.Validations;
 import com.manex.backend.response.XscResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +10,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -21,22 +21,23 @@ public class SupplierController {
 
     @PostMapping("/addSupplier")
     private XscResponse addSupplier(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("payload") JSONObject payload,
-            HttpServletRequest request)
+            HttpServletRequest request, @RequestParam("payload") JSONObject payload)
             throws IOException {
-        return supplierDAO.addSupplier(file, payload);
+        XscResponse response = Validations.validateFields(payload);
+        if (response.getXscStatus() == 0) {
+            return response;
+        }
+        return supplierDAO.addSupplier(request, payload);
     }
 
     @PostMapping("/listSupplier")
     private XscResponse listSupplier(@RequestParam("payload") JSONObject payload) {
-
         return supplierDAO.listSupplier(payload);
     }
 
     @PostMapping("/getSupplierDetails")
     private XscResponse getSupplierDetails(@RequestParam("payload") JSONObject payload) {
-        return supplierDAO.getSupplierDetails(payload.getString("CLIENT_SUPPLIER_ID"));
+        return supplierDAO.getSupplierDetails(payload.get("CLIENT_SUPPLIER_ID").toString());
     }
 
     @PostMapping("/updateSupplier")
@@ -49,8 +50,8 @@ public class SupplierController {
         return supplierDAO.supplierNameFilter(
                 payload.getString("APP_CLIENT_ID"),
                 payload.getString("SEARCH_KEYWORD"),
-                payload.get("CURRENT_PAGE").toString(),
-                payload.get("ITEM_PER_PAGE").toString());
+                payload.getInt("CURRENT_PAGE"),
+                payload.getInt("ITEM_PER_PAGE"));
     }
 
     @PostMapping("/supplierTypeFilter")

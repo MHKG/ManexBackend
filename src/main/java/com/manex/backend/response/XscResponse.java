@@ -20,6 +20,10 @@ public class XscResponse {
 
     public XscResponse() {}
 
+    public XscResponse(int XscStatus) {
+        this.XscStatus = XscStatus;
+    }
+
     public int getXscStatus() {
         return XscStatus;
     }
