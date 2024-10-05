@@ -29,18 +29,14 @@ public class SupplierController {
     }
 
     @PostMapping("/listSupplier")
-    private XscResponse listSupplier(
-            @RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID,
-            @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
-            @RequestParam("ITEM_PER_PAGE") String ITEM_PER_PAGE,
-            @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD) {
-        return supplierDAO.listSupplier(APP_CLIENT_ID, CURRENT_PAGE, ITEM_PER_PAGE, SEARCH_KEYWORD);
+    private XscResponse listSupplier(@RequestParam("payload") JSONObject payload) {
+
+        return supplierDAO.listSupplier(payload);
     }
 
     @PostMapping("/getSupplierDetails")
-    private XscResponse getSupplierDetails(
-            @RequestParam("CLIENT_SUPPLIER_ID") String CLIENT_SUPPLIER_ID) {
-        return supplierDAO.getSupplierDetails(CLIENT_SUPPLIER_ID);
+    private XscResponse getSupplierDetails(@RequestParam("payload") JSONObject payload) {
+        return supplierDAO.getSupplierDetails(payload.getString("CLIENT_SUPPLIER_ID"));
     }
 
     @PostMapping("/updateSupplier")
@@ -68,10 +64,9 @@ public class SupplierController {
     }
 
     @PostMapping("/markSupplierFavourite")
-    private XscResponse markSupplierFavourite(
-            @RequestParam("CLIENT_SUPP_ID") String CLIENT_SUPP_ID,
-            @RequestParam("IS_FAVOURITE") String IS_FAVOURITE) {
-        return supplierDAO.markSupplierFavourite(CLIENT_SUPP_ID, IS_FAVOURITE);
+    private XscResponse markSupplierFavourite(@RequestParam("payload") JSONObject payload) {
+        return supplierDAO.markSupplierFavourite(
+                payload.get("CLIENT_SUPP_ID").toString(), payload.getString("IS_FAVOURITE"));
     }
 
     @PostMapping("/addAllSuppliers")

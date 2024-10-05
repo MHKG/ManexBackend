@@ -151,13 +151,10 @@ public class SupplierService implements SupplierDAO {
     }
 
     @Override
-    public XscResponse listSupplier(
-            String APP_CLIENT_ID,
-            String CURRENT_PAGE,
-            String ITEM_PER_PAGE,
-            String SEARCH_KEYWORD) {
+    public XscResponse listSupplier(JSONObject payload) {
         int favourite_suppliers = 0;
         int regular_suppliers = 0;
+        String search_keyword = payload.optString("SEARCH_KEYWORD", "");
 
         XscResponse response = new XscResponse();
 
@@ -165,7 +162,7 @@ public class SupplierService implements SupplierDAO {
 
         List<TbClientSupplier> tbClientSupplierList =
                 tbClientSupplierRepository.findAllByAppClientIdAndSearchKeyword(
-                        APP_CLIENT_ID, SEARCH_KEYWORD);
+                        payload.getString("APP_CLIENT_ID"), search_keyword);
 
         List<TbCompany> tbCompanyList = new ArrayList<>();
         for (TbClientSupplier tbClientSupplier1 : tbClientSupplierList) {
