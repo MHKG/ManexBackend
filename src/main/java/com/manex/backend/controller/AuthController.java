@@ -5,6 +5,7 @@ import com.manex.backend.entities.TbUsers;
 import com.manex.backend.response.XscResponse;
 import com.manex.backend.util.JwtUtil;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +18,8 @@ public class AuthController {
     @Autowired private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    private XscResponse login(
-            @RequestParam("email") String email, @RequestParam("password") String password) {
-        return authDAO.login(email, password);
+    private XscResponse login(@RequestParam("payload") JSONObject payload) {
+        return authDAO.login(payload.getString("EMAIL"), payload.getString("PASSWORD"));
     }
 
     @GetMapping("/verifyToken")
@@ -39,9 +39,9 @@ public class AuthController {
 
     @PostMapping("/updatePassword")
     public XscResponse updatePassword(
-            @RequestParam("password") String password,
+            @RequestParam("payload") JSONObject payload,
             @RequestHeader("Authorization") String token) {
-        TbUsers users = authDAO.updatePassword(password, token.substring(7));
+        TbUsers users = authDAO.updatePassword(payload.getString("PASSWORD"), token.substring(7));
 
         XscResponse response = new XscResponse();
 

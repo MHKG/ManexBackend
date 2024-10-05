@@ -3,6 +3,7 @@ package com.manex.backend.controller;
 import com.manex.backend.DAO.EmailDAO;
 import com.manex.backend.response.XscResponse;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,8 @@ public class EmailController {
     @Autowired private EmailDAO emailDAO;
 
     @PostMapping("/sendEmail")
-    public XscResponse sendEmail(@RequestParam("email") String email) {
-        emailDAO.sendEmail(email);
+    public XscResponse sendEmail(@RequestParam("payload") JSONObject payload) {
+        emailDAO.sendEmail(payload.getString("EMAIL"));
         XscResponse response = new XscResponse();
         response.setXscMessage("Password reset link sent to your email.");
         response.setXscStatus(1);

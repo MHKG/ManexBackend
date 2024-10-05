@@ -12,21 +12,19 @@ import java.io.IOException;
 public interface CustomerDAO {
     XscResponse addCustomer(HttpServletRequest request, JSONObject payload) throws IOException;
 
-    XscResponse listCustomer(
-            String appClientId, String currentPage, String itemPerPage, String searchKeyword);
+    XscResponse listCustomer(String appClientId, String searchKeyword);
 
     XscResponse getCustomerDetails(String clientCustomerId);
 
     XscResponse updateCustomer(JSONObject payload);
 
-    XscResponse customerNameFilter(
-            String appClientId, String searchKeyword, String currentPage, String itemPerPage);
+    XscResponse customerNameFilter(JSONObject payload);
 
     XscResponse customerTypeFilter(String appClientId);
 
     XscResponse customerStatusFilter(String appClientId);
 
-    XscResponse markCustomerFavourite(String clientSuppId, String isFavourite);
+    XscResponse markCustomerFavourite(int clientSuppId, String isFavourite);
 
     XscResponse deleteCustomer(String clientCustId);
 
