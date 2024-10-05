@@ -165,7 +165,7 @@ public class TbProductService implements TbProductDAO {
     @Override
     public XscResponse getProductsList(JSONObject payload) {
         int APP_CLIENT_ID;
-        int currentPage = payload.getInt("CURRENT_PAGE");
+        int currentPage = payload.optInt("CURRENT_PAGE", 1);
 
         XscResponse response = new XscResponse();
 

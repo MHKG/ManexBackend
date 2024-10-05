@@ -88,7 +88,7 @@ public class CustomerService implements CustomerDAO {
         tbAllAddr.setAPP_CLIENT_ID(Integer.valueOf(payload.get("APP_CLIENT_ID").toString()));
         tbAllAddr.setADDR_1(payload.get("ADDR_1").toString());
         tbAllAddr.setADDR_2(payload.get("ADDR_2").toString());
-        tbAllAddr.setCOUNTRY_ID(Integer.valueOf(payload.get("COUNTRY_ID").toString()));
+        tbAllAddr.setCOUNTRY_ID(Integer.valueOf(payload.getString("COUNTRY_ID")));
         tbAllAddr.setSTATE_ID(Integer.valueOf(payload.get("STATE_ID").toString()));
         tbAllAddr.setDISTRICT_ID(Integer.valueOf(payload.get("DISTRICT_ID").toString()));
         tbAllAddr.setCITY_ID(Integer.valueOf(payload.get("CITY_ID").toString()));
@@ -103,7 +103,7 @@ public class CustomerService implements CustomerDAO {
         tbCompanyAddr.setDEFAULT_ADDR('Y');
         tbCompanyAddrRepository.save(tbCompanyAddr);
 
-        // TbClientCustomer
+        // TbClientCust
         TbClientCust tbClientCust = new TbClientCust();
         tbClientCust.setCOMPANY_ID(company.getID());
         tbClientCust.setAPP_CLIENT_ID(Integer.valueOf(payload.get("APP_CLIENT_ID").toString()));

@@ -2,15 +2,16 @@ package com.manex.backend.DAO;
 
 import com.manex.backend.response.XscResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 public interface SupplierDAO {
-    XscResponse addSupplier(MultipartFile file, JSONObject payload) throws IOException;
+    XscResponse addSupplier(HttpServletRequest request, JSONObject payload) throws IOException;
 
     XscResponse listSupplier(JSONObject payload);
 
@@ -19,7 +20,7 @@ public interface SupplierDAO {
     XscResponse updateSupplier(JSONObject payload);
 
     XscResponse supplierNameFilter(
-            String appClientId, String searchKeyword, String currentPage, String itemPerPage);
+            String appClientId, String searchKeyword, int currentPage, int itemPerPage);
 
     XscResponse supplierTypeFilter(String appClientId);
 
