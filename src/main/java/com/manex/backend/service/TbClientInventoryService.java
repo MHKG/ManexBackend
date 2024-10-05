@@ -37,6 +37,9 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
     @Override
     public XscResponse getInventoryDetails(JSONObject payload) {
         XscResponse response = new XscResponse();
+        int currentPage = payload.optInt("CURRENT_PAGE", 1);
+        int nextPage = 1;
+        int itemPerPage = payload.optInt("ITEM_PER_PAGE", 10);
 
         List<TbClientInventory> tbClientInventoryList =
                 tbClientInventoryRepository.findByAppClientId(payload.getInt("APP_CLIENT_ID"));
@@ -44,6 +47,18 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
         List<TbClientSupplier> tbClientSupplierList =
                 tbClientSupplierRepository.findAllByAppClientIdAndSearchKeyword(
                         payload.getString("APP_CLIENT_ID"), payload.getString("SEARCH_KEYWORD"));
+
+        int totalRecords = tbClientSupplierList.size();
+
+        List<TbClientSupplier> list = new ArrayList<>();
+        if (totalRecords > (currentPage * itemPerPage)) {
+            for (int i = (currentPage - 1) * 10; i < currentPage * 10; i++) {
+                list.add(tbClientSupplierList.get(i));
+            }
+            nextPage = currentPage++;
+        }
+
+        tbClientSupplierList = list;
 
         int totalStock = 0, toShip = 0, toReceive = 0;
         JsonObject data = new JsonObject();
@@ -61,6 +76,9 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
         data.addProperty("TO_RECEIVE", toReceive);
 
         JsonArray jsonArray = new JsonArray();
+        Integer totalInStock = 0;
+        int totalToShip = 0;
+        int totalToReveive = 0;
         for (int i = 0; i < tbProductsList.size(); i++) {
             JsonObject jsonObject = new JsonObject();
 
@@ -80,11 +98,19 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
             jsonObject.addProperty("TO_SHIP", toShip);
             jsonObject.addProperty("TO_RECEIVE", toReceive);
             jsonObject.addProperty("LAST_PRICE", tbProductSpecList.get(i).getPRICE());
+            totalInStock += tbClientInventoryList.get(i).getQTY();
+            totalToShip += toShip;
+            totalToReveive += toReceive;
 
             jsonArray.add(jsonObject);
         }
 
         data.add("INVENTORY_LIST", jsonArray);
+        data.addProperty("NEXT_PAGE", nextPage);
+        data.addProperty("INVENTORY_LIST_COUNT", totalRecords);
+        data.addProperty("TOTAL_STOCK_PRODUCTS", totalInStock);
+        data.addProperty("TO_RECEIVE", totalToReveive);
+        data.addProperty("TO_SHIP", totalToShip);
 
         response.setXscData(GenericMethods.convertGsonToJackson(data));
         response.setXscMessage("Inventory fetch successful.");
