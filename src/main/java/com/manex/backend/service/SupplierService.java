@@ -10,6 +10,7 @@ import com.manex.backend.entities.*;
 import com.manex.backend.repositories.*;
 import com.manex.backend.response.XscResponse;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -31,6 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import java.awt.Color;
 import java.io.*;
@@ -84,8 +86,11 @@ public class SupplierService implements SupplierDAO {
     @Autowired private TbSupplierOrderApRepository tbSupplierOrderApRepository;
 
     @Override
-    public XscResponse addSupplier(MultipartFile file, JSONObject payload) throws IOException {
+    public XscResponse addSupplier(HttpServletRequest request, JSONObject payload)
+            throws IOException {
         XscResponse response = new XscResponse();
+
+        MultipartFile file = ((StandardMultipartHttpServletRequest) request).getFile("file");
 
         TbMm tbMm = new TbMm();
         if (file != null) {
@@ -154,6 +159,9 @@ public class SupplierService implements SupplierDAO {
     public XscResponse listSupplier(JSONObject payload) {
         int favourite_suppliers = 0;
         int regular_suppliers = 0;
+        int currentPage = payload.optInt("CURRENT_PAGE", 1);
+        int nextPage;
+        int itemPerPage = payload.optInt("ITEM_PER_PAGE", 10);
         String search_keyword = payload.optString("SEARCH_KEYWORD", "");
 
         XscResponse response = new XscResponse();
@@ -163,6 +171,25 @@ public class SupplierService implements SupplierDAO {
         List<TbClientSupplier> tbClientSupplierList =
                 tbClientSupplierRepository.findAllByAppClientIdAndSearchKeyword(
                         payload.getString("APP_CLIENT_ID"), search_keyword);
+
+        int totalRecords = tbClientSupplierList.size();
+
+        int length =
+                tbClientSupplierList.size() > currentPage * itemPerPage
+                        ? itemPerPage
+                        : tbClientSupplierList.size() - ((currentPage - 1) * itemPerPage);
+
+        List<TbClientSupplier> list = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            list.add(tbClientSupplierList.get(i + (currentPage - 1) * itemPerPage));
+        }
+        if (length == itemPerPage) {
+            nextPage = currentPage + 1;
+        } else {
+            nextPage = -1;
+        }
+
+        tbClientSupplierList = list;
 
         List<TbCompany> tbCompanyList = new ArrayList<>();
         for (TbClientSupplier tbClientSupplier1 : tbClientSupplierList) {
@@ -202,7 +229,9 @@ public class SupplierService implements SupplierDAO {
         responseObject.add("SUPPLIER_LIST", arrayList);
         responseObject.addProperty("FAVOURITE_SUPPLIER", favourite_suppliers);
         responseObject.addProperty("REGULAR_SUPPLIER", regular_suppliers);
-        responseObject.addProperty("TOTAL_SUPPLIERS", tbCompanyList.size());
+        responseObject.addProperty("TOTAL_SUPPLIERS", totalRecords);
+        responseObject.addProperty("NEXT_PAGE", nextPage);
+        responseObject.addProperty("TOTAL_RECORDS", totalRecords);
 
         response.setXscData(GenericMethods.convertGsonToJackson(responseObject));
         response.setXscMessage("Supplier records fetched successfully !!!");
@@ -331,7 +360,7 @@ public class SupplierService implements SupplierDAO {
 
     @Override
     public XscResponse supplierNameFilter(
-            String appClientId, String searchKeyword, String currentPage, String itemPerPage) {
+            String appClientId, String searchKeyword, int currentPage, int itemPerPage) {
         XscResponse response = new XscResponse();
 
         List<TbClientSupplier> tbClientSupplierList =
