@@ -126,11 +126,7 @@ public class CustomerService implements CustomerDAO {
     }
 
     @Override
-    public XscResponse listCustomer(
-            String APP_CLIENT_ID,
-            String CURRENT_PAGE,
-            String ITEM_PER_PAGE,
-            String SEARCH_KEYWORD) {
+    public XscResponse listCustomer(String APP_CLIENT_ID, String SEARCH_KEYWORD) {
         int favourite_customers = 0;
         int regular_customers = 0;
 
@@ -308,23 +304,21 @@ public class CustomerService implements CustomerDAO {
     }
 
     @Override
-    public XscResponse customerNameFilter(
-            String appClientId, String searchKeyword, String currentPage, String itemPerPage) {
+    public XscResponse customerNameFilter(JSONObject payload) {
         XscResponse response = new XscResponse();
 
         List<ClientCustProjection> clientCustProjectionList =
                 tbClientCustRepository.findAllByAppClientIdAndSearchKeyword(
-                        appClientId, searchKeyword);
+                        payload.getString("APP_CLIENT_ID"), payload.getString("SEARCH_KEYWORD"));
 
         JsonObject data = new JsonObject();
 
         JsonArray jsonArray = new JsonArray();
-        for (int i = 0; i < clientCustProjectionList.size(); i++) {
+        for (ClientCustProjection clientCustProjection : clientCustProjectionList) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty(
-                    "CLIENT_CUST_ID", clientCustProjectionList.get(i).getTbClientCust().getID());
-            jsonObject.addProperty(
-                    "CUSTOMERS_NAME", clientCustProjectionList.get(i).getTbCompany().getNAME());
+                    "CLIENT_CUST_ID", clientCustProjection.getTbClientCust().getID());
+            jsonObject.addProperty("CUSTOMERS_NAME", clientCustProjection.getTbCompany().getNAME());
             jsonArray.add(jsonObject);
         }
         data.add("CUSTOMER_LIST", jsonArray);
@@ -399,7 +393,7 @@ public class CustomerService implements CustomerDAO {
     }
 
     @Override
-    public XscResponse markCustomerFavourite(String clientCustId, String isFavourite) {
+    public XscResponse markCustomerFavourite(int clientCustId, String isFavourite) {
         TbClientCust tbClientCustomer =
                 tbClientCustRepository.findById(Integer.valueOf(clientCustId)).orElseThrow();
         tbClientCustomer.setIS_CUST_FAV(isFavourite.charAt(0));

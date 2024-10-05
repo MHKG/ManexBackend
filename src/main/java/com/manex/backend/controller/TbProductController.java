@@ -30,10 +30,9 @@ public class TbProductController {
     }
 
     @PostMapping("/getProductsDetails")
-    private XscResponse getProductsDetails(
-            @RequestParam("CLIENT_SUPPLIER_ID") String CLIENT_SUPPLIER_ID,
-            @RequestParam("PRODUCT_ID") String PRODUCT_ID) {
-        return tbProductDAO.getProductsDetails(CLIENT_SUPPLIER_ID, PRODUCT_ID);
+    private XscResponse getProductsDetails(@RequestParam("payload") JSONObject payload) {
+        return tbProductDAO.getProductsDetails(
+                payload.getString("CLIENT_SUPPLIER_ID"), payload.getString("PRODUCT_ID"));
     }
 
     @PostMapping("/productPriceFilter")

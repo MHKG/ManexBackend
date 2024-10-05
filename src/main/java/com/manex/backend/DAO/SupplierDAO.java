@@ -12,8 +12,7 @@ import java.io.IOException;
 public interface SupplierDAO {
     XscResponse addSupplier(MultipartFile file, JSONObject payload) throws IOException;
 
-    XscResponse listSupplier(
-            String APP_CLIENT_ID, String CURRENT_PAGE, String ITEM_PER_PAGE, String SEARCH_KEYWORD);
+    XscResponse listSupplier(JSONObject payload);
 
     XscResponse getSupplierDetails(String clientSupplierId);
 

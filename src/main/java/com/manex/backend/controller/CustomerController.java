@@ -25,17 +25,16 @@ public class CustomerController {
     }
 
     @PostMapping("/listCustomer")
-    private XscResponse listCustomer(
-            @RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID,
-            @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
-            @RequestParam("ITEM_PER_PAGE") String ITEM_PER_PAGE,
-            @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD) {
-        return customerDAO.listCustomer(APP_CLIENT_ID, CURRENT_PAGE, ITEM_PER_PAGE, SEARCH_KEYWORD);
+    private XscResponse listCustomer(@RequestParam("payload") JSONObject payload) {
+
+        String search_keyword = payload.optString("SEARCH_KEYWORD", "");
+
+        return customerDAO.listCustomer(payload.getString("APP_CLIENT_ID"), search_keyword);
     }
 
     @PostMapping("/getCustomerDetails")
-    private XscResponse getCustomerDetails(@RequestParam("CLIENT_CUST_ID") String CLIENT_CUST_ID) {
-        return customerDAO.getCustomerDetails(CLIENT_CUST_ID);
+    private XscResponse getCustomerDetails(@RequestParam("payload") JSONObject payload) {
+        return customerDAO.getCustomerDetails(payload.getString("CLIENT_CUST_ID"));
     }
 
     @PostMapping("/updateCustomer")
@@ -44,13 +43,8 @@ public class CustomerController {
     }
 
     @PostMapping("/customerNameFilter")
-    private XscResponse customerNameFilter(
-            @RequestParam("APP_CLIENT_ID") String APP_CLIENT_ID,
-            @RequestParam("SEARCH_KEYWORD") String SEARCH_KEYWORD,
-            @RequestParam("CURRENT_PAGE") String CURRENT_PAGE,
-            @RequestParam("ITEM_PER_PAGE") String ITEM_PER_PAGE) {
-        return customerDAO.customerNameFilter(
-                APP_CLIENT_ID, SEARCH_KEYWORD, CURRENT_PAGE, ITEM_PER_PAGE);
+    private XscResponse customerNameFilter(@RequestParam("payload") JSONObject payload) {
+        return customerDAO.customerNameFilter(payload);
     }
 
     @PostMapping("/customerTypeFilter")
@@ -64,15 +58,14 @@ public class CustomerController {
     }
 
     @PostMapping("/markCustomerFavourite")
-    private XscResponse markCustomerFavourite(
-            @RequestParam("CLIENT_CUST_ID") String CLIENT_CUST_ID,
-            @RequestParam("IS_FAVOURITE") String IS_FAVOURITE) {
-        return customerDAO.markCustomerFavourite(CLIENT_CUST_ID, IS_FAVOURITE);
+    private XscResponse markCustomerFavourite(@RequestParam("payload") JSONObject payload) {
+        return customerDAO.markCustomerFavourite(
+                payload.getInt("CLIENT_CUST_ID"), payload.getString("IS_FAVOURITE"));
     }
 
     @PostMapping("/deleteCustomer")
-    private XscResponse deleteCustomer(@RequestParam("CLIENT_CUST_ID") String CLIENT_CUST_ID) {
-        return customerDAO.deleteCustomer(CLIENT_CUST_ID);
+    private XscResponse deleteCustomer(@RequestParam("payload") JSONObject payload) {
+        return customerDAO.deleteCustomer(payload.getString("CLIENT_CUST_ID"));
     }
 
     @PostMapping("/addAllCustomers")
