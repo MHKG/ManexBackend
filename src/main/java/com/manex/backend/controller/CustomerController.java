@@ -34,7 +34,7 @@ public class CustomerController {
 
         String search_keyword = payload.optString("SEARCH_KEYWORD", "");
 
-        return customerDAO.listCustomer(payload.getString("APP_CLIENT_ID"), search_keyword);
+        return customerDAO.listCustomer(payload);
     }
 
     @PostMapping("/getCustomerDetails")

@@ -107,7 +107,9 @@ public class SupplierOrderService implements SupplierOrderDAO {
         Pageable pageable = PageRequest.of(0, 1000);
         List<TbProducts> tbProductsList =
                 tbProductsRepository.findAllByClientSupplierId(
-                        payload.get("CLIENT_SUPPLIER_ID").toString(), pageable);
+                        payload.get("CLIENT_SUPPLIER_ID").toString(),
+                        payload.getString("CLIENT_SUPPLIER_ID"),
+                        pageable);
 
         List<TbProductMm> tbProductMmList = new ArrayList<>();
 
@@ -149,7 +151,11 @@ public class SupplierOrderService implements SupplierOrderDAO {
                     "CREATED_ON",
                     String.valueOf(tbSupplierPoList.get(i).getTIMESTAMP()).split(" ")[0]);
             jsonObject.addProperty("TOTAL_AMOUNT", tbSupplierInvoice.getGRAND_TOTAL());
-            jsonObject.addProperty("MM_FILE_NAME", tbMmList.get(i).getMM_FILE_NAME());
+            if (tbMmList.size() > i) {
+                jsonObject.addProperty("MM_FILE_NAME", tbMmList.get(i).getMM_FILE_NAME());
+            } else {
+                jsonObject.addProperty("MM_FILE_NAME", (String) null);
+            }
             jsonArray.add(jsonObject);
         }
         data.add("PO_LIST", jsonArray);
