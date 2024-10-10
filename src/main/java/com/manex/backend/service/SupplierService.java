@@ -81,9 +81,9 @@ public class SupplierService implements SupplierDAO {
 
     @Autowired private TbSupplierPoItemsRepository tbSupplierPoItemsRepository;
 
-    @Autowired private TbAppClientRepository tbAppClientRepository;
-
     @Autowired private TbSupplierOrderApRepository tbSupplierOrderApRepository;
+
+    @Autowired private TbLookupCurrencyRepository tbLookupCurrencyRepository;
 
     @Override
     public XscResponse addSupplier(HttpServletRequest request, JSONObject payload)
@@ -253,7 +253,7 @@ public class SupplierService implements SupplierDAO {
         Pageable pageable = PageRequest.of(0, 1000);
 
         List<TbProducts> tbProducts =
-                tbProductsRepository.findAllByClientSupplierId(clientSupplierId, pageable);
+                tbProductsRepository.findAllByClientSupplierId(clientSupplierId, "", pageable);
 
         TbCompanyAddr tbCompanyAddr =
                 tbCompanyAddrRepository.findDefaultAddressByCompanyId(tbCompany.getID());
@@ -268,6 +268,9 @@ public class SupplierService implements SupplierDAO {
         TbCity tbCity = tbCityRepository.findById(tbAllAddr.getCITY_ID()).orElseThrow();
 
         TbMm tbMm = tbMmRepository.findById(tbCompany.getLOGO()).orElseThrow();
+
+        TbLookupCurrency tbLookupCurrency =
+                tbLookupCurrencyRepository.findByCountryId(tbCountry.getID());
 
         JsonObject data = new JsonObject();
         JsonObject jsonObject1 = new JsonObject();
@@ -294,8 +297,13 @@ public class SupplierService implements SupplierDAO {
         jsonObject1.addProperty("CITY_ID", tbCity.getID());
         jsonObject1.addProperty("STATUS", tbClientSupplier.getSTATUS());
         jsonObject1.addProperty("IS_SUPP_FAV", tbClientSupplier.getIS_SUPP_FAV());
+        jsonObject1.addProperty("SUPP_NUM", tbClientSupplier.getSUPP_NUM());
+        jsonObject1.addProperty("OPERATING_CURRENCY_SYMBOL", tbLookupCurrency.getCURRENCY_SYMBOL());
 
         jsonObject2.addProperty("TOTAL_PRODUCT", tbProducts.size());
+        jsonObject2.addProperty("TOTAL_CLOSED_ORDERS", (String) null);
+        jsonObject2.addProperty("OUTSTANDING_PAYMENT", (String) null);
+        jsonObject2.addProperty("TOTAL_TRANSACTIONS", (String) null);
 
         data.add("INFO", jsonObject1);
         data.add("ORDER_AND_PAYMENT_DETAILS", jsonObject2);
