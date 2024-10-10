@@ -16,7 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -116,14 +118,15 @@ public class TbSupplierInvoiceService implements TbSupplierInvoiceDAO {
 
         JsonArray jsonArray = new JsonArray();
         for (int i = 0; i < tbSupplierInvoiceList.size(); i++) {
+            Instant timestamp = tbSupplierInvoiceList.get(i).getTIMESTAMP().toInstant();
+            Date date = Date.from(timestamp);
+
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("INV_ID", tbSupplierInvoiceList.get(i).getID());
             jsonObject.addProperty("ORDER_NO", tbSupplierInvoiceList.get(i).getSUPP_INV_NUM());
             jsonObject.addProperty("TOTAL_ITEM", 0);
             jsonObject.addProperty("TOTAL_CTN", 0);
-            jsonObject.addProperty(
-                    "CREATED_ON",
-                    String.valueOf(tbSupplierInvoiceList.get(i).getTIMESTAMP()).split(" ")[0]);
+            jsonObject.addProperty("CREATED_ON", String.valueOf(date.getTime() / 1000));
             jsonObject.addProperty("TOTAL_AMOUNT", tbSupplierInvoiceList.get(i).getGRAND_TOTAL());
             jsonObject.addProperty(
                     "DUE_AMOUNT",
@@ -155,7 +158,7 @@ public class TbSupplierInvoiceService implements TbSupplierInvoiceDAO {
 
         List<TbProducts> tbProductsList =
                 tbProductsRepository.findAllByClientSupplierId(
-                        payload.getString("CLIENT_SUPPLIER_ID"), pageable);
+                        payload.getString("CLIENT_SUPPLIER_ID"), "", pageable);
 
         TbSupplierPi tbSupplierPi =
                 tbSupplierPiRepository.findById(tbSupplierInvoice.getSUPP_PI_ID()).orElseThrow();
