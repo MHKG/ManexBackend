@@ -12,7 +12,7 @@ import java.io.IOException;
 public interface CustomerDAO {
     XscResponse addCustomer(HttpServletRequest request, JSONObject payload) throws IOException;
 
-    XscResponse listCustomer(String appClientId, String searchKeyword);
+    XscResponse listCustomer(JSONObject payload);
 
     XscResponse getCustomerDetails(String clientCustomerId);
 

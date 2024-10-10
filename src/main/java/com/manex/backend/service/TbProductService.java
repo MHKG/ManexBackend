@@ -183,7 +183,9 @@ public class TbProductService implements TbProductDAO {
         Pageable pageable = PageRequest.of(currentPage - 1, 10);
         List<TbProducts> tbProductsList =
                 tbProductsRepository.findAllByClientSupplierId(
-                        payload.getString("CLIENT_SUPPLIER_ID"), pageable);
+                        payload.getString("CLIENT_SUPPLIER_ID"),
+                        payload.getString("KEYWORD"),
+                        pageable);
 
         List<TbCompanyProductNumber> arrayList = new ArrayList<>();
 
@@ -244,7 +246,7 @@ public class TbProductService implements TbProductDAO {
                             "CLIENT_PROD_NUM",
                             tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
                 } else {
-                    jsonObject.addProperty("CLIENT_PROD_NUM", "");
+                    jsonObject.addProperty("CLIENT_PROD_NUM", (String) null);
                 }
             } else {
                 jsonObject.addProperty(
@@ -253,7 +255,7 @@ public class TbProductService implements TbProductDAO {
                     jsonObject.addProperty(
                             "SUPP_PROD_NUM", tbCompanyProductNumberList.get(i).get(1).getITEM_NO());
                 } else {
-                    jsonObject.addProperty("SUPP_PROD_NUM", "");
+                    jsonObject.addProperty("SUPP_PROD_NUM", (String) null);
                 }
             }
             jsonObject.addProperty("PRODUCT_NAME", tbProductsList.get(i).getDESCRIPTION());
@@ -299,6 +301,20 @@ public class TbProductService implements TbProductDAO {
                                 .orElseThrow()
                                 .getAPP_CLIENT_ID());
 
+        TbAppClient tbAppClient =
+                tbAppClientRepository
+                        .findById(
+                                tbClientSupplierRepository
+                                        .findById(Integer.valueOf(clientSupplierId))
+                                        .orElseThrow()
+                                        .getAPP_CLIENT_ID())
+                        .orElseThrow();
+
+        TbLookupCurrency tbLookupCurrency =
+                tbLookupCurrencyRepository
+                        .findById(tbAppClient.getOPERATING_CURRENCY())
+                        .orElseThrow();
+
         List<TbMm> tbMmList = new ArrayList<>();
 
         int defaultMM_FILE_INDEX = 0;
@@ -309,6 +325,8 @@ public class TbProductService implements TbProductDAO {
                 defaultMM_FILE_INDEX = i;
             }
         }
+
+        TbCtn tbCtn = tbCtnRepository.findById(tbMItemCtn.getID().getCTN_ID()).orElseThrow();
 
         JsonObject data = new JsonObject();
 
@@ -328,6 +346,7 @@ public class TbProductService implements TbProductDAO {
         jsonObject.addProperty("PRODUCT_ID", tbProducts.getID());
         jsonObject.addProperty("CTN_ID", tbMItemCtn.getID().getCTN_ID());
         jsonObject.addProperty("CTN_PKG_TYPE", tbMItemCtn.getPKG_TYPE());
+        jsonObject.addProperty("CTN_NAME", tbCtn.getALIAS_NAME());
         jsonObject.addProperty("CTN_NET_WT", tbMItemCtn.getNET_WT());
         jsonObject.addProperty("CTN_GROSS_WT", tbMItemCtn.getGROSS_WT());
         jsonObject.addProperty("CTN_WT_UNIT", String.valueOf(tbMItemCtn.getWEIGHT_UNIT()));
@@ -338,7 +357,18 @@ public class TbProductService implements TbProductDAO {
         jsonObject.addProperty("PROD_VOLUME", tbProducts.getVOLUME());
         jsonObject.addProperty("PROD_VOLUME_UNIT", String.valueOf(tbProducts.getVOLUME_UNIT()));
         jsonObject.addProperty("PROD_WT", tbProducts.getWEIGHT());
-        jsonObject.addProperty("PROD_WT_UNIT", String.valueOf(tbProducts.getWEIGHT_UNIT()));
+        jsonObject.addProperty("CTN_LENGTH", tbCtn.getLENGTH());
+        jsonObject.addProperty("CTN_WIDTH", tbCtn.getWIDTH());
+        jsonObject.addProperty("CTN_HEIGHT", tbCtn.getHEIGHT());
+        jsonObject.addProperty("CTN_VOLUME", tbCtn.getVOLUME());
+        jsonObject.addProperty("CTN_SIZE_UNIT", String.valueOf(tbCtn.getSIZE_UNIT()));
+        jsonObject.addProperty("CTN_VOLUME_UNIT", String.valueOf(tbCtn.getVOLUME_UNIT()));
+
+        if (tbProducts.getWEIGHT_UNIT() == null) {
+            jsonObject.addProperty("PROD_WT_UNIT", String.valueOf(WeightUnit.KG));
+        } else {
+            jsonObject.addProperty("PROD_WT_UNIT", String.valueOf(tbProducts.getWEIGHT_UNIT()));
+        }
         jsonObject.addProperty(
                 "CLIENT_COMPANY_ID", tbCompanyProductNumberList.get(0).getID().getAPP_CLIENT_ID());
         jsonObject.addProperty("SUPP_BAR_CODE", tbCompanyProductNumberList.get(0).getBAR_CODE());
@@ -364,6 +394,7 @@ public class TbProductService implements TbProductDAO {
         jsonObject.addProperty("MATERIAL", tbProductSpec.getMATERIAL());
         jsonObject.addProperty("PROD_SIZE_UNIT", String.valueOf(tbProducts.getSIZE_UNIT()));
         jsonObject.addProperty("PRIMARY_IMAGE_INDEX", defaultMM_FILE_INDEX);
+        jsonObject.addProperty("OPERATING_CURRENCY_SYMBOL", tbLookupCurrency.getCURRENCY_SYMBOL());
 
         data.add("PRODUCT_DETAILS", jsonObject);
         data.addProperty("TOTAL_STOCK", tbClientInventory.getQTY());

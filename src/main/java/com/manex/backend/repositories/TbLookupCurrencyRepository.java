@@ -15,4 +15,7 @@ public interface TbLookupCurrencyRepository
     @Query(
             "SELECT tlc FROM TbLookupCurrency tlc WHERE tlc.CURRENCY LIKE CONCAT ('%', :searchKeyword,'%')")
     List<TbLookupCurrency> findAllBySearchKeyword(String searchKeyword);
+
+    @Query("SELECT tlc FROM TbLookupCurrency tlc WHERE tlc.COUNTRY_ID = :COUNTRY_ID")
+    TbLookupCurrency findByCountryId(Integer COUNTRY_ID);
 }

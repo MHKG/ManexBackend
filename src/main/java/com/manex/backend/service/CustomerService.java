@@ -126,9 +126,13 @@ public class CustomerService implements CustomerDAO {
     }
 
     @Override
-    public XscResponse listCustomer(String APP_CLIENT_ID, String SEARCH_KEYWORD) {
+    public XscResponse listCustomer(JSONObject payload) {
         int favourite_customers = 0;
         int regular_customers = 0;
+        int currentPage = payload.optInt("CURRENT_PAGE", 1);
+        int nextPage;
+        int itemPerPage = payload.optInt("ITEM_PER_PAGE", 10);
+        String search_keyword = payload.optString("SEARCH_KEYWORD", "");
 
         XscResponse response = new XscResponse();
 
@@ -136,7 +140,26 @@ public class CustomerService implements CustomerDAO {
 
         List<ClientCustProjection> clientCustProjectionList =
                 tbClientCustRepository.findAllByAppClientIdAndSearchKeyword(
-                        APP_CLIENT_ID, SEARCH_KEYWORD);
+                        payload.getString("APP_CLIENT_ID"), search_keyword);
+
+        int totalRecords = clientCustProjectionList.size();
+
+        int length =
+                clientCustProjectionList.size() > currentPage * itemPerPage
+                        ? itemPerPage
+                        : clientCustProjectionList.size() - ((currentPage - 1) * itemPerPage);
+
+        List<ClientCustProjection> list = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            list.add(clientCustProjectionList.get(i + (currentPage - 1) * itemPerPage));
+        }
+        if (length == itemPerPage) {
+            nextPage = currentPage + 1;
+        } else {
+            nextPage = -1;
+        }
+
+        clientCustProjectionList = list;
 
         List<TbCompany> tbCompanyList = new ArrayList<>();
         for (ClientCustProjection clientCustProjection : clientCustProjectionList) {
@@ -182,7 +205,9 @@ public class CustomerService implements CustomerDAO {
         responseObject.add("CUSTOMER_LIST", arrayList);
         responseObject.addProperty("FAVOURITE_CUSTOMER", favourite_customers);
         responseObject.addProperty("REGULAR_CUSTOMER", regular_customers);
-        responseObject.addProperty("TOTAL_CUSTOMERS", tbCompanyList.size());
+        responseObject.addProperty("TOTAL_CUSTOMERS", totalRecords);
+        responseObject.addProperty("NEXT_PAGE", nextPage);
+        responseObject.addProperty("TOTAL_RECORDS", totalRecords);
 
         response.setXscData(GenericMethods.convertGsonToJackson(responseObject));
         response.setXscMessage("Customer records fetched successfully !!!");
