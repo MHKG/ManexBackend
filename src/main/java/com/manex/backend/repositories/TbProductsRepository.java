@@ -13,8 +13,10 @@ import java.util.List;
 public interface TbProductsRepository
         extends JpaRepository<TbProducts, Integer>, JpaSpecificationExecutor<TbProducts> {
 
-    @Query("SELECT tp FROM TbProducts tp WHERE CLIENT_SUPPLIER_ID = :clientSupplierId")
+    @Query(
+            "SELECT tp FROM TbProducts tp WHERE tp.CLIENT_SUPPLIER_ID = :clientSupplierId AND tp.NAME LIKE CONCAT('%', :SEARCH_KEYWORD, '%')")
     List<TbProducts> findAllByClientSupplierId(
             @Param("clientSupplierId") String clientSupplierId,
+            @Param("SEARCH_KEYWORD") String SEARCH_KEYWORD,
             @Param("pageable") Pageable pageable);
 }
