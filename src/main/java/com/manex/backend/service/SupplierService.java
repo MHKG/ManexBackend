@@ -607,6 +607,7 @@ public class SupplierService implements SupplierDAO {
         return response;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public XscResponse supplierOrderReportDownloadPdf(JSONObject payload) throws IOException {
         XscResponse response = new XscResponse();
@@ -1140,11 +1141,7 @@ public class SupplierService implements SupplierDAO {
             cell.setCellStyle(valuesStyle);
 
             cell = valuesRow.createCell(11);
-            cell.setCellValue(
-                    tbCityRepository
-                            .findById(tbAllAddrList.get(0).getCITY_ID())
-                            .orElseThrow()
-                            .getCITY());
+            cell.setCellValue(tbCityList.get(i).getCITY());
             cell.setCellStyle(valuesStyle);
 
             cell = valuesRow.createCell(12);

@@ -1,11 +1,7 @@
 package com.manex.backend.config;
 
-import com.manex.backend.service.CustomUserDetailsService;
-import com.manex.backend.util.JwtUtil;
-
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,11 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
-
-    @Autowired private JwtUtil jwtUtil;
-
-    @Autowired private CustomUserDetailsService userDetailsService;
-
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();

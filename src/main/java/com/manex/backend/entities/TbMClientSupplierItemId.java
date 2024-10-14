@@ -11,16 +11,6 @@ public class TbMClientSupplierItemId implements Serializable {
     private Integer CLIENT_SUPP_ID;
     private Integer PROD_ID;
 
-    // Default constructor
-    public TbMClientSupplierItemId() {}
-
-    // Parameterized constructor
-    public TbMClientSupplierItemId(Integer productId, Integer companyId) {
-        this.CLIENT_SUPP_ID = productId;
-        this.PROD_ID = companyId;
-    }
-
-    // Getters, setters, equals, and hashCode methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
