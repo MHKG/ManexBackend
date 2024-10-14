@@ -103,7 +103,7 @@ public class AuthService implements AuthDAO {
 
     @Override
     public TbUsers updatePassword(String password, String token) {
-        String user_id = jwtUtil.extractUsername(token);
+        String user_id = jwtUtil.extractUserId(token);
         TbUsers user = tbUsersRepository.findById(Integer.valueOf(user_id)).orElseThrow();
         user.setPASSWORD(passwordEncoder.encode(password));
         return tbUsersRepository.save(user);
