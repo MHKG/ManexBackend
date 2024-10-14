@@ -18,17 +18,6 @@ public class TbCompanyProductNumberId implements Serializable {
     @Column(name = "COMPANY_ID")
     private int COMPANY_ID;
 
-    // Default constructor
-    public TbCompanyProductNumberId() {}
-
-    // Parameterized constructor
-    public TbCompanyProductNumberId(Integer PRODUCT_ID, Integer APP_CLIENT_ID, Integer COMPANY_ID) {
-        this.PRODUCT_ID = PRODUCT_ID;
-        this.APP_CLIENT_ID = APP_CLIENT_ID;
-        this.COMPANY_ID = COMPANY_ID;
-    }
-
-    // Getters, setters, equals, and hashCode methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

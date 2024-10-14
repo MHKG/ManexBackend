@@ -15,6 +15,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -25,7 +26,8 @@ public class TbMmService implements TbMmDAO {
     @Override
     public TbMm saveImageFileWithName(String uploadDir, MultipartFile file, String name, Integer id)
             throws IOException {
-        String fileName = name + "." + file.getOriginalFilename().split("\\.")[1];
+        String fileName =
+                name + "." + Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1];
         Path filePath = Paths.get(uploadDir, fileName);
         Files.createDirectories(filePath.getParent());
         Files.write(filePath, file.getBytes());
