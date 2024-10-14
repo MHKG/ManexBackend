@@ -58,7 +58,7 @@ public class JwtUtil {
         return (users.getEMAIL().equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public String extractUsername(String token) {
+    public String extractUserId(String token) {
         return extractClaims(token).getSubject();
     }
 
