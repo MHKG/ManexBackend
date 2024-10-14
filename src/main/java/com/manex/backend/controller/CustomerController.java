@@ -31,9 +31,6 @@ public class CustomerController {
 
     @PostMapping("/listCustomer")
     private XscResponse listCustomer(@RequestParam("payload") JSONObject payload) {
-
-        String search_keyword = payload.optString("SEARCH_KEYWORD", "");
-
         return customerDAO.listCustomer(payload);
     }
 

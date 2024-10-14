@@ -24,15 +24,15 @@ public class AuthController {
 
     @GetMapping("/verifyToken")
     public XscResponse verifyToken(@RequestHeader("Authorization") String token) {
-        boolean isValid = !jwtUtil.isTokenExpired(token.split(" ")[1]);
+        boolean isExpired = jwtUtil.isTokenExpired(token.split(" ")[1]);
 
         XscResponse response = new XscResponse();
-        if (isValid) {
-            response.setXscMessage("Token is valid.");
-            response.setXscStatus(1);
-        } else {
+        if (isExpired) {
             response.setXscMessage("Token is invalid.");
             response.setXscStatus(0);
+        } else {
+            response.setXscMessage("Token is valid.");
+            response.setXscStatus(1);
         }
         return response;
     }

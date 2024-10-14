@@ -11,16 +11,6 @@ public class TbMItemCtnId implements Serializable {
     private Integer PRODUCT_ID;
     private Integer CTN_ID;
 
-    // Default constructor
-    public TbMItemCtnId() {}
-
-    // Parameterized constructor
-    public TbMItemCtnId(Integer productId, Integer companyId) {
-        this.PRODUCT_ID = productId;
-        this.CTN_ID = companyId;
-    }
-
-    // Getters, setters, equals, and hashCode methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,7 +24,6 @@ public class TbMItemCtnId implements Serializable {
         return Objects.hash(PRODUCT_ID, CTN_ID);
     }
 
-    // Getters and setters
     public Integer getPRODUCT_ID() {
         return PRODUCT_ID;
     }
