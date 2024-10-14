@@ -23,4 +23,9 @@ public class TbUserProfileController {
             throws IOException {
         return tbUserProfileDAO.updateUser(request, payload);
     }
+
+    @GetMapping("/getUserProfileDetails")
+    private XscResponse getUserProfileDetails(@RequestHeader("Authorization") String token) {
+        return tbUserProfileDAO.getUserProfileDetails(token.substring(7));
+    }
 }
