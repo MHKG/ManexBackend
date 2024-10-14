@@ -10,4 +10,6 @@ import java.io.IOException;
 
 public interface TbUserProfileDAO {
     XscResponse updateUser(HttpServletRequest request, JSONObject payload) throws IOException;
+
+    XscResponse getUserProfileDetails(String token);
 }
