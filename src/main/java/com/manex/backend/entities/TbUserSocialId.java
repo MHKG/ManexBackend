@@ -11,16 +11,6 @@ public class TbUserSocialId implements Serializable {
     private Integer USER_ID;
     private Integer SM_ID;
 
-    // Default constructor
-    public TbUserSocialId() {}
-
-    // Parameterized constructor
-    public TbUserSocialId(Integer productId, Integer companyId) {
-        this.USER_ID = productId;
-        this.SM_ID = companyId;
-    }
-
-    // Getters, setters, equals, and hashCode methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,7 +24,6 @@ public class TbUserSocialId implements Serializable {
         return Objects.hash(USER_ID, SM_ID);
     }
 
-    // Getters and setters
     public Integer getUSER_ID() {
         return USER_ID;
     }

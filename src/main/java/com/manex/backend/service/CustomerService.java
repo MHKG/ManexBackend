@@ -313,7 +313,7 @@ public class CustomerService implements CustomerDAO {
         tbAllAddr.setCOUNTRY_ID(Integer.valueOf(payload.get("COUNTRY_ID").toString()));
         tbAllAddr.setSTATE_ID(Integer.valueOf(payload.get("STATE_ID").toString()));
         tbAllAddr.setCITY_ID(Integer.valueOf(payload.get("CITY_ID").toString()));
-        tbAllAddr = tbAllAddrRepository.save(tbAllAddr);
+        tbAllAddrRepository.save(tbAllAddr);
 
         JsonObject data = new JsonObject();
 
@@ -419,8 +419,7 @@ public class CustomerService implements CustomerDAO {
 
     @Override
     public XscResponse markCustomerFavourite(int clientCustId, String isFavourite) {
-        TbClientCust tbClientCustomer =
-                tbClientCustRepository.findById(Integer.valueOf(clientCustId)).orElseThrow();
+        TbClientCust tbClientCustomer = tbClientCustRepository.findById(clientCustId).orElseThrow();
         tbClientCustomer.setIS_CUST_FAV(isFavourite.charAt(0));
         tbClientCustRepository.save(tbClientCustomer);
         return new XscResponse(1, "Customer type updated successfully.");
@@ -435,7 +434,8 @@ public class CustomerService implements CustomerDAO {
 
         TbCustomerPo tbCustomerPo = tbCustomerPoRepository.findByClientCustId(tbClientCust.getID());
 
-        TbCustPoItems tbCustPoItems = tbCustPoItemsRepository.findByCustPoId(tbCustomerPo.getID());
+        tbCustPoItemsRepository.findByCustPoId(tbCustomerPo.getID());
+
         return response;
     }
 

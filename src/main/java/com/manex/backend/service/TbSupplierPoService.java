@@ -85,8 +85,7 @@ public class TbSupplierPoService implements TbSupplierPoDAO {
     public XscResponse getClientSupplierDetails(JSONObject payload) {
         XscResponse response = new XscResponse();
 
-        TbClientSupplier tbClientSupplier =
-                tbClientSupplierRepository.findById(payload.getInt("CLIENT_SUPP_ID")).orElseThrow();
+        tbClientSupplierRepository.findById(payload.getInt("CLIENT_SUPP_ID")).orElseThrow();
         JsonObject data = new JsonObject();
 
         response.setXscData(GenericMethods.convertGsonToJackson(data));

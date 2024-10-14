@@ -2,7 +2,6 @@ package com.manex.backend.controller;
 
 import com.manex.backend.DAO.TbMmDAO;
 import com.manex.backend.entities.TbCompany;
-import com.manex.backend.entities.TbMm;
 import com.manex.backend.repositories.TbCompanyRepository;
 import com.manex.backend.response.XscResponse;
 
@@ -37,9 +36,9 @@ public class TbMmController {
         if (file != null) {
             TbCompany tbCompany =
                     tbCompanyRepository.findById(payload.getInt("COMPANY_ID")).orElseThrow();
-            TbMm tbMm =
-                    tbMmDAO.saveImageFileWithName(
-                            "supplierImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
+
+            tbMmDAO.saveImageFileWithName(
+                    "supplierImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
 
             return new XscResponse(1, "Image updated successfully.");
         } else {
@@ -57,9 +56,8 @@ public class TbMmController {
             TbCompany tbCompany =
                     tbCompanyRepository.findById(payload.getInt("COMPANY_ID")).orElseThrow();
 
-            TbMm tbMm =
-                    tbMmDAO.saveImageFileWithName(
-                            "companyProfileImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
+            tbMmDAO.saveImageFileWithName(
+                    "companyProfileImages", file, tbCompany.getNAME(), tbCompany.getLOGO());
 
             return new XscResponse(1, "Image updated successfully.");
         } else {
