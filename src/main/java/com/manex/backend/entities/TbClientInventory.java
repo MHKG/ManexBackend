@@ -2,6 +2,11 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_client_inventory")
 public class TbClientInventory {
@@ -20,44 +25,4 @@ public class TbClientInventory {
     @Column private Float LAST_PRICE;
 
     @Column private Integer QTY;
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public Integer getAPP_CLIENT_ID() {
-        return APP_CLIENT_ID;
-    }
-
-    public void setAPP_CLIENT_ID(Integer APP_CLIENT_ID) {
-        this.APP_CLIENT_ID = APP_CLIENT_ID;
-    }
-
-    public Integer getPRODUCT_ID() {
-        return PRODUCT_ID;
-    }
-
-    public void setPRODUCT_ID(Integer PRODUCT_ID) {
-        this.PRODUCT_ID = PRODUCT_ID;
-    }
-
-    public Float getLAST_PRICE() {
-        return LAST_PRICE;
-    }
-
-    public void setLAST_PRICE(Float LAST_PRICE) {
-        this.LAST_PRICE = LAST_PRICE;
-    }
-
-    public Integer getQTY() {
-        return QTY;
-    }
-
-    public void setQTY(Integer QTY) {
-        this.QTY = QTY;
-    }
 }

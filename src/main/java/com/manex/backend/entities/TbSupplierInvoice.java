@@ -2,10 +2,15 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Formula;
 
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_supplier_invoice")
 public class TbSupplierInvoice {
@@ -42,116 +47,4 @@ public class TbSupplierInvoice {
 
     @Formula("TOTAL_GOODS_AMOUNT + SHIPPING_COST")
     private Float GRAND_TOTAL;
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public Integer getSUPP_PI_ID() {
-        return SUPP_PI_ID;
-    }
-
-    public void setSUPP_PI_ID(Integer SUPP_PI_ID) {
-        this.SUPP_PI_ID = SUPP_PI_ID;
-    }
-
-    public String getSUPP_INV_NUM() {
-        return SUPP_INV_NUM;
-    }
-
-    public void setSUPP_INV_NUM(String SUPP_INV_NUM) {
-        this.SUPP_INV_NUM = SUPP_INV_NUM;
-    }
-
-    public Integer getINV_MM() {
-        return INV_MM;
-    }
-
-    public void setINV_MM(Integer INV_MM) {
-        this.INV_MM = INV_MM;
-    }
-
-    public Integer getUPDATED_BY() {
-        return UPDATED_BY;
-    }
-
-    public void setUPDATED_BY(Integer UPDATED_BY) {
-        this.UPDATED_BY = UPDATED_BY;
-    }
-
-    public Date getTIMESTAMP() {
-        return TIMESTAMP;
-    }
-
-    public void setTIMESTAMP(Date TIMESTAMP) {
-        this.TIMESTAMP = TIMESTAMP;
-    }
-
-    public Float getTOTAL_GOODS_AMOUNT() {
-        return TOTAL_GOODS_AMOUNT;
-    }
-
-    public void setTOTAL_GOODS_AMOUNT(Float TOTAL_GOODS_AMOUNT) {
-        this.TOTAL_GOODS_AMOUNT = TOTAL_GOODS_AMOUNT;
-    }
-
-    public Integer getINVOICE_CURRENCY() {
-        return INVOICE_CURRENCY;
-    }
-
-    public void setINVOICE_CURRENCY(Integer INVOICE_CURRENCY) {
-        this.INVOICE_CURRENCY = INVOICE_CURRENCY;
-    }
-
-    public Float getINVOICE_CURRENCY_RATE() {
-        return INVOICE_CURRENCY_RATE;
-    }
-
-    public void setINVOICE_CURRENCY_RATE(Float INVOICE_CURRENCY_RATE) {
-        this.INVOICE_CURRENCY_RATE = INVOICE_CURRENCY_RATE;
-    }
-
-    public Float getSHIPPING_COST() {
-        return SHIPPING_COST;
-    }
-
-    public void setSHIPPING_COST(Float SHIPPING_COST) {
-        this.SHIPPING_COST = SHIPPING_COST;
-    }
-
-    public Integer getPAYMENT_STATUS() {
-        return PAYMENT_STATUS;
-    }
-
-    public void setPAYMENT_STATUS(Integer PAYMENT_STATUS) {
-        this.PAYMENT_STATUS = PAYMENT_STATUS;
-    }
-
-    public Integer getSTATUS() {
-        return STATUS;
-    }
-
-    public void setSTATUS(Integer STATUS) {
-        this.STATUS = STATUS;
-    }
-
-    public String getREMARK() {
-        return REMARK;
-    }
-
-    public void setREMARK(String REMARK) {
-        this.REMARK = REMARK;
-    }
-
-    public Float getGRAND_TOTAL() {
-        return GRAND_TOTAL;
-    }
-
-    public void setGRAND_TOTAL(Float GRAND_TOTAL) {
-        this.GRAND_TOTAL = GRAND_TOTAL;
-    }
 }
