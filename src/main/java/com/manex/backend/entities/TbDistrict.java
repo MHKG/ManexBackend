@@ -2,6 +2,11 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_district")
 public class TbDistrict {
@@ -16,28 +21,4 @@ public class TbDistrict {
 
     @Column(nullable = false)
     private Integer STATE_ID;
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public String getDISTRICT() {
-        return DISTRICT;
-    }
-
-    public void setDISTRICT(String DISTRICT) {
-        this.DISTRICT = DISTRICT;
-    }
-
-    public Integer getSTATE_ID() {
-        return STATE_ID;
-    }
-
-    public void setSTATE_ID(Integer STATE_ID) {
-        this.STATE_ID = STATE_ID;
-    }
 }
