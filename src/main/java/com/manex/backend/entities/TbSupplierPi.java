@@ -2,8 +2,13 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_supplier_pi")
 public class TbSupplierPi {
@@ -27,68 +32,4 @@ public class TbSupplierPi {
     @Column private Integer STATUS;
 
     @Column private String REMARK;
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public Integer getSUPP_QUOT_ID() {
-        return SUPP_QUOT_ID;
-    }
-
-    public void setSUPP_QUOT_ID(Integer SUPP_QUOT_ID) {
-        this.SUPP_QUOT_ID = SUPP_QUOT_ID;
-    }
-
-    public String getSUPP_PI_NUM() {
-        return SUPP_PI_NUM;
-    }
-
-    public void setSUPP_PI_NUM(String SUPP_PI_NUM) {
-        this.SUPP_PI_NUM = SUPP_PI_NUM;
-    }
-
-    public Integer getPI_MM() {
-        return PI_MM;
-    }
-
-    public void setPI_MM(Integer PI_MM) {
-        this.PI_MM = PI_MM;
-    }
-
-    public Integer getUPDATED_BY() {
-        return UPDATED_BY;
-    }
-
-    public void setUPDATED_BY(Integer UPDATED_BY) {
-        this.UPDATED_BY = UPDATED_BY;
-    }
-
-    public Date getTIMESTAMP() {
-        return TIMESTAMP;
-    }
-
-    public void setTIMESTAMP(Date TIMESTAMP) {
-        this.TIMESTAMP = TIMESTAMP;
-    }
-
-    public Integer getSTATUS() {
-        return STATUS;
-    }
-
-    public void setSTATUS(Integer STATUS) {
-        this.STATUS = STATUS;
-    }
-
-    public String getREMARK() {
-        return REMARK;
-    }
-
-    public void setREMARK(String REMARK) {
-        this.REMARK = REMARK;
-    }
 }

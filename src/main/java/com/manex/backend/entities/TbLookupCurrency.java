@@ -2,6 +2,11 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_lookup_currency")
 public class TbLookupCurrency {
@@ -22,44 +27,4 @@ public class TbLookupCurrency {
 
     @Column(nullable = false)
     private Integer COUNTRY_ID;
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public String getCURRENCY_NAME() {
-        return CURRENCY_NAME;
-    }
-
-    public void setCURRENCY_NAME(String CURRENCY_NAME) {
-        this.CURRENCY_NAME = CURRENCY_NAME;
-    }
-
-    public String getCURRENCY() {
-        return CURRENCY;
-    }
-
-    public void setCURRENCY(String CURRENCY) {
-        this.CURRENCY = CURRENCY;
-    }
-
-    public String getCURRENCY_SYMBOL() {
-        return CURRENCY_SYMBOL;
-    }
-
-    public void setCURRENCY_SYMBOL(String CURRENCY_SYMBOL) {
-        this.CURRENCY_SYMBOL = CURRENCY_SYMBOL;
-    }
-
-    public Integer getCOUNTRY_ID() {
-        return COUNTRY_ID;
-    }
-
-    public void setCOUNTRY_ID(Integer COUNTRY_ID) {
-        this.COUNTRY_ID = COUNTRY_ID;
-    }
 }

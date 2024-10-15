@@ -2,6 +2,11 @@ package com.manex.backend.entities;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_country")
 public class TbCountry {
@@ -28,60 +33,4 @@ public class TbCountry {
 
     @Column(name = "NATIVE")
     private String NATIVE;
-
-    public Integer getID() {
-        return ID;
-    }
-
-    public void setID(Integer ID) {
-        this.ID = ID;
-    }
-
-    public String getCOUNTRY() {
-        return COUNTRY;
-    }
-
-    public void setCOUNTRY(String COUNTRY) {
-        this.COUNTRY = COUNTRY;
-    }
-
-    public String getISO3() {
-        return ISO3;
-    }
-
-    public void setISO3(String ISO3) {
-        this.ISO3 = ISO3;
-    }
-
-    public String getISO2() {
-        return ISO2;
-    }
-
-    public void setISO2(String ISO2) {
-        this.ISO2 = ISO2;
-    }
-
-    public String getCOUNTRY_CODE() {
-        return COUNTRY_CODE;
-    }
-
-    public void setCOUNTRY_CODE(String COUNTRY_CODE) {
-        this.COUNTRY_CODE = COUNTRY_CODE;
-    }
-
-    public String getCAPITAL() {
-        return CAPITAL;
-    }
-
-    public void setCAPITAL(String CAPITAL) {
-        this.CAPITAL = CAPITAL;
-    }
-
-    public String getNATIVE() {
-        return NATIVE;
-    }
-
-    public void setNATIVE(String NATIVE) {
-        this.NATIVE = NATIVE;
-    }
 }
