@@ -57,7 +57,11 @@ public class AuthService implements AuthDAO {
             if (list != null && !list.isEmpty()) {
                 Map<String, Object> profile = list.get(0);
 
-                TbMm tbMm = tbMmRepository.findById((int) profile.get("PROFILE_IMG")).orElseThrow();
+                TbMm tbMm = new TbMm();
+                if (!GenericMethods.isNullOrEmpty(
+                        String.valueOf(profile.get("PROFILE_IMG")), true)) {
+                    tbMm = tbMmRepository.findById((int) profile.get("PROFILE_IMG")).orElseThrow();
+                }
 
                 data.addProperty("F_NAME", (String) profile.get("F_NAME"));
                 data.addProperty("M_NAME", (String) profile.get("M_NAME"));
