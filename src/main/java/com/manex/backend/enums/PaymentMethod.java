@@ -1,5 +1,10 @@
 package com.manex.backend.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum PaymentMethod {
     TT("T/T"),
     CASH("CASH"),
@@ -8,12 +13,4 @@ public enum PaymentMethod {
     OTHERS("OTHERS");
 
     private final String displayName;
-
-    PaymentMethod(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 }

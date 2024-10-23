@@ -3,6 +3,13 @@ package com.manex.backend.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class XscResponse {
     @JsonProperty("XscData")
     private JsonNode XscData;
@@ -18,33 +25,7 @@ public class XscResponse {
         this.XscMessage = XscMessage;
     }
 
-    public XscResponse() {}
-
     public XscResponse(int XscStatus) {
         this.XscStatus = XscStatus;
-    }
-
-    public int getXscStatus() {
-        return XscStatus;
-    }
-
-    public void setXscStatus(int XscStatus) {
-        this.XscStatus = XscStatus;
-    }
-
-    public String getXscMessage() {
-        return XscMessage;
-    }
-
-    public void setXscMessage(String XscMessage) {
-        this.XscMessage = XscMessage;
-    }
-
-    public JsonNode getXscData() {
-        return XscData;
-    }
-
-    public void setXscData(JsonNode XscData) {
-        this.XscData = XscData;
     }
 }

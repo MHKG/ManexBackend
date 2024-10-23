@@ -52,7 +52,9 @@ public class TbMmService implements TbMmDAO {
             tbMm.setMM_TITLE("Carton Image");
             tbMm.setDESCRIPTION("Carton Image");
         }
-        tbMm.setMM_TYPE(MultiMediaTypes.valueOf(file.getContentType().split("/")[1].toUpperCase()));
+        tbMm.setMM_TYPE(
+                MultiMediaTypes.valueOf(
+                        Objects.requireNonNull(file.getContentType()).split("/")[1].toUpperCase()));
         tbMm.setMM_SIZE((int) file.getSize());
         tbMm.setSTATUS(true);
         return tbMmRepository.save(tbMm);
