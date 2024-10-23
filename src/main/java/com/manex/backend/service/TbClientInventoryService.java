@@ -55,7 +55,7 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
             for (int i = (currentPage - 1) * 10; i < currentPage * 10; i++) {
                 list.add(tbClientSupplierList.get(i));
             }
-            nextPage = currentPage++;
+            nextPage = ++currentPage;
         }
 
         tbClientSupplierList = list;
@@ -78,7 +78,7 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
         JsonArray jsonArray = new JsonArray();
         Integer totalInStock = 0;
         int totalToShip = 0;
-        int totalToReveive = 0;
+        int totalToReceive = 0;
         for (int i = 0; i < tbProductsList.size(); i++) {
             JsonObject jsonObject = new JsonObject();
 
@@ -100,7 +100,7 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
             jsonObject.addProperty("LAST_PRICE", tbProductSpecList.get(i).getPRICE());
             totalInStock += tbClientInventoryList.get(i).getQTY();
             totalToShip += toShip;
-            totalToReveive += toReceive;
+            totalToReceive += toReceive;
 
             jsonArray.add(jsonObject);
         }
@@ -109,7 +109,7 @@ public class TbClientInventoryService implements TbClientInventoryDAO {
         data.addProperty("NEXT_PAGE", nextPage);
         data.addProperty("INVENTORY_LIST_COUNT", totalRecords);
         data.addProperty("TOTAL_STOCK_PRODUCTS", totalInStock);
-        data.addProperty("TO_RECEIVE", totalToReveive);
+        data.addProperty("TO_RECEIVE", totalToReceive);
         data.addProperty("TO_SHIP", totalToShip);
 
         response.setXscData(GenericMethods.convertGsonToJackson(data));
