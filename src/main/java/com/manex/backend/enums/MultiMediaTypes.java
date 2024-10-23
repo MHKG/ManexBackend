@@ -1,5 +1,10 @@
 package com.manex.backend.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum MultiMediaTypes {
     EMPTY(""),
     JPG("JPG"),
@@ -15,12 +20,4 @@ public enum MultiMediaTypes {
     XLSX("XLSX");
 
     private final String type;
-
-    MultiMediaTypes(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
-    }
 }
