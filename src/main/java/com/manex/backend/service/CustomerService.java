@@ -267,8 +267,9 @@ public class CustomerService implements CustomerDAO {
         jsonObject1.addProperty("COMPANY_ID", tbCompany.getID());
         jsonObject1.addProperty("STATUS", tbClientCustomer.getSTATUS());
 
-        jsonObject2.addProperty("OUTSTANDING_PAYMENT_AMOUNT", 0);
-        jsonObject2.addProperty("TOTAL_TRANSACTION_AMOUNT", 0);
+        jsonObject2.addProperty("TOTAL_OPEN_ORDERS", (String) null);
+        jsonObject2.addProperty("TOTAL_TRANSACTION_AMOUNT", (String) null);
+        jsonObject2.addProperty("OUTSTANDING_PAYMENT_AMOUNT", (String) null);
 
         data.add("INFO", jsonObject1);
         data.add("ORDER_AND_PAYMENT_DETAILS", jsonObject2);
