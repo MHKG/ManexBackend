@@ -15,7 +15,7 @@ public class Validations {
         }
 
         if (GenericMethods.isNullOrEmpty(payload.getString("ADDR_1"), true)) {
-            response.setXscMessage("Address   line 1 cannot be null.");
+            response.setXscMessage("Address line 1 cannot be null.");
             return response;
         }
 
