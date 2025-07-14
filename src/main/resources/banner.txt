@@ -1,2 +1,0 @@
-Hi
-Java version: ${java.version}
